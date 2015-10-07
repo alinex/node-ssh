@@ -1,10 +1,10 @@
 {
   "name": "alinex-sshtunnel",
   "version": "0.0.0",
-  "description": "",
+  "description": "Port tunneling through ssh.",
   "copyright": "Alexander Schilling 2015",
   "private": false,
-  "keywords": [],
+  "keywords": ["ssh", "tunnel", "forwarding"],
   "homepage": "http://alinex.github.io/node-sshtunnel/",
   "repository": {
     "type": "git",
@@ -26,7 +26,12 @@
   "directories": {
     "lib": "./lib"
   },
-  "dependencies": {},
+  "dependencies": {
+    "alinex-async": "^0.2.3",
+    "chalk": "^1.1.1",
+    "debug": "^2.2.0",
+    "ssh2": "^0.4.11"
+  },
   "devDependencies": {
     "alinex-builder": "1.x",
     "chai": "2.x"
