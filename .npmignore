@@ -1,0 +1,13 @@
+.project
+.settings
+.DS_Store
+*.sublime-*
+.travis.yml
+/coverage
+/data
+/doc
+/log
+/src
+/test
+/var/local
+/var/lib

@@ -1,0 +1,15 @@
+.project
+.settings
+.DS_Store
+*.sublime-*
+/coverage/
+/data/
+/doc/
+/lib/
+/log/
+/node_modules/
+/var/lib/
+/var/local/
+npm-debug.log
+man/
+report/

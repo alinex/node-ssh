@@ -1,0 +1,39 @@
+{
+  "name": "alinex-sshtunnel",
+  "version": "0.0.0",
+  "description": "",
+  "copyright": "Alexander Schilling 2015",
+  "private": false,
+  "keywords": [],
+  "homepage": "http://alinex.github.io/node-sshtunnel/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alinex/node-sshtunnel"
+  },
+  "bugs": "https://github.com/alinex/node-sshtunnel/issues",
+  "author": {
+    "name": "Alexander Schilling",
+    "email": "info@alinex.de",
+    "url": "http://alinex.de"
+  },
+  "contributors": [],
+  "license": "Apache-2.0",
+  "main": "./lib/index.js",
+  "scripts": {
+    "prepublish": "node_modules/.bin/builder -c compile --uglify",
+    "test": "node_modules/.bin/builder -c test"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "alinex-builder": "1.x",
+    "chai": "2.x"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": ">=0.10"
+  },
+  "os": []
+}
