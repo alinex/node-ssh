@@ -16,6 +16,7 @@ describe "Base", ->
           username: 'root'
           privateKey: require('fs').readFileSync '/home/alex/.ssh/id_rsa'
           keepaliveInterval: 1000
+          debug: true
         tunnel:
           host: '172.30.22.241'
           port: 80

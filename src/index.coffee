@@ -10,6 +10,7 @@
 # include base modules
 debug = require('debug')('sshtunnel')
 debugData = require('debug')('sshtunnel:data')
+debugDebug = require('debug')('sshtunnel:debug')
 chalk = require 'chalk'
 net = require 'net'
 ssh = require 'ssh2'
@@ -17,23 +18,36 @@ util = require 'util'
 portfinder = require 'portfinder'
 # include alinex modules
 async = require 'alinex-async'
+{object} = require 'alinex-util'
 
-# Setup
-# -------------------------------------------------
-portfinder.basePort = 8000
-
-# Instantiation
+# Control tunnel creation
 # -------------------------------------------------
 module.exports = open = (setup, cb) ->
   debug "require tunneling of #{setup.tunnel.host}:#{setup.tunnel.port}
   through #{setup.ssh.host}:#{setup.ssh.port}"
+  # open ssh connection
   connect setup.ssh, (err, conn) ->
     return cb err if err
-    forward conn, setup.tunnel, (err, tunnel) ->
+    # reopen already setup tunnels
+    async.each Object.keys(conn.tunnel), (tunnel, cb) ->
+      spec = object.extend {}, setup.tunel,
+        localHost: tunnel.setup.host
+        localPort: tunnel.setup.port
+      forward conn, spec, cb
+    , (err) ->
       return cb err if err
-      cb null, tunnel
+      # open new tunnel
+      forward conn, setup.tunnel, (err, tunnel) ->
+        return cb err if err
+        cb null, tunnel
 
+# map of ssh connections
 connections = {}
+
+# Helper methods
+# -------------------------------------------------
+
+# ### open ssh connection
 connect = async.onceTime (setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
   return cb null, connections[name] if connections[name]
@@ -43,21 +57,34 @@ connect = async.onceTime (setup, cb) ->
   conn.on 'ready', ->
     debug chalk.grey "ssh client ready"
     # store connection
-    conn.tunnel = {}
+    conn.tunnel ?= {}
     connections[name] = conn
     cb null, conn
-  conn.on 'close', ->
+  conn.on 'banner', (msg) ->
+    debug chalk.yellow msg
+  conn.on 'error', (err) ->
+    debug chalk.magenta "got error: #{err.message}"
+    conn.end()
+    debug "reconnect ssh connection to #{name}"
+    conn.connect object.extend {}, setup,
+      debug: unless setup.debug then null else (msg) ->
+        debugDebug chalk.grey msg
+  conn.on 'end', ->
     debug chalk.grey "ssh client closing"
     for tunnel of conn.tunnel
       tunnel.close()
   # start connection
-  conn.connect setup
+  conn.connect object.extend {}, setup,
+    debug: unless setup.debug then null else (msg) ->
+      debugDebug chalk.grey msg
 
+# ### snip communication strings for debugging
 snip = (data) ->
   text = util.inspect data.toString()
   text = text[0..30] + '...\'' if text.length > 30
   text
 
+# ### open outgoin tunnel
 forward = (conn, setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
   return cb null, conn.tunnel[name] if conn.tunnel[name]
@@ -88,22 +115,16 @@ forward = (conn, setup, cb) ->
     tunnel.listen setup.localPort, ->
       cb null, tunnel
 
+# ### find an unused port
 findPort = (setup, cb) ->
-  return cb null, setup if setup.localPort
+  portfinder.basePort = setup.localPort ? 8000
   portfinder.getPort (err, port) ->
     return cb err if err
+    if setup.localPort? and port isnt setup.localPort
+      debug chalk.magenta "given port #{setup.localPort} is blocked using #{port}"
     setup.localPort = port
     return cb null, setup
 
-
-# General setup
-# -------------------------------------------------
-
-# Class definition
-# -------------------------------------------------
-class Tunnel
-
-  # create a new execution object to specify and call later
-  constructor: (@setup) ->
-
-  close: (cb) ->
+# ### close all tunnels and ssh connections
+exports.close = ->
+  conn.end() for conn in connections
