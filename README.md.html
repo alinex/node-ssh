@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>README.md</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "", thisFile = "home/alex/a3/node-sshtunnel/READMEmd", defaultSidebar = true;
+  </script>
+  <script src="doc-script.js"></script>
+  <script src="fileSearch.js"></script>
+  <script src="goToLine.js"></script>
+  <link rel="stylesheet" href="fileSearch.css" />
+  <link rel="stylesheet" href="goToLine.css" />
+</head>
+<body>
+  <nav>
+<div class="logo"><a href="http://alinex.github.io" onmouseover="lllogo.src='https://alinex.github.io/images/Alinex-200.png'" onmouseout="lllogo.src='https://alinex.github.io/images/Alinex-black-200.png'">
+  <img name="lllogo" src="https://alinex.github.io/images/Alinex-black-200.png" width="150" title="Alinex Universe Homepage" />
+  </a>
+  <img src="http://alinex.github.io/images/Alinex-200.png" style="display:none" alt="preloading" />
+</div>
+<div class="links">
+  <a href="http://alinex.github.io/blog" class="btn btn-primary"><span class="glyphicon-cog"></span> Blog</a>
+  <a href="http://alinex.github.io/code.html" class="btn btn-warning"><span class="glyphicon-pencil"></span> Code</a>
+</div>
+</nav><div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#package%3A%20alinex-sshtunnel">Package: alinex-sshtunnel</a>
+      </div>
+      <div class="heading h2">
+        <a href="#install">Install</a>
+      </div>
+      <div class="heading h2">
+        <a href="#usage">Usage</a>
+      </div>
+      <div class="heading h2">
+        <a href="#license">License</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-sshtunnel" title="Fork me on GitHub"></a><div class="docs markdown">
+<div class="pilwrap" id="package%3A%20alinex-sshtunnel">
+  <h1>
+    <a href="#package%3A%20alinex-sshtunnel" name="package%3A%20alinex-sshtunnel" class="pilcrow">&#182;</a>
+    Package: alinex-sshtunnel
+  </h1>
+</div>
+
+
+<p><a href="https://gemnasium.com/alinex/node-sshtunnel"><img src="https://gemnasium.com/alinex/node-sshtunnel.png" alt="Dependency Status" title="" /></a></p>
+
+<p>Proxy ssh tunnel allows you to open tunnels through ssh connections which may be
+used for communication.</p>
+
+<p>A SSH tunnel consists of an encrypted tunnel created through a SSH protocol
+connection. A SSH tunnel can be used to transfer unencrypted traffic over a
+network through an encrypted channel. This may also be used to bypass firewalls
+that prohibits or filter certain internet services.
+If users can connect to an external SSH server, they can create a SSH tunnel to
+forward a local port to a host and port reachable from the SSH server.</p>
+
+<p>This module enables you to open and control such tunnels from your script while
+they may be used also from external programs.</p>
+
+<ul>
+<li>outgoing tunneling through SSH</li>
+<li>using pooled ssh connections</li>
+<li>pooling also for the tunnels</li>
+<li>auto reconnect</li>
+</ul>
+
+<blockquote>
+  <p>It is one of the modules of the <a href="http://alinex.github.io/code.html">Alinex Universe</a>
+  following the code standards defined in the <a href="http://alinex.github.io/node-alinex">General Docs</a>.</p>
+</blockquote>
+
+
+<div class="pilwrap" id="install">
+  <h2>
+    <a href="#install" name="install" class="pilcrow">&#182;</a>
+    Install
+  </h2>
+</div>
+
+
+<p><a href="https://www.npmjs.com/package/alinex-sshtunnel"><img src="https://nodei.co/npm/alinex-sshtunnel.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM" title="" />
+ <img src="https://nodei.co/npm-dl/alinex-sshtunnel.png?months=9&amp;height=3" alt="Downloads" title="" />
+</a></p>
+
+<p>The easiest way is to let npm add the module directly to your modules
+(from within you node modules directory):</p>
+
+
+<div class="highlight"><pre><code>npm install alinex-sshtunnel --save
+</code></pre></div>
+
+
+
+<p>And update it to the latest version later:</p>
+
+
+<div class="highlight"><pre><code>npm update alinex-sshtunnel --save
+</code></pre></div>
+
+
+
+<p>Always have a look at the latest <a href="Changelog.md.html">changes</a>.</p>
+
+
+<div class="pilwrap" id="usage">
+  <h2>
+    <a href="#usage" name="usage" class="pilcrow">&#182;</a>
+    Usage
+  </h2>
+</div>
+
+
+<p>This module has a very simple API, you can do two things:</p>
+
+<p>First you can open a tunnel:</p>
+
+
+<div class="highlight"><pre><code><span class="nv">sshtunnel = </span><span class="nx">require</span> <span class="s">&#39;alinex-sshtunnel&#39;</span>
+<span class="nx">sshtunnel</span>
+  <span class="nv">ssh:</span>
+    <span class="nv">host: </span><span class="s">&#39;65.25.98.25&#39;</span>
+    <span class="nv">port: </span> <span class="mi">22</span>
+    <span class="nv">username: </span><span class="s">&#39;root&#39;</span>
+    <span class="c1">#passphrase: &#39;mypass&#39;</span>
+    <span class="nv">privateKey: </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;fs&#39;</span><span class="p">).</span><span class="nx">readFileSync</span> <span class="s">&#39;/home/alex/.ssh/id_rsa&#39;</span>
+    <span class="c1">#localHostname: &quot;Localost&quot;</span>
+    <span class="c1">#localUsername: &quot;LocalUser&quot;</span>
+    <span class="c1">#readyTimeout: 20000</span>
+    <span class="nv">keepaliveInterval: </span><span class="mi">1000</span>
+    <span class="c1">#debug: true</span>
+  <span class="nv">tunnel:</span>
+    <span class="nv">host: </span><span class="s">&#39;172.30.0.11&#39;</span>
+    <span class="nv">port: </span><span class="mi">80</span>
+    <span class="c1">#localhost: &#39;127.0.0.1&#39;</span>
+    <span class="c1">#localPort: 8080</span>
+<span class="p">,</span> <span class="nf">(err, tunnel) -&gt;</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;tunnel opened at </span><span class="si">#{</span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">setup</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">setup</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s">&quot;</span>
+    <span class="c1"># wait 10 seconds, then close the tunnel</span>
+    <span class="nx">setTimeout</span> <span class="nf">-&gt;</span>
+      <span class="nx">tunnel</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
+      <span class="nx">cb</span><span class="p">()</span>
+    <span class="p">,</span> <span class="mi">10000</span>
+</code></pre></div>
+
+
+
+<p>And afterwards you may close it like shown above using <code>tunnel.close()</code> or
+close all tunnels with:</p>
+
+
+<div class="highlight"><pre><code><span class="nx">sshtunnel</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
+</code></pre></div>
+
+
+
+
+<div class="pilwrap" id="license">
+  <h2>
+    <a href="#license" name="license" class="pilcrow">&#182;</a>
+    License
+  </h2>
+</div>
+
+
+<p>Copyright 2015 Alexander Schilling</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+
+<blockquote>
+  <p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+</blockquote>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p></div>
+  </div>
+</body>
+</html>

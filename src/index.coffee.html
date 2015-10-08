@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>index.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../", thisFile = "home/alex/a3/node-sshtunnel/src/indexcoffee", defaultSidebar = true;
+  </script>
+  <script src="../doc-script.js"></script>
+  <script src="../fileSearch.js"></script>
+  <script src="../goToLine.js"></script>
+  <link rel="stylesheet" href="../fileSearch.css" />
+  <link rel="stylesheet" href="../goToLine.css" />
+</head>
+<body>
+  <nav>
+<div class="logo"><a href="http://alinex.github.io" onmouseover="lllogo.src='https://alinex.github.io/images/Alinex-200.png'" onmouseout="lllogo.src='https://alinex.github.io/images/Alinex-black-200.png'">
+  <img name="lllogo" src="https://alinex.github.io/images/Alinex-black-200.png" width="150" title="Alinex Universe Homepage" />
+  </a>
+  <img src="http://alinex.github.io/images/Alinex-200.png" style="display:none" alt="preloading" />
+</div>
+<div class="links">
+  <a href="http://alinex.github.io/blog" class="btn btn-primary"><span class="glyphicon-cog"></span> Blog</a>
+  <a href="http://alinex.github.io/code.html" class="btn btn-warning"><span class="glyphicon-pencil"></span> Code</a>
+</div>
+</nav><div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#ssh%20tunneling%20class">SSH Tunneling class</a>
+      </div>
+      <div class="heading h2">
+        <a href="#node%20modules">Node Modules</a>
+      </div>
+      <div class="heading h2">
+        <a href="#control%20tunnel%20creation">Control tunnel creation</a>
+      </div>
+      <div class="heading h2">
+        <a href="#helper%20methods">Helper methods</a>
+      </div>
+      <div class="heading h3">
+        <a href="#open%20ssh%20connection">open ssh connection</a>
+      </div>
+      <div class="heading h3">
+        <a href="#snip%20communication%20strings%20for%20debugging">snip communication strings for debugging</a>
+      </div>
+      <div class="heading h3">
+        <a href="#open%20outgoin%20tunnel">open outgoin tunnel</a>
+      </div>
+      <div class="heading h3">
+        <a href="#find%20an%20unused%20port">find an unused port</a>
+      </div>
+      <div class="heading h3">
+        <a href="#close%20all%20tunnels%20and%20ssh%20connections">close all tunnels and ssh connections</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-sshtunnel" title="Fork me on GitHub"></a><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="ssh%20tunneling%20class">
+  <h1>
+    <a href="#ssh%20tunneling%20class" name="ssh%20tunneling%20class" class="pilcrow">&#182;</a>
+    SSH Tunneling class
+  </h1>
+</div>
+
+
+<p>This is an object oriented implementation around the core <code>process.spawn</code>
+command and alternatively ssh connections.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="node%20modules">
+  <h2>
+    <a href="#node%20modules" name="node%20modules" class="pilcrow">&#182;</a>
+    Node Modules
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>include base modules</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nv">debug = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">)(</span><span class="s">&#39;sshtunnel&#39;</span><span class="p">)</span>
+<span class="nv">debugData = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">)(</span><span class="s">&#39;sshtunnel:data&#39;</span><span class="p">)</span>
+<span class="nv">debugDebug = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">)(</span><span class="s">&#39;sshtunnel:debug&#39;</span><span class="p">)</span>
+<span class="nv">chalk = </span><span class="nx">require</span> <span class="s">&#39;chalk&#39;</span>
+<span class="nv">net = </span><span class="nx">require</span> <span class="s">&#39;net&#39;</span>
+<span class="nv">ssh = </span><span class="nx">require</span> <span class="s">&#39;ssh2&#39;</span>
+<span class="nv">util = </span><span class="nx">require</span> <span class="s">&#39;util&#39;</span>
+<span class="nv">portfinder = </span><span class="nx">require</span> <span class="s">&#39;portfinder&#39;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>include alinex modules</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nv">async = </span><span class="nx">require</span> <span class="s">&#39;alinex-async&#39;</span>
+<span class="p">{</span><span class="nx">object</span><span class="p">}</span> <span class="o">=</span> <span class="nx">require</span> <span class="s">&#39;alinex-util&#39;</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="control%20tunnel%20creation">
+  <h2>
+    <a href="#control%20tunnel%20creation" name="control%20tunnel%20creation" class="pilcrow">&#182;</a>
+    Control tunnel creation
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nv">module.exports = open = </span><span class="nf">(setup, cb) -&gt;</span>
+  <span class="nx">debug</span> <span class="s">&quot;require tunneling of </span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s"></span>
+<span class="s">  through </span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s">&quot;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+<p>open ssh connection</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="nx">connect</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">ssh</span><span class="p">,</span> <span class="nf">(err, conn) -&gt;</span>
+    <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<p>reopen already setup tunnels</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">async</span><span class="p">.</span><span class="nx">each</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">),</span> <span class="nf">(tunnel, cb) -&gt;</span>
+      <span class="nv">spec = </span><span class="nx">object</span><span class="p">.</span><span class="nx">extend</span> <span class="p">{},</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">tunel</span><span class="p">,</span>
+        <span class="nv">localHost: </span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">setup</span><span class="p">.</span><span class="nx">host</span>
+        <span class="nv">localPort: </span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">setup</span><span class="p">.</span><span class="nx">port</span>
+      <span class="nx">forward</span> <span class="nx">conn</span><span class="p">,</span> <span class="nx">spec</span><span class="p">,</span> <span class="nx">cb</span>
+    <span class="p">,</span> <span class="nf">(err) -&gt;</span>
+      <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+</div>
+<p>open new tunnel</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+      <span class="nx">forward</span> <span class="nx">conn</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">,</span> <span class="nf">(err, tunnel) -&gt;</span>
+        <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
+        <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">tunnel</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
+</div>
+<p>map of ssh connections</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nv">connections = </span><span class="p">{}</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="helper%20methods">
+  <h2>
+    <a href="#helper%20methods" name="helper%20methods" class="pilcrow">&#182;</a>
+    Helper methods
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="open%20ssh%20connection">
+  <h3>
+    <a href="#open%20ssh%20connection" name="open%20ssh%20connection" class="pilcrow">&#182;</a>
+    open ssh connection
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nv">connect = </span><span class="nx">async</span><span class="p">.</span><span class="nx">onceTime</span> <span class="nf">(setup, cb) -&gt;</span>
+  <span class="nv">name = </span><span class="s">&quot;</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s">&quot;</span>
+  <span class="k">return</span> <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">connections</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="k">if</span> <span class="nx">connections</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
+</div>
+<p>open new ssh</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;establish new ssh connection to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+  <span class="nv">conn = </span><span class="k">new</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">Client</span><span class="p">()</span>
+  <span class="nx">conn</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;ready&#39;</span><span class="p">,</span> <span class="nf">-&gt;</span>
+    <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;ssh client ready&quot;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+</div>
+<p>store connection</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span> <span class="o">?=</span> <span class="p">{}</span>
+    <span class="nx">connections</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">conn</span>
+    <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">conn</span>
+  <span class="nx">conn</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;banner&#39;</span><span class="p">,</span> <span class="nf">(msg) -&gt;</span>
+    <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">yellow</span> <span class="nx">msg</span>
+  <span class="nx">conn</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="nf">(err) -&gt;</span>
+    <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">magenta</span> <span class="s">&quot;got error: </span><span class="si">#{</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="si">}</span><span class="s">&quot;</span>
+    <span class="nx">conn</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+    <span class="nx">debug</span> <span class="s">&quot;reconnect ssh connection to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+    <span class="nx">conn</span><span class="p">.</span><span class="nx">connect</span> <span class="nx">object</span><span class="p">.</span><span class="nx">extend</span> <span class="p">{},</span> <span class="nx">setup</span><span class="p">,</span>
+      <span class="nv">debug: </span><span class="k">unless</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">debug</span> <span class="k">then</span> <span class="kc">null</span> <span class="k">else</span> <span class="nf">(msg) -&gt;</span>
+        <span class="nx">debugDebug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="nx">msg</span>
+  <span class="nx">conn</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;end&#39;</span><span class="p">,</span> <span class="nf">-&gt;</span>
+    <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;ssh client closing&quot;</span>
+    <span class="k">for</span> <span class="nx">tunnel</span> <span class="k">of</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span>
+      <span class="nx">tunnel</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
+</div>
+<p>start connection</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="nx">conn</span><span class="p">.</span><span class="nx">connect</span> <span class="nx">object</span><span class="p">.</span><span class="nx">extend</span> <span class="p">{},</span> <span class="nx">setup</span><span class="p">,</span>
+    <span class="nv">debug: </span><span class="k">unless</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">debug</span> <span class="k">then</span> <span class="kc">null</span> <span class="k">else</span> <span class="nf">(msg) -&gt;</span>
+      <span class="nx">debugDebug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="nx">msg</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="snip%20communication%20strings%20for%20debugging">
+  <h3>
+    <a href="#snip%20communication%20strings%20for%20debugging" name="snip%20communication%20strings%20for%20debugging" class="pilcrow">&#182;</a>
+    snip communication strings for debugging
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nv">snip = </span><span class="nf">(data) -&gt;</span>
+  <span class="nv">text = </span><span class="nx">util</span><span class="p">.</span><span class="nx">inspect</span> <span class="nx">data</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span>
+  <span class="nv">text = </span><span class="nx">text</span><span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="mi">30</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;...\&#39;&#39;</span> <span class="k">if</span> <span class="nx">text</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">30</span>
+  <span class="nx">text</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="open%20outgoin%20tunnel">
+  <h3>
+    <a href="#open%20outgoin%20tunnel" name="open%20outgoin%20tunnel" class="pilcrow">&#182;</a>
+    open outgoin tunnel
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nv">forward = </span><span class="nf">(conn, setup, cb) -&gt;</span>
+  <span class="nv">name = </span><span class="s">&quot;</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s">&quot;</span>
+  <span class="k">return</span> <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="k">if</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
+</div>
+<p>make new tunnel</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;open new tunnel to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+  <span class="nx">findPort</span> <span class="nx">setup</span><span class="p">,</span> <span class="nf">(err, setup) -&gt;</span>
+    <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
+    <span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span> <span class="o">?=</span> <span class="s">&#39;127.0.0.1&#39;</span>
+    <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;opening tunnel on local port </span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="si">}</span><span class="s">&quot;</span>
+    <span class="nv">tunnel = </span><span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span> <span class="nf">(sock) -&gt;</span>
+      <span class="nx">conn</span><span class="p">.</span><span class="nx">forwardOut</span> <span class="nx">sock</span><span class="p">.</span><span class="nx">remoteAddress</span><span class="p">,</span> <span class="nx">sock</span><span class="p">.</span><span class="nx">remotePort</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">host</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">port</span><span class="p">,</span> <span class="nf">(err, stream) -&gt;</span>
+        <span class="k">if</span> <span class="nx">err</span>
+          <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+          <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span>
+        <span class="nx">sock</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">debugData</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;request: </span><span class="si">#{</span><span class="nx">snip</span> <span class="nx">data</span><span class="si">}</span><span class="s">&quot;</span>
+        <span class="nx">stream</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">debugData</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;received </span><span class="si">#{</span><span class="nx">snip</span> <span class="nx">data</span><span class="si">}</span><span class="s">&quot;</span>
+        <span class="nx">sock</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">stream</span><span class="p">).</span><span class="nx">pipe</span> <span class="nx">sock</span>
+    <span class="nx">tunnel</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;close&#39;</span><span class="p">,</span> <span class="nf">-&gt;</span>
+      <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;closing tunnel to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+      <span class="k">delete</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
+      <span class="k">unless</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">length</span>
+        <span class="nx">conn</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+    <span class="nv">tunnel.setup =</span>
+      <span class="nv">host: </span><span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span>
+      <span class="nv">port: </span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span>
+    <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">tunnel</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
+</div>
+<p>return running tunnel</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">tunnel</span><span class="p">.</span><span class="nx">listen</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="p">,</span> <span class="nf">-&gt;</span>
+      <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">tunnel</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="find%20an%20unused%20port">
+  <h3>
+    <a href="#find%20an%20unused%20port" name="find%20an%20unused%20port" class="pilcrow">&#182;</a>
+    find an unused port
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nv">findPort = </span><span class="nf">(setup, cb) -&gt;</span>
+  <span class="nv">portfinder.basePort = </span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span> <span class="o">?</span> <span class="mi">8000</span>
+  <span class="nx">portfinder</span><span class="p">.</span><span class="nx">getPort</span> <span class="nf">(err, port) -&gt;</span>
+    <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
+    <span class="k">if</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="o">?</span> <span class="o">and</span> <span class="nx">port</span> <span class="o">isnt</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span>
+      <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">magenta</span> <span class="s">&quot;given port </span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="si">}</span><span class="s"> is blocked using </span><span class="si">#{</span><span class="nx">port</span><span class="si">}</span><span class="s">&quot;</span>
+    <span class="nv">setup.localPort = </span><span class="nx">port</span>
+    <span class="k">return</span> <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">setup</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="close%20all%20tunnels%20and%20ssh%20connections">
+  <h3>
+    <a href="#close%20all%20tunnels%20and%20ssh%20connections" name="close%20all%20tunnels%20and%20ssh%20connections" class="pilcrow">&#182;</a>
+    close all tunnels and ssh connections
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nv">exports.close = </span><span class="nf">-&gt;</span>
+  <span class="nx">conn</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span> <span class="k">for</span> <span class="nx">conn</span> <span class="k">in</span> <span class="nx">connections</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>
