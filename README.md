@@ -20,6 +20,7 @@ they may be used also from external programs.
 - using pooled ssh connections
 - pooling also for the tunnels
 - auto reconnect
+- dynamic port forwarding using SOCKSv5 proxy
 
 > It is one of the modules of the [Alinex Universe](http://alinex.github.io/code.html)
 > following the code standards defined in the [General Docs](http://alinex.github.io/node-alinex).
@@ -86,6 +87,35 @@ close all tunnels with:
 
 ``` coffee
 sshtunnel.close()
+```
+
+The following script shows how to make a dynamic 1:1 proxy using SOCKSv5. It's
+nearly the same, only the tunnel host and port are missing:
+
+``` coffee
+sshtunnel = require 'alinex-sshtunnel'
+sshtunnel
+  ssh:
+    host: '65.25.98.25'
+    port:  22
+    username: 'root'
+    #passphrase: 'mypass'
+    privateKey: require('fs').readFileSync '/home/alex/.ssh/id_rsa'
+    #localHostname: "Localost"
+    #localUsername: "LocalUser"
+    #readyTimeout: 20000
+    keepaliveInterval: 1000
+    #debug: true
+  tunnel:
+    #localhost: '127.0.0.1'
+    #localPort: 8080
+, (err, tunnel) ->
+    console.log "tunnel opened at #{tunnel.setup.host}:#{tunnel.setup.port}"
+    # wait 10 seconds, then close the tunnel
+    setTimeout ->
+      tunnel.close()
+      cb()
+    , 10000
 ```
 
 License

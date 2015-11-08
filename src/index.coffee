@@ -36,11 +36,16 @@ module.exports = open = (setup, cb) ->
       forward conn, spec, cb
     , (err) ->
       return cb err if err
-      # open new tunnel
-      forward conn, setup.tunnel, (err, tunnel) ->
-        return cb err if err
-        cb null, tunnel
-
+      if setup.tunnel.host and setup.tunnel.port
+        # open new tunnel
+        forward conn, setup.tunnel, (err, tunnel) ->
+          return cb err if err
+          cb null, tunnel
+      else
+        # open SOCKSv5 proxy
+        proxy conn, setup.tunnel, (err, tunnel) ->
+          return cb err if err
+          cb null, tunnel
 # map of ssh connections
 connections = {}
 
@@ -112,7 +117,45 @@ forward = (conn, setup, cb) ->
       port: setup.localPort
     conn.tunnel[name] = tunnel
     # return running tunnel
-    tunnel.listen setup.localPort, ->
+#    tunnel.listen setup.localPort, ->
+    tunnel.listen setup.localPort, setup.localHost, ->
+      cb null, tunnel
+
+# ### open outgoin tunnel
+proxy = (conn, setup, cb) ->
+  socks = require 'socksv5'
+  name = "socksv5 proxy"
+  return cb null, conn.tunnel[name] if conn.tunnel[name]
+  # make new tunnel
+  debug chalk.grey "open new tunnel to #{name}"
+  findPort setup, (err, setup) ->
+    return cb err if err
+    setup.localHost ?= '127.0.0.1'
+    debug chalk.grey "opening tunnel on local port #{setup.localHost}:#{setup.localPort}"
+    tunnel = socks.createServer (info, accept, deny) ->
+      conn.forwardOut info.srcAddr, info.srcPort, info.dstAddr, info.dstPort, (err, stream) ->
+        if err
+          tunnel.end()
+          return cb err
+        if sock = accept(true)
+          sock.on 'data', (data) -> debugData chalk.grey "request: #{snip data}"
+          stream.on 'data', (data) -> debugData chalk.grey "received #{snip data}"
+          stream.pipe(sock).pipe(stream).on 'close', ->
+            tunnel.end()
+        else
+          tunnel.end()
+    tunnel.on 'close', ->
+      debug chalk.grey "closing tunnel to #{name}"
+      delete conn.tunnel[name]
+      unless conn.tunnel.length
+        conn.end()
+    tunnel.setup =
+      host: setup.localHost
+      port: setup.localPort
+    conn.tunnel[name] = tunnel
+    # return running tunnel
+    tunnel.useAuth socks.auth.None()
+    tunnel.listen setup.localPort, setup.localHost, ->
       cb null, tunnel
 
 # ### find an unused port
