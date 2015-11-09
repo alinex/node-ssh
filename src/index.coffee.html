@@ -54,6 +54,9 @@
         <a href="#open%20outgoin%20tunnel">open outgoin tunnel</a>
       </div>
       <div class="heading h3">
+        <a href="#open%20outgoin%20tunnel">open outgoin tunnel</a>
+      </div>
+      <div class="heading h3">
         <a href="#find%20an%20unused%20port">find an unused port</a>
       </div>
       <div class="heading h3">
@@ -144,8 +147,7 @@ command and alternatively ssh connections.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="nv">module.exports = open = </span><span class="nf">(setup, cb) -&gt;</span>
-  <span class="nx">debug</span> <span class="s">&quot;require tunneling of </span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s"></span>
-<span class="s">  through </span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s">&quot;</span>
+  <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;init tunnel...&quot;</span>
 
 </pre></div>
         </td>
@@ -179,6 +181,7 @@ command and alternatively ssh connections.</p>
       <span class="nx">forward</span> <span class="nx">conn</span><span class="p">,</span> <span class="nx">spec</span><span class="p">,</span> <span class="nx">cb</span>
     <span class="p">,</span> <span class="nf">(err) -&gt;</span>
       <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
+      <span class="k">if</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="o">?</span><span class="p">.</span><span class="nx">host</span> <span class="o">and</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="o">?</span><span class="p">.</span><span class="nx">port</span>
 
 </pre></div>
         </td>
@@ -191,10 +194,10 @@ command and alternatively ssh connections.</p>
 <p>open new tunnel</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-      <span class="nx">forward</span> <span class="nx">conn</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">,</span> <span class="nf">(err, tunnel) -&gt;</span>
-        <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
-        <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">tunnel</span>
-
+        <span class="nx">forward</span> <span class="nx">conn</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">,</span> <span class="nf">(err, tunnel) -&gt;</span>
+          <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
+          <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">tunnel</span>
+      <span class="k">else</span>
 
 </pre></div>
         </td>
@@ -203,6 +206,21 @@ command and alternatively ssh connections.</p>
         <td class="docs">
 <div class="pilwrap">
   <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
+</div>
+<p>open SOCKSv5 proxy</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">proxy</span> <span class="nx">conn</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">,</span> <span class="nf">(err, tunnel) -&gt;</span>
+          <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
+          <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">tunnel</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
 </div>
 <p>map of ssh connections</p>
         </td>
@@ -242,7 +260,7 @@ command and alternatively ssh connections.</p>
         <td class="code highlight"><div class="highlight"><pre>
 <span class="nv">connect = </span><span class="nx">async</span><span class="p">.</span><span class="nx">onceTime</span> <span class="nf">(setup, cb) -&gt;</span>
   <span class="nv">name = </span><span class="s">&quot;</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s">&quot;</span>
-  <span class="k">return</span> <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">connections</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="k">if</span> <span class="nx">connections</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
+  <span class="k">return</span> <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">connections</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="k">if</span> <span class="nx">connections</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span><span class="o">?</span><span class="p">.</span><span class="nx">_sock</span><span class="o">?</span><span class="p">.</span><span class="nx">_handle</span>
 
 </pre></div>
         </td>
@@ -250,7 +268,7 @@ command and alternatively ssh connections.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
+  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
 </div>
 <p>open new ssh</p>
         </td>
@@ -266,7 +284,7 @@ command and alternatively ssh connections.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
 </div>
 <p>store connection</p>
         </td>
@@ -285,8 +303,9 @@ command and alternatively ssh connections.</p>
         <span class="nx">debugDebug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="nx">msg</span>
   <span class="nx">conn</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;end&#39;</span><span class="p">,</span> <span class="nf">-&gt;</span>
     <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;ssh client closing&quot;</span>
+    <span class="k">delete</span> <span class="nx">connections</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
     <span class="k">for</span> <span class="nx">tunnel</span> <span class="k">of</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span>
-      <span class="nx">tunnel</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
+      <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
 
 </pre></div>
         </td>
@@ -294,7 +313,7 @@ command and alternatively ssh connections.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
+  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
 </div>
 <p>start connection</p>
         </td>
@@ -348,12 +367,12 @@ command and alternatively ssh connections.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
+  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
 </div>
 <p>make new tunnel</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-  <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;open new tunnel to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+  <span class="nx">debug</span> <span class="s">&quot;open new tunnel to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
   <span class="nx">findPort</span> <span class="nx">setup</span><span class="p">,</span> <span class="nf">(err, setup) -&gt;</span>
     <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
     <span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span> <span class="o">?=</span> <span class="s">&#39;127.0.0.1&#39;</span>
@@ -361,15 +380,18 @@ command and alternatively ssh connections.</p>
     <span class="nv">tunnel = </span><span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span> <span class="nf">(sock) -&gt;</span>
       <span class="nx">conn</span><span class="p">.</span><span class="nx">forwardOut</span> <span class="nx">sock</span><span class="p">.</span><span class="nx">remoteAddress</span><span class="p">,</span> <span class="nx">sock</span><span class="p">.</span><span class="nx">remotePort</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">host</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">port</span><span class="p">,</span> <span class="nf">(err, stream) -&gt;</span>
         <span class="k">if</span> <span class="nx">err</span>
-          <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-          <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span>
-        <span class="nx">sock</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">debugData</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;request: </span><span class="si">#{</span><span class="nx">snip</span> <span class="nx">data</span><span class="si">}</span><span class="s">&quot;</span>
-        <span class="nx">stream</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">debugData</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;received </span><span class="si">#{</span><span class="nx">snip</span> <span class="nx">data</span><span class="si">}</span><span class="s">&quot;</span>
-        <span class="nx">sock</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">stream</span><span class="p">).</span><span class="nx">pipe</span> <span class="nx">sock</span>
+          <span class="k">return</span> <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+        <span class="nx">sock</span><span class="p">.</span><span class="nx">pipe</span> <span class="nx">stream</span>
+        <span class="nx">stream</span><span class="p">.</span><span class="nx">pipe</span> <span class="nx">sock</span>
+        <span class="nx">sock</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">debugData</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;request : </span><span class="si">#{</span><span class="nx">snip</span> <span class="nx">data</span><span class="si">}</span><span class="s">&quot;</span>
+        <span class="nx">stream</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">debugData</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;response: </span><span class="si">#{</span><span class="nx">snip</span> <span class="nx">data</span><span class="si">}</span><span class="s">&quot;</span>
+    <span class="nv">tunnel.end = </span><span class="nf">-&gt;</span>
+      <span class="k">try</span>
+        <span class="nx">tunnel</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
     <span class="nx">tunnel</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;close&#39;</span><span class="p">,</span> <span class="nf">-&gt;</span>
-      <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;closing tunnel to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+      <span class="nx">debug</span> <span class="s">&quot;closing tunnel to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
       <span class="k">delete</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
-      <span class="k">unless</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">length</span>
+      <span class="k">unless</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">).</span><span class="nx">length</span>
         <span class="nx">conn</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
     <span class="nv">tunnel.setup =</span>
       <span class="nv">host: </span><span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span>
@@ -382,12 +404,87 @@ command and alternatively ssh connections.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
+  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
 </div>
 <p>return running tunnel</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-    <span class="nx">tunnel</span><span class="p">.</span><span class="nx">listen</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="p">,</span> <span class="nf">-&gt;</span>
+    <span class="nx">tunnel</span><span class="p">.</span><span class="nx">listen</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span><span class="p">,</span> <span class="nf">-&gt;</span>
+      <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">tunnel</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="open%20outgoin%20tunnel">
+  <h3>
+    <a href="#open%20outgoin%20tunnel" name="open%20outgoin%20tunnel" class="pilcrow">&#182;</a>
+    open outgoin tunnel
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nv">proxy = </span><span class="nf">(conn, setup = {}, cb) -&gt;</span>
+  <span class="nv">socks = </span><span class="nx">require</span> <span class="s">&#39;socksv5&#39;</span>
+  <span class="nv">name = </span><span class="s">&quot;socksv5 proxy&quot;</span>
+  <span class="k">return</span> <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="k">if</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
+</div>
+<p>make new tunnel</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="nx">debug</span> <span class="s">&quot;open new tunnel to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+  <span class="nx">findPort</span> <span class="nx">setup</span><span class="p">,</span> <span class="nf">(err, setup) -&gt;</span>
+    <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
+    <span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span> <span class="o">?=</span> <span class="s">&#39;127.0.0.1&#39;</span>
+    <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;opening tunnel on local port </span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="si">}</span><span class="s">&quot;</span>
+    <span class="nv">tunnel = </span><span class="nx">socks</span><span class="p">.</span><span class="nx">createServer</span> <span class="nf">(info, accept, deny) -&gt;</span>
+      <span class="nx">conn</span><span class="p">.</span><span class="nx">forwardOut</span> <span class="nx">info</span><span class="p">.</span><span class="nx">srcAddr</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">srcPort</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">dstAddr</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">dstPort</span><span class="p">,</span> <span class="nf">(err, stream) -&gt;</span>
+        <span class="k">if</span> <span class="nx">err</span>
+          <span class="k">return</span> <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nv">sock = </span><span class="nx">accept</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+          <span class="nx">sock</span><span class="p">.</span><span class="nx">pipe</span> <span class="nx">stream</span>
+          <span class="nx">stream</span><span class="p">.</span><span class="nx">pipe</span> <span class="nx">sock</span>
+          <span class="nx">sock</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">debugData</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;request : </span><span class="si">#{</span><span class="nx">snip</span> <span class="nx">data</span><span class="si">}</span><span class="s">&quot;</span>
+          <span class="nx">stream</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">debugData</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;response: </span><span class="si">#{</span><span class="nx">snip</span> <span class="nx">data</span><span class="si">}</span><span class="s">&quot;</span>
+        <span class="k">else</span>
+          <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+    <span class="nv">tunnel.end = </span><span class="nf">-&gt;</span>
+      <span class="k">try</span>
+        <span class="nx">tunnel</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
+    <span class="nx">tunnel</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;close&#39;</span><span class="p">,</span> <span class="nf">-&gt;</span>
+      <span class="nx">debug</span> <span class="s">&quot;closing tunnel to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+      <span class="k">delete</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
+      <span class="k">unless</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">).</span><span class="nx">length</span>
+        <span class="nx">conn</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+    <span class="nv">tunnel.setup =</span>
+      <span class="nv">host: </span><span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span>
+      <span class="nv">port: </span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span>
+    <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">tunnel</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-22" id="section-22">&#182;</a>
+</div>
+<p>return running tunnel</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">tunnel</span><span class="p">.</span><span class="nx">useAuth</span> <span class="nx">socks</span><span class="p">.</span><span class="nx">auth</span><span class="p">.</span><span class="nx">None</span><span class="p">()</span>
+    <span class="nx">tunnel</span><span class="p">.</span><span class="nx">listen</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span><span class="p">,</span> <span class="nf">-&gt;</span>
       <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">tunnel</span>
 
 

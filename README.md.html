@@ -76,6 +76,7 @@ they may be used also from external programs.</p>
 <li>using pooled ssh connections</li>
 <li>pooling also for the tunnels</li>
 <li>auto reconnect</li>
+<li>dynamic port forwarding using SOCKSv5 proxy</li>
 </ul>
 
 <blockquote>
@@ -151,8 +152,7 @@ they may be used also from external programs.</p>
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;tunnel opened at </span><span class="si">#{</span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">setup</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">setup</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s">&quot;</span>
     <span class="c1"># wait 10 seconds, then close the tunnel</span>
     <span class="nx">setTimeout</span> <span class="nf">-&gt;</span>
-      <span class="nx">tunnel</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
-      <span class="nx">cb</span><span class="p">()</span>
+      <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
     <span class="p">,</span> <span class="mi">10000</span>
 </code></pre></div>
 
@@ -163,6 +163,37 @@ close all tunnels with:</p>
 
 
 <div class="highlight"><pre><code><span class="nx">sshtunnel</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
+</code></pre></div>
+
+
+
+<p>The following script shows how to make a dynamic 1:1 proxy using SOCKSv5. It's
+nearly the same, only the tunnel host and port are missing (the tunnel group
+may also be removed completely):</p>
+
+
+<div class="highlight"><pre><code><span class="nv">sshtunnel = </span><span class="nx">require</span> <span class="s">&#39;alinex-sshtunnel&#39;</span>
+<span class="nx">sshtunnel</span>
+  <span class="nv">ssh:</span>
+    <span class="nv">host: </span><span class="s">&#39;65.25.98.25&#39;</span>
+    <span class="nv">port: </span> <span class="mi">22</span>
+    <span class="nv">username: </span><span class="s">&#39;root&#39;</span>
+    <span class="c1">#passphrase: &#39;mypass&#39;</span>
+    <span class="nv">privateKey: </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;fs&#39;</span><span class="p">).</span><span class="nx">readFileSync</span> <span class="s">&#39;/home/alex/.ssh/id_rsa&#39;</span>
+    <span class="c1">#localHostname: &quot;Localost&quot;</span>
+    <span class="c1">#localUsername: &quot;LocalUser&quot;</span>
+    <span class="c1">#readyTimeout: 20000</span>
+    <span class="nv">keepaliveInterval: </span><span class="mi">1000</span>
+    <span class="c1">#debug: true</span>
+<span class="c1">#  tunnel:</span>
+<span class="c1">#    localhost: &#39;127.0.0.1&#39;</span>
+<span class="c1">#    localPort: 8080</span>
+<span class="p">,</span> <span class="nf">(err, tunnel) -&gt;</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;tunnel opened at </span><span class="si">#{</span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">setup</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">setup</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s">&quot;</span>
+    <span class="c1"># wait 10 seconds, then close the tunnel</span>
+    <span class="nx">setTimeout</span> <span class="nf">-&gt;</span>
+      <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+    <span class="p">,</span> <span class="mi">10000</span>
 </code></pre></div>
 
 
