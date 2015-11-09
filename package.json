@@ -36,10 +36,12 @@
     "chalk": "^1.1.1",
     "debug": "^2.2.0",
     "portfinder": "^0.4.0",
+    "socksv5": "0.0.6",
     "ssh2": "^0.4.11"
   },
   "devDependencies": {
     "alinex-builder": "1.x",
+    "alinex-exec": "^1.0.5",
     "chai": "^3.3.0"
   },
   "optionalDependencies": {},

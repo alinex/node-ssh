@@ -23,8 +23,7 @@ async = require 'alinex-async'
 # Control tunnel creation
 # -------------------------------------------------
 module.exports = open = (setup, cb) ->
-  debug "require tunneling of #{setup.tunnel.host}:#{setup.tunnel.port}
-  through #{setup.ssh.host}:#{setup.ssh.port}"
+  debug chalk.grey "init tunnel..."
   # open ssh connection
   connect setup.ssh, (err, conn) ->
     return cb err if err
@@ -36,7 +35,7 @@ module.exports = open = (setup, cb) ->
       forward conn, spec, cb
     , (err) ->
       return cb err if err
-      if setup.tunnel.host and setup.tunnel.port
+      if setup.tunnel?.host and setup.tunnel?.port
         # open new tunnel
         forward conn, setup.tunnel, (err, tunnel) ->
           return cb err if err
@@ -55,7 +54,7 @@ connections = {}
 # ### open ssh connection
 connect = async.onceTime (setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
-  return cb null, connections[name] if connections[name]
+  return cb null, connections[name] if connections[name]?._sock?._handle
   # open new ssh
   debug chalk.grey "establish new ssh connection to #{name}"
   conn = new ssh.Client()
@@ -76,6 +75,7 @@ connect = async.onceTime (setup, cb) ->
         debugDebug chalk.grey msg
   conn.on 'end', ->
     debug chalk.grey "ssh client closing"
+    delete connections[name]
     for tunnel of conn.tunnel
       tunnel.close()
   # start connection
@@ -94,7 +94,7 @@ forward = (conn, setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
   return cb null, conn.tunnel[name] if conn.tunnel[name]
   # make new tunnel
-  debug chalk.grey "open new tunnel to #{name}"
+  debug "open new tunnel to #{name}"
   findPort setup, (err, setup) ->
     return cb err if err
     setup.localHost ?= '127.0.0.1'
@@ -102,13 +102,17 @@ forward = (conn, setup, cb) ->
     tunnel = net.createServer (sock) ->
       conn.forwardOut sock.remoteAddress, sock.remotePort, setup.host, setup.port, (err, stream) ->
         if err
-          tunnel.end()
-          return cb err
-        sock.on 'data', (data) -> debugData chalk.grey "request: #{snip data}"
-        stream.on 'data', (data) -> debugData chalk.grey "received #{snip data}"
-        sock.pipe(stream).pipe sock
+          tunnel.close()
+          return cb()
+        sock.pipe stream
+        stream.pipe sock
+        sock.on 'data', (data) -> debugData chalk.grey "request : #{snip data}"
+        stream.on 'data', (data) -> debugData chalk.grey "response: #{snip data}"
+    tunnel.end = ->
+      try
+        tunnel.close()
     tunnel.on 'close', ->
-      debug chalk.grey "closing tunnel to #{name}"
+      debug "closing tunnel to #{name}"
       delete conn.tunnel[name]
       unless conn.tunnel.length
         conn.end()
@@ -117,7 +121,6 @@ forward = (conn, setup, cb) ->
       port: setup.localPort
     conn.tunnel[name] = tunnel
     # return running tunnel
-#    tunnel.listen setup.localPort, ->
     tunnel.listen setup.localPort, setup.localHost, ->
       cb null, tunnel
 
@@ -127,7 +130,7 @@ proxy = (conn, setup, cb) ->
   name = "socksv5 proxy"
   return cb null, conn.tunnel[name] if conn.tunnel[name]
   # make new tunnel
-  debug chalk.grey "open new tunnel to #{name}"
+  debug "open new tunnel to #{name}"
   findPort setup, (err, setup) ->
     return cb err if err
     setup.localHost ?= '127.0.0.1'
@@ -145,7 +148,7 @@ proxy = (conn, setup, cb) ->
         else
           tunnel.end()
     tunnel.on 'close', ->
-      debug chalk.grey "closing tunnel to #{name}"
+      debug "closing tunnel to #{name}"
       delete conn.tunnel[name]
       unless conn.tunnel.length
         conn.end()
