@@ -7,7 +7,9 @@
   "keywords": [
     "ssh",
     "tunnel",
-    "forwarding"
+    "forwarding",
+    "socksv5",
+    "proxy"
   ],
   "homepage": "http://alinex.github.io/node-sshtunnel/",
   "repository": {
