@@ -77,8 +77,7 @@ sshtunnel
     console.log "tunnel opened at #{tunnel.setup.host}:#{tunnel.setup.port}"
     # wait 10 seconds, then close the tunnel
     setTimeout ->
-      tunnel.close()
-      cb()
+      tunnel.end()
     , 10000
 ```
 
@@ -90,7 +89,8 @@ sshtunnel.close()
 ```
 
 The following script shows how to make a dynamic 1:1 proxy using SOCKSv5. It's
-nearly the same, only the tunnel host and port are missing:
+nearly the same, only the tunnel host and port are missing (the tunnel group
+may also be removed completely):
 
 ``` coffee
 sshtunnel = require 'alinex-sshtunnel'
@@ -106,17 +106,17 @@ sshtunnel
     #readyTimeout: 20000
     keepaliveInterval: 1000
     #debug: true
-  tunnel:
-    #localhost: '127.0.0.1'
-    #localPort: 8080
+#  tunnel:
+#    localhost: '127.0.0.1'
+#    localPort: 8080
 , (err, tunnel) ->
     console.log "tunnel opened at #{tunnel.setup.host}:#{tunnel.setup.port}"
     # wait 10 seconds, then close the tunnel
     setTimeout ->
-      tunnel.close()
-      cb()
+      tunnel.end()
     , 10000
 ```
+
 
 License
 -------------------------------------------------
