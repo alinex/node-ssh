@@ -77,7 +77,7 @@ connect = async.onceTime (setup, cb) ->
     debug chalk.grey "ssh client closing"
     delete connections[name]
     for tunnel of conn.tunnel
-      tunnel.close()
+      tunnel.end()
   # start connection
   conn.connect object.extend {}, setup,
     debug: unless setup.debug then null else (msg) ->
@@ -102,8 +102,7 @@ forward = (conn, setup, cb) ->
     tunnel = net.createServer (sock) ->
       conn.forwardOut sock.remoteAddress, sock.remotePort, setup.host, setup.port, (err, stream) ->
         if err
-          tunnel.close()
-          return cb()
+          return tunnel.end()
         sock.pipe stream
         stream.pipe sock
         sock.on 'data', (data) -> debugData chalk.grey "request : #{snip data}"
@@ -114,7 +113,7 @@ forward = (conn, setup, cb) ->
     tunnel.on 'close', ->
       debug "closing tunnel to #{name}"
       delete conn.tunnel[name]
-      unless conn.tunnel.length
+      unless Object.keys(conn.tunnel).length
         conn.end()
     tunnel.setup =
       host: setup.localHost
@@ -125,7 +124,7 @@ forward = (conn, setup, cb) ->
       cb null, tunnel
 
 # ### open outgoin tunnel
-proxy = (conn, setup, cb) ->
+proxy = (conn, setup = {}, cb) ->
   socks = require 'socksv5'
   name = "socksv5 proxy"
   return cb null, conn.tunnel[name] if conn.tunnel[name]
@@ -138,19 +137,21 @@ proxy = (conn, setup, cb) ->
     tunnel = socks.createServer (info, accept, deny) ->
       conn.forwardOut info.srcAddr, info.srcPort, info.dstAddr, info.dstPort, (err, stream) ->
         if err
-          tunnel.end()
-          return cb err
+          return tunnel.end()
         if sock = accept(true)
-          sock.on 'data', (data) -> debugData chalk.grey "request: #{snip data}"
-          stream.on 'data', (data) -> debugData chalk.grey "received #{snip data}"
-          stream.pipe(sock).pipe(stream).on 'close', ->
-            tunnel.end()
+          sock.pipe stream
+          stream.pipe sock
+          sock.on 'data', (data) -> debugData chalk.grey "request : #{snip data}"
+          stream.on 'data', (data) -> debugData chalk.grey "response: #{snip data}"
         else
           tunnel.end()
+    tunnel.end = ->
+      try
+        tunnel.close()
     tunnel.on 'close', ->
       debug "closing tunnel to #{name}"
       delete conn.tunnel[name]
-      unless conn.tunnel.length
+      unless Object.keys(conn.tunnel).length
         conn.end()
     tunnel.setup =
       host: setup.localHost
