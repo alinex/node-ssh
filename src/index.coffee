@@ -22,7 +22,7 @@ async = require 'alinex-async'
 
 # Control tunnel creation
 # -------------------------------------------------
-module.exports = open = (setup, cb) ->
+module.exports = (setup, cb) ->
   debug chalk.grey "init tunnel..."
   # open ssh connection
   connect setup.ssh, (err, conn) ->
@@ -134,7 +134,7 @@ proxy = (conn, setup = {}, cb) ->
     return cb err if err
     setup.localHost ?= '127.0.0.1'
     debug chalk.grey "opening tunnel on local port #{setup.localHost}:#{setup.localPort}"
-    tunnel = socks.createServer (info, accept, deny) ->
+    tunnel = socks.createServer (info, accept) ->
       conn.forwardOut info.srcAddr, info.srcPort, info.dstAddr, info.dstPort, (err, stream) ->
         if err
           return tunnel.end()
