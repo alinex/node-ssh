@@ -2,7 +2,7 @@
   "name": "alinex-sshtunnel",
   "version": "1.1.0",
   "description": "Port tunneling through ssh.",
-  "copyright": "Alexander Schilling 2015",
+  "copyright": "Alexander Schilling 2015-2016",
   "private": false,
   "keywords": [
     "ssh",

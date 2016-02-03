@@ -2,7 +2,6 @@
 .settings
 .DS_Store
 *.sublime-*
-.travis.yml
 /coverage
 /data
 /doc
@@ -11,3 +10,7 @@
 /test
 /var/local
 /var/lib
+.travis.yml
+.npmignore
+.gitignore
+coffeelint.json
