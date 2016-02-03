@@ -1,12 +1,13 @@
 chai = require 'chai'
 expect = chai.expect
+### eslint-env node, mocha ###
 
 sshtunnel = require '../../src/index'
 Exec = require 'alinex-exec'
 
 ssh =
   host: '85.25.98.25'
-  port:  22
+  port: 22
   username: 'root'
   privateKey: require('fs').readFileSync '/home/alex/.ssh/id_rsa'
   keepaliveInterval: 1000
@@ -42,7 +43,7 @@ describe "forward tunneling", ->
       Exec.run
         cmd: 'bash'
         args: ['-c', "echo > /dev/tcp/#{tunnel.setup.host}/#{tunnel.setup.port}"]
-      , (err, proc) ->
+      , (err) ->
         tunnel.end()
         expect(err, 'ping error').to.not.exist
         setTimeout cb, 300
@@ -59,7 +60,7 @@ describe "socksv5 proxy", ->
       Exec.run
         cmd: 'curl'
         args: ['-i', '--socks5', "#{tunnel.setup.host}:#{tunnel.setup.port}", 'google.com']
-      , (err, proc) ->
+      , ->
         tunnel.end()
         setTimeout cb, 100
 
