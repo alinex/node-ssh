@@ -2,7 +2,7 @@
 .settings
 .DS_Store
 *.sublime-*
-/coverage/
+/report/
 /data/
 /doc/
 /lib/
@@ -11,5 +11,4 @@
 /var/lib/
 /var/local/
 npm-debug.log
-man/
-report/
+/man/
