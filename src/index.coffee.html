@@ -6,13 +6,9 @@
   <link rel="stylesheet" media="all" href="../doc-style.css" />
   <script src="../doc-filelist.js"></script>
   <script>
-    var relativeDir = "../", thisFile = "home/alex/a3/node-sshtunnel/src/indexcoffee", defaultSidebar = true;
+    var relativeDir = "../", thisFile = "home/alex/github/node-sshtunnel/src/index.coffee", defaultSidebar = true;
   </script>
   <script src="../doc-script.js"></script>
-  <script src="../fileSearch.js"></script>
-  <script src="../goToLine.js"></script>
-  <link rel="stylesheet" href="../fileSearch.css" />
-  <link rel="stylesheet" href="../goToLine.css" />
 </head>
 <body>
   <nav>
@@ -146,7 +142,7 @@ command and alternatively ssh connections.</p>
 
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-<span class="nv">module.exports = open = </span><span class="nf">(setup, cb) -&gt;</span>
+<span class="nv">module.exports = </span><span class="nf">(setup, cb) -&gt;</span>
   <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;init tunnel...&quot;</span>
 
 </pre></div>
@@ -448,7 +444,7 @@ command and alternatively ssh connections.</p>
     <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
     <span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span> <span class="o">?=</span> <span class="s">&#39;127.0.0.1&#39;</span>
     <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;opening tunnel on local port </span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="si">}</span><span class="s">&quot;</span>
-    <span class="nv">tunnel = </span><span class="nx">socks</span><span class="p">.</span><span class="nx">createServer</span> <span class="nf">(info, accept, deny) -&gt;</span>
+    <span class="nv">tunnel = </span><span class="nx">socks</span><span class="p">.</span><span class="nx">createServer</span> <span class="nf">(info, accept) -&gt;</span>
       <span class="nx">conn</span><span class="p">.</span><span class="nx">forwardOut</span> <span class="nx">info</span><span class="p">.</span><span class="nx">srcAddr</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">srcPort</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">dstAddr</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">dstPort</span><span class="p">,</span> <span class="nf">(err, stream) -&gt;</span>
         <span class="k">if</span> <span class="nx">err</span>
           <span class="k">return</span> <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
