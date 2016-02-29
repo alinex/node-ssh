@@ -6,20 +6,31 @@
   <link rel="stylesheet" media="all" href="../doc-style.css" />
   <script src="../doc-filelist.js"></script>
   <script>
-    var relativeDir = "../", thisFile = "home/alex/github/node-sshtunnel/src/index.coffee", defaultSidebar = true;
+    var relativeDir = "../";
+    var thisFile = "home/alex/github/node-sshtunnel/src/index.coffee";
+    var defaultSidebar = true;
   </script>
   <script src="../doc-script.js"></script>
-</head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /></head
 <body>
   <nav>
-<div class="logo"><a href="http://alinex.github.io" onmouseover="lllogo.src='https://alinex.github.io/images/Alinex-200.png'" onmouseout="lllogo.src='https://alinex.github.io/images/Alinex-black-200.png'">
-  <img name="lllogo" src="https://alinex.github.io/images/Alinex-black-200.png" width="150" title="Alinex Universe Homepage" />
+<div class="logo"><a href="http://alinex.github.io"
+  onmouseover="logo.src='https://alinex.github.io/images/Alinex-200.png'"
+  onmouseout="logo.src='https://alinex.github.io/images/Alinex-black-200.png'">
+  <img name="logo" src="https://alinex.github.io/images/Alinex-black-200.png"
+    width="150" title="Alinex Universe Homepage" />
   </a>
-  <img src="http://alinex.github.io/images/Alinex-200.png" style="display:none" alt="preloading" />
+  <img src="http://alinex.github.io/images/Alinex-200.png"
+    style="display:none" alt="preloading" />
 </div>
 <div class="links">
-  <a href="http://alinex.github.io/blog" class="btn btn-primary"><span class="glyphicon-cog"></span> Blog</a>
-  <a href="http://alinex.github.io/code.html" class="btn btn-warning"><span class="glyphicon-pencil"></span> Code</a>
+  <a href="http://alinex.github.io/blog"
+    class="btn btn-primary"><span class="glyphicon-pencil"></span> Blog</a>
+  <a href="http://alinex.github.io/develop"
+    class="btn btn-primary"><span class="glyphicon-book"></span> Develop</a>
+  <a href="http://alinex.github.io/code.html"
+    class="btn btn-warning"><span class="glyphicon-cog"></span> Code</a>
 </div>
 </nav><div id="sidebar_wrapper">
     <div id="sidebar_switch">
@@ -28,507 +39,540 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+
       <div class="heading h1">
-        <a href="#ssh%20tunneling%20class">SSH Tunneling class</a>
+        <a href="#ssh-tunneling-class">SSH Tunneling class</a>
       </div>
+
       <div class="heading h2">
-        <a href="#node%20modules">Node Modules</a>
+        <a href="#node-modules">Node Modules</a>
       </div>
+
       <div class="heading h2">
-        <a href="#control%20tunnel%20creation">Control tunnel creation</a>
+        <a href="#control-tunnel-creation">Control tunnel creation</a>
       </div>
+
       <div class="heading h2">
-        <a href="#helper%20methods">Helper methods</a>
+        <a href="#helper-methods">Helper methods</a>
       </div>
+
       <div class="heading h3">
-        <a href="#open%20ssh%20connection">open ssh connection</a>
+        <a href="#open-ssh-connection">open ssh connection</a>
       </div>
+
       <div class="heading h3">
-        <a href="#snip%20communication%20strings%20for%20debugging">snip communication strings for debugging</a>
+        <a href="#snip-communication-strings-for-debugging">snip communication strings for debugging</a>
       </div>
+
       <div class="heading h3">
-        <a href="#open%20outgoin%20tunnel">open outgoin tunnel</a>
+        <a href="#open-outgoin-tunnel">open outgoin tunnel</a>
       </div>
+
       <div class="heading h3">
-        <a href="#open%20outgoin%20tunnel">open outgoin tunnel</a>
+        <a href="#open-outgoin-tunnel-1">open outgoin tunnel</a>
       </div>
+
       <div class="heading h3">
-        <a href="#find%20an%20unused%20port">find an unused port</a>
+        <a href="#find-an-unused-port">find an unused port</a>
       </div>
+
       <div class="heading h3">
-        <a href="#close%20all%20tunnels%20and%20ssh%20connections">close all tunnels and ssh connections</a>
+        <a href="#close-all-tunnels-and-ssh-connections">close all tunnels and ssh connections</a>
       </div>
+
     </div>
   </div>
   <div id="sidebar-toggle"></div>
-  <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-sshtunnel" title="Fork me on GitHub"></a><div class="background highlight"></div>
+  <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-sshtunnel" title="Fork me on GitHub"></a>
+    <div class="background highlight"></div>
 <table cellpadding="0" cellspacing="0">
   <tbody>
+    
+    
       <tr>
         <td class="docs">
-<div class="pilwrap" id="ssh%20tunneling%20class">
+          <div class="pilwrap" id="ssh-tunneling-class">
   <h1>
-    <a href="#ssh%20tunneling%20class" name="ssh%20tunneling%20class" class="pilcrow">&#182;</a>
-    SSH Tunneling class
+    <a href="#ssh-tunneling-class" name="ssh-tunneling-class" class="pilcrow"></a>
+SSH Tunneling class
   </h1>
 </div>
-
-
 <p>This is an object oriented implementation around the core <code>process.spawn</code>
 command and alternatively ssh connections.</p>
+
         </td>
-        <td class="code highlight"><div class="highlight"><pre></pre></div>
+        <td class="code highlight">
+          <pre class="coffeescript">
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap" id="node%20modules">
+          <div class="pilwrap" id="node-modules">
   <h2>
-    <a href="#node%20modules" name="node%20modules" class="pilcrow">&#182;</a>
-    Node Modules
+    <a href="#node-modules" name="node-modules" class="pilcrow"></a>
+Node Modules
   </h2>
 </div>
 
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-
-
-</pre></div>
+        <td class="code highlight">
+          <pre class="coffeescript">
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3"></a>
 </div>
 <p>include base modules</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="nv">debug = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">)(</span><span class="s">&#39;sshtunnel&#39;</span><span class="p">)</span>
-<span class="nv">debugData = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">)(</span><span class="s">&#39;sshtunnel:data&#39;</span><span class="p">)</span>
-<span class="nv">debugDebug = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">)(</span><span class="s">&#39;sshtunnel:debug&#39;</span><span class="p">)</span>
-<span class="nv">chalk = </span><span class="nx">require</span> <span class="s">&#39;chalk&#39;</span>
-<span class="nv">net = </span><span class="nx">require</span> <span class="s">&#39;net&#39;</span>
-<span class="nv">ssh = </span><span class="nx">require</span> <span class="s">&#39;ssh2&#39;</span>
-<span class="nv">util = </span><span class="nx">require</span> <span class="s">&#39;util&#39;</span>
-<span class="nv">portfinder = </span><span class="nx">require</span> <span class="s">&#39;portfinder&#39;</span>
 
-</pre></div>
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">debug = <span class="hljs-built_in">require</span>(<span class="hljs-string">'debug'</span>)(<span class="hljs-string">'sshtunnel'</span>)
+debugData = <span class="hljs-built_in">require</span>(<span class="hljs-string">'debug'</span>)(<span class="hljs-string">'sshtunnel:data'</span>)
+debugDebug = <span class="hljs-built_in">require</span>(<span class="hljs-string">'debug'</span>)(<span class="hljs-string">'sshtunnel:debug'</span>)
+chalk = <span class="hljs-built_in">require</span> <span class="hljs-string">'chalk'</span>
+net = <span class="hljs-built_in">require</span> <span class="hljs-string">'net'</span>
+ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'ssh2'</span>
+util = <span class="hljs-built_in">require</span> <span class="hljs-string">'util'</span>
+portfinder = <span class="hljs-built_in">require</span> <span class="hljs-string">'portfinder'</span>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4"></a>
 </div>
 <p>include alinex modules</p>
+
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="nv">async = </span><span class="nx">require</span> <span class="s">&#39;alinex-async&#39;</span>
-<span class="p">{</span><span class="nx">object</span><span class="p">}</span> <span class="o">=</span> <span class="nx">require</span> <span class="s">&#39;alinex-util&#39;</span>
+        <td class="code highlight">
+          <pre class="coffeescript">async = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-async'</span>
+{object} = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span>
 
-
-</pre></div>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap" id="control%20tunnel%20creation">
+          <div class="pilwrap" id="control-tunnel-creation">
   <h2>
-    <a href="#control%20tunnel%20creation" name="control%20tunnel%20creation" class="pilcrow">&#182;</a>
-    Control tunnel creation
+    <a href="#control-tunnel-creation" name="control-tunnel-creation" class="pilcrow"></a>
+Control tunnel creation
   </h2>
 </div>
 
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="nv">module.exports = </span><span class="nf">(setup, cb) -&gt;</span>
-  <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;init tunnel...&quot;</span>
-
-</pre></div>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-params">(setup, cb)</span> -&gt;</span>
+  debug chalk.grey <span class="hljs-string">"init tunnel..."</span>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6"></a>
 </div>
 <p>open ssh connection</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-  <span class="nx">connect</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">ssh</span><span class="p">,</span> <span class="nf">(err, conn) -&gt;</span>
-    <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
 
-</pre></div>
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  connect setup.ssh, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span>
+    <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7"></a>
 </div>
 <p>reopen already setup tunnels</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-    <span class="nx">async</span><span class="p">.</span><span class="nx">each</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">),</span> <span class="nf">(tunnel, cb) -&gt;</span>
-      <span class="nv">spec = </span><span class="nx">object</span><span class="p">.</span><span class="nx">extend</span> <span class="p">{},</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">tunel</span><span class="p">,</span>
-        <span class="nv">localHost: </span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">setup</span><span class="p">.</span><span class="nx">host</span>
-        <span class="nv">localPort: </span><span class="nx">tunnel</span><span class="p">.</span><span class="nx">setup</span><span class="p">.</span><span class="nx">port</span>
-      <span class="nx">forward</span> <span class="nx">conn</span><span class="p">,</span> <span class="nx">spec</span><span class="p">,</span> <span class="nx">cb</span>
-    <span class="p">,</span> <span class="nf">(err) -&gt;</span>
-      <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
-      <span class="k">if</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="o">?</span><span class="p">.</span><span class="nx">host</span> <span class="o">and</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="o">?</span><span class="p">.</span><span class="nx">port</span>
 
-</pre></div>
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    async.each Object.keys(conn.tunnel), <span class="hljs-function"><span class="hljs-params">(tunnel, cb)</span> -&gt;</span>
+      spec = object.extend {}, setup.tunel,
+        <span class="hljs-attribute">localHost</span>: tunnel.setup.host
+        <span class="hljs-attribute">localPort</span>: tunnel.setup.port
+      forward conn, spec, cb
+    , <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+      <span class="hljs-keyword">if</span> setup.tunnel?.host <span class="hljs-keyword">and</span> setup.tunnel?.port
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8"></a>
 </div>
 <p>open new tunnel</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-        <span class="nx">forward</span> <span class="nx">conn</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">,</span> <span class="nf">(err, tunnel) -&gt;</span>
-          <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
-          <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">tunnel</span>
-      <span class="k">else</span>
 
-</pre></div>
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">        forward conn, setup.tunnel, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span>
+          <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+          cb <span class="hljs-literal">null</span>, tunnel
+      <span class="hljs-keyword">else</span>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-9" id="section-9"></a>
 </div>
 <p>open SOCKSv5 proxy</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-        <span class="nx">proxy</span> <span class="nx">conn</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">,</span> <span class="nf">(err, tunnel) -&gt;</span>
-          <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
-          <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">tunnel</span>
 
-</pre></div>
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">        proxy conn, setup.tunnel, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span>
+          <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+          cb <span class="hljs-literal">null</span>, tunnel
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10"></a>
 </div>
 <p>map of ssh connections</p>
+
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="nv">connections = </span><span class="p">{}</span>
+        <td class="code highlight">
+          <pre class="coffeescript">connections = {}
 
-
-</pre></div>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap" id="helper%20methods">
+          <div class="pilwrap" id="helper-methods">
   <h2>
-    <a href="#helper%20methods" name="helper%20methods" class="pilcrow">&#182;</a>
-    Helper methods
+    <a href="#helper-methods" name="helper-methods" class="pilcrow"></a>
+Helper methods
   </h2>
 </div>
 
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-
-
-</pre></div>
+        <td class="code highlight">
+          <pre class="coffeescript">
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap" id="open%20ssh%20connection">
+          <div class="pilwrap" id="open-ssh-connection">
   <h3>
-    <a href="#open%20ssh%20connection" name="open%20ssh%20connection" class="pilcrow">&#182;</a>
-    open ssh connection
+    <a href="#open-ssh-connection" name="open-ssh-connection" class="pilcrow"></a>
+open ssh connection
   </h3>
 </div>
 
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="nv">connect = </span><span class="nx">async</span><span class="p">.</span><span class="nx">onceTime</span> <span class="nf">(setup, cb) -&gt;</span>
-  <span class="nv">name = </span><span class="s">&quot;</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s">&quot;</span>
-  <span class="k">return</span> <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">connections</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="k">if</span> <span class="nx">connections</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span><span class="o">?</span><span class="p">.</span><span class="nx">_sock</span><span class="o">?</span><span class="p">.</span><span class="nx">_handle</span>
-
-</pre></div>
+        <td class="code highlight">
+          <pre class="coffeescript">connect = async.onceTime (setup, cb) -&gt;
+  name = <span class="hljs-string">"<span class="hljs-subst">#{setup.host}</span>:<span class="hljs-subst">#{setup.port}</span>"</span>
+  <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, connections[name] <span class="hljs-keyword">if</span> connections[name]?._sock?._handle
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-13" id="section-13"></a>
 </div>
 <p>open new ssh</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-  <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;establish new ssh connection to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-  <span class="nv">conn = </span><span class="k">new</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">Client</span><span class="p">()</span>
-  <span class="nx">conn</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;ready&#39;</span><span class="p">,</span> <span class="nf">-&gt;</span>
-    <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;ssh client ready&quot;</span>
 
-</pre></div>
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  debug chalk.grey <span class="hljs-string">"establish new ssh connection to <span class="hljs-subst">#{name}</span>"</span>
+  conn = <span class="hljs-keyword">new</span> ssh.Client()
+  conn.<span class="hljs-literal">on</span> <span class="hljs-string">'ready'</span>, <span class="hljs-function">-&gt;</span>
+    debug chalk.grey <span class="hljs-string">"ssh client ready"</span>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-14" id="section-14"></a>
 </div>
 <p>store connection</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-    <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span> <span class="o">?=</span> <span class="p">{}</span>
-    <span class="nx">connections</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">conn</span>
-    <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">conn</span>
-  <span class="nx">conn</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;banner&#39;</span><span class="p">,</span> <span class="nf">(msg) -&gt;</span>
-    <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">yellow</span> <span class="nx">msg</span>
-  <span class="nx">conn</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="nf">(err) -&gt;</span>
-    <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">magenta</span> <span class="s">&quot;got error: </span><span class="si">#{</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="si">}</span><span class="s">&quot;</span>
-    <span class="nx">conn</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-    <span class="nx">debug</span> <span class="s">&quot;reconnect ssh connection to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-    <span class="nx">conn</span><span class="p">.</span><span class="nx">connect</span> <span class="nx">object</span><span class="p">.</span><span class="nx">extend</span> <span class="p">{},</span> <span class="nx">setup</span><span class="p">,</span>
-      <span class="nv">debug: </span><span class="k">unless</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">debug</span> <span class="k">then</span> <span class="kc">null</span> <span class="k">else</span> <span class="nf">(msg) -&gt;</span>
-        <span class="nx">debugDebug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="nx">msg</span>
-  <span class="nx">conn</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;end&#39;</span><span class="p">,</span> <span class="nf">-&gt;</span>
-    <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;ssh client closing&quot;</span>
-    <span class="k">delete</span> <span class="nx">connections</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
-    <span class="k">for</span> <span class="nx">tunnel</span> <span class="k">of</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span>
-      <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
 
-</pre></div>
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    conn.tunnel ?= {}
+    connections[name] = conn
+    cb <span class="hljs-literal">null</span>, conn
+  conn.<span class="hljs-literal">on</span> <span class="hljs-string">'banner'</span>, <span class="hljs-function"><span class="hljs-params">(msg)</span> -&gt;</span>
+    debug chalk.yellow msg
+  conn.<span class="hljs-literal">on</span> <span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+    debug chalk.magenta <span class="hljs-string">"got error: <span class="hljs-subst">#{err.message}</span>"</span>
+    conn.end()
+    debug <span class="hljs-string">"reconnect ssh connection to <span class="hljs-subst">#{name}</span>"</span>
+    conn.connect object.extend {}, setup,
+      <span class="hljs-attribute">debug</span>: <span class="hljs-keyword">unless</span> setup.debug <span class="hljs-keyword">then</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">else</span> (msg) -&gt;
+        debugDebug chalk.grey msg
+  conn.<span class="hljs-literal">on</span> <span class="hljs-string">'end'</span>, <span class="hljs-function">-&gt;</span>
+    debug chalk.grey <span class="hljs-string">"ssh client closing"</span>
+    <span class="hljs-keyword">delete</span> connections[name]
+    <span class="hljs-keyword">for</span> tunnel <span class="hljs-keyword">of</span> conn.tunnel
+      tunnel.end()
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-15" id="section-15"></a>
 </div>
 <p>start connection</p>
+
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-  <span class="nx">conn</span><span class="p">.</span><span class="nx">connect</span> <span class="nx">object</span><span class="p">.</span><span class="nx">extend</span> <span class="p">{},</span> <span class="nx">setup</span><span class="p">,</span>
-    <span class="nv">debug: </span><span class="k">unless</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">debug</span> <span class="k">then</span> <span class="kc">null</span> <span class="k">else</span> <span class="nf">(msg) -&gt;</span>
-      <span class="nx">debugDebug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="nx">msg</span>
+        <td class="code highlight">
+          <pre class="coffeescript">  conn.connect object.extend {}, setup,
+    <span class="hljs-attribute">debug</span>: <span class="hljs-keyword">unless</span> setup.debug <span class="hljs-keyword">then</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">else</span> (msg) -&gt;
+      debugDebug chalk.grey msg
 
-
-</pre></div>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap" id="snip%20communication%20strings%20for%20debugging">
+          <div class="pilwrap" id="snip-communication-strings-for-debugging">
   <h3>
-    <a href="#snip%20communication%20strings%20for%20debugging" name="snip%20communication%20strings%20for%20debugging" class="pilcrow">&#182;</a>
-    snip communication strings for debugging
+    <a href="#snip-communication-strings-for-debugging" name="snip-communication-strings-for-debugging" class="pilcrow"></a>
+snip communication strings for debugging
   </h3>
 </div>
 
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="nv">snip = </span><span class="nf">(data) -&gt;</span>
-  <span class="nv">text = </span><span class="nx">util</span><span class="p">.</span><span class="nx">inspect</span> <span class="nx">data</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span>
-  <span class="nv">text = </span><span class="nx">text</span><span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="mi">30</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;...\&#39;&#39;</span> <span class="k">if</span> <span class="nx">text</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">30</span>
-  <span class="nx">text</span>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-function"><span class="hljs-title">snip</span> = <span class="hljs-params">(data)</span> -&gt;</span>
+  text = util.inspect data.toString()
+  text = text[<span class="hljs-number">0.</span><span class="hljs-number">.30</span>] + <span class="hljs-string">'...\''</span> <span class="hljs-keyword">if</span> text.length &gt; <span class="hljs-number">30</span>
+  text
 
-
-</pre></div>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap" id="open%20outgoin%20tunnel">
+          <div class="pilwrap" id="open-outgoin-tunnel">
   <h3>
-    <a href="#open%20outgoin%20tunnel" name="open%20outgoin%20tunnel" class="pilcrow">&#182;</a>
-    open outgoin tunnel
+    <a href="#open-outgoin-tunnel" name="open-outgoin-tunnel" class="pilcrow"></a>
+open outgoin tunnel
   </h3>
 </div>
 
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="nv">forward = </span><span class="nf">(conn, setup, cb) -&gt;</span>
-  <span class="nv">name = </span><span class="s">&quot;</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">port</span><span class="si">}</span><span class="s">&quot;</span>
-  <span class="k">return</span> <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="k">if</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
-
-</pre></div>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-function"><span class="hljs-title">forward</span> = <span class="hljs-params">(conn, setup, cb)</span> -&gt;</span>
+  name = <span class="hljs-string">"<span class="hljs-subst">#{setup.host}</span>:<span class="hljs-subst">#{setup.port}</span>"</span>
+  <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, conn.tunnel[name] <span class="hljs-keyword">if</span> conn.tunnel[name]
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-18" id="section-18"></a>
 </div>
 <p>make new tunnel</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-  <span class="nx">debug</span> <span class="s">&quot;open new tunnel to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-  <span class="nx">findPort</span> <span class="nx">setup</span><span class="p">,</span> <span class="nf">(err, setup) -&gt;</span>
-    <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
-    <span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span> <span class="o">?=</span> <span class="s">&#39;127.0.0.1&#39;</span>
-    <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;opening tunnel on local port </span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="si">}</span><span class="s">&quot;</span>
-    <span class="nv">tunnel = </span><span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span> <span class="nf">(sock) -&gt;</span>
-      <span class="nx">conn</span><span class="p">.</span><span class="nx">forwardOut</span> <span class="nx">sock</span><span class="p">.</span><span class="nx">remoteAddress</span><span class="p">,</span> <span class="nx">sock</span><span class="p">.</span><span class="nx">remotePort</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">host</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">port</span><span class="p">,</span> <span class="nf">(err, stream) -&gt;</span>
-        <span class="k">if</span> <span class="nx">err</span>
-          <span class="k">return</span> <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-        <span class="nx">sock</span><span class="p">.</span><span class="nx">pipe</span> <span class="nx">stream</span>
-        <span class="nx">stream</span><span class="p">.</span><span class="nx">pipe</span> <span class="nx">sock</span>
-        <span class="nx">sock</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">debugData</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;request : </span><span class="si">#{</span><span class="nx">snip</span> <span class="nx">data</span><span class="si">}</span><span class="s">&quot;</span>
-        <span class="nx">stream</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">debugData</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;response: </span><span class="si">#{</span><span class="nx">snip</span> <span class="nx">data</span><span class="si">}</span><span class="s">&quot;</span>
-    <span class="nv">tunnel.end = </span><span class="nf">-&gt;</span>
-      <span class="k">try</span>
-        <span class="nx">tunnel</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
-    <span class="nx">tunnel</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;close&#39;</span><span class="p">,</span> <span class="nf">-&gt;</span>
-      <span class="nx">debug</span> <span class="s">&quot;closing tunnel to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-      <span class="k">delete</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
-      <span class="k">unless</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">).</span><span class="nx">length</span>
-        <span class="nx">conn</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-    <span class="nv">tunnel.setup =</span>
-      <span class="nv">host: </span><span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span>
-      <span class="nv">port: </span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span>
-    <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">tunnel</span>
 
-</pre></div>
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  debug <span class="hljs-string">"open new tunnel to <span class="hljs-subst">#{name}</span>"</span>
+  findPort setup, <span class="hljs-function"><span class="hljs-params">(err, setup)</span> -&gt;</span>
+    <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+    setup.localHost ?= <span class="hljs-string">'127.0.0.1'</span>
+    debug chalk.grey <span class="hljs-string">"opening tunnel on local port <span class="hljs-subst">#{setup.localHost}</span>:<span class="hljs-subst">#{setup.localPort}</span>"</span>
+    tunnel = net.createServer (sock) -&gt;
+      conn.forwardOut sock.remoteAddress, sock.remotePort, setup.host, setup.port, <span class="hljs-function"><span class="hljs-params">(err, stream)</span> -&gt;</span>
+        <span class="hljs-keyword">if</span> err
+          <span class="hljs-keyword">return</span> tunnel.end()
+        sock.pipe stream
+        stream.pipe sock
+        sock.<span class="hljs-literal">on</span> <span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-params">(data)</span> -&gt;</span> debugData chalk.grey <span class="hljs-string">"request : <span class="hljs-subst">#{snip data}</span>"</span>
+        stream.<span class="hljs-literal">on</span> <span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-params">(data)</span> -&gt;</span> debugData chalk.grey <span class="hljs-string">"response: <span class="hljs-subst">#{snip data}</span>"</span>
+    tunnel.end = <span class="hljs-function">-&gt;</span>
+      <span class="hljs-keyword">try</span>
+        tunnel.close()
+    tunnel.<span class="hljs-literal">on</span> <span class="hljs-string">'close'</span>, <span class="hljs-function">-&gt;</span>
+      debug <span class="hljs-string">"closing tunnel to <span class="hljs-subst">#{name}</span>"</span>
+      <span class="hljs-keyword">delete</span> conn.tunnel[name]
+      <span class="hljs-keyword">unless</span> Object.keys(conn.tunnel).length
+        conn.end()
+    tunnel.setup =
+      <span class="hljs-attribute">host</span>: setup.localHost
+      <span class="hljs-attribute">port</span>: setup.localPort
+    conn.tunnel[name] = tunnel
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-19" id="section-19"></a>
 </div>
 <p>return running tunnel</p>
+
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-    <span class="nx">tunnel</span><span class="p">.</span><span class="nx">listen</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span><span class="p">,</span> <span class="nf">-&gt;</span>
-      <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">tunnel</span>
+        <td class="code highlight">
+          <pre class="coffeescript">    tunnel.listen setup.localPort, setup.localHost, <span class="hljs-function">-&gt;</span>
+      cb <span class="hljs-literal">null</span>, tunnel
 
-
-</pre></div>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap" id="open%20outgoin%20tunnel">
+          <div class="pilwrap" id="open-outgoin-tunnel-1">
   <h3>
-    <a href="#open%20outgoin%20tunnel" name="open%20outgoin%20tunnel" class="pilcrow">&#182;</a>
-    open outgoin tunnel
+    <a href="#open-outgoin-tunnel-1" name="open-outgoin-tunnel-1" class="pilcrow"></a>
+open outgoin tunnel
   </h3>
 </div>
 
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="nv">proxy = </span><span class="nf">(conn, setup = {}, cb) -&gt;</span>
-  <span class="nv">socks = </span><span class="nx">require</span> <span class="s">&#39;socksv5&#39;</span>
-  <span class="nv">name = </span><span class="s">&quot;socksv5 proxy&quot;</span>
-  <span class="k">return</span> <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="k">if</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
-
-</pre></div>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-function"><span class="hljs-title">proxy</span> = <span class="hljs-params">(conn, setup = {}, cb)</span> -&gt;</span>
+  socks = <span class="hljs-built_in">require</span> <span class="hljs-string">'socksv5'</span>
+  name = <span class="hljs-string">"socksv5 proxy"</span>
+  <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, conn.tunnel[name] <span class="hljs-keyword">if</span> conn.tunnel[name]
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-21" id="section-21"></a>
 </div>
 <p>make new tunnel</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-  <span class="nx">debug</span> <span class="s">&quot;open new tunnel to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-  <span class="nx">findPort</span> <span class="nx">setup</span><span class="p">,</span> <span class="nf">(err, setup) -&gt;</span>
-    <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
-    <span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span> <span class="o">?=</span> <span class="s">&#39;127.0.0.1&#39;</span>
-    <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;opening tunnel on local port </span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span><span class="si">}</span><span class="s">:</span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="si">}</span><span class="s">&quot;</span>
-    <span class="nv">tunnel = </span><span class="nx">socks</span><span class="p">.</span><span class="nx">createServer</span> <span class="nf">(info, accept) -&gt;</span>
-      <span class="nx">conn</span><span class="p">.</span><span class="nx">forwardOut</span> <span class="nx">info</span><span class="p">.</span><span class="nx">srcAddr</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">srcPort</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">dstAddr</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">dstPort</span><span class="p">,</span> <span class="nf">(err, stream) -&gt;</span>
-        <span class="k">if</span> <span class="nx">err</span>
-          <span class="k">return</span> <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nv">sock = </span><span class="nx">accept</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
-          <span class="nx">sock</span><span class="p">.</span><span class="nx">pipe</span> <span class="nx">stream</span>
-          <span class="nx">stream</span><span class="p">.</span><span class="nx">pipe</span> <span class="nx">sock</span>
-          <span class="nx">sock</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">debugData</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;request : </span><span class="si">#{</span><span class="nx">snip</span> <span class="nx">data</span><span class="si">}</span><span class="s">&quot;</span>
-          <span class="nx">stream</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">debugData</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">grey</span> <span class="s">&quot;response: </span><span class="si">#{</span><span class="nx">snip</span> <span class="nx">data</span><span class="si">}</span><span class="s">&quot;</span>
-        <span class="k">else</span>
-          <span class="nx">tunnel</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-    <span class="nv">tunnel.end = </span><span class="nf">-&gt;</span>
-      <span class="k">try</span>
-        <span class="nx">tunnel</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
-    <span class="nx">tunnel</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;close&#39;</span><span class="p">,</span> <span class="nf">-&gt;</span>
-      <span class="nx">debug</span> <span class="s">&quot;closing tunnel to </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-      <span class="k">delete</span> <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span>
-      <span class="k">unless</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">).</span><span class="nx">length</span>
-        <span class="nx">conn</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-    <span class="nv">tunnel.setup =</span>
-      <span class="nv">host: </span><span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span>
-      <span class="nv">port: </span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span>
-    <span class="nx">conn</span><span class="p">.</span><span class="nx">tunnel</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">tunnel</span>
 
-</pre></div>
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  debug <span class="hljs-string">"open new tunnel to <span class="hljs-subst">#{name}</span>"</span>
+  findPort setup, <span class="hljs-function"><span class="hljs-params">(err, setup)</span> -&gt;</span>
+    <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+    setup.localHost ?= <span class="hljs-string">'127.0.0.1'</span>
+    debug chalk.grey <span class="hljs-string">"opening tunnel on local port <span class="hljs-subst">#{setup.localHost}</span>:<span class="hljs-subst">#{setup.localPort}</span>"</span>
+    tunnel = socks.createServer (info, accept) -&gt;
+      conn.forwardOut info.srcAddr, info.srcPort, info.dstAddr, info.dstPort, <span class="hljs-function"><span class="hljs-params">(err, stream)</span> -&gt;</span>
+        <span class="hljs-keyword">if</span> err
+          <span class="hljs-keyword">return</span> tunnel.end()
+        <span class="hljs-keyword">if</span> sock = accept(<span class="hljs-literal">true</span>)
+          sock.pipe stream
+          stream.pipe sock
+          sock.<span class="hljs-literal">on</span> <span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-params">(data)</span> -&gt;</span> debugData chalk.grey <span class="hljs-string">"request : <span class="hljs-subst">#{snip data}</span>"</span>
+          stream.<span class="hljs-literal">on</span> <span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-params">(data)</span> -&gt;</span> debugData chalk.grey <span class="hljs-string">"response: <span class="hljs-subst">#{snip data}</span>"</span>
+        <span class="hljs-keyword">else</span>
+          tunnel.end()
+    tunnel.end = <span class="hljs-function">-&gt;</span>
+      <span class="hljs-keyword">try</span>
+        tunnel.close()
+    tunnel.<span class="hljs-literal">on</span> <span class="hljs-string">'close'</span>, <span class="hljs-function">-&gt;</span>
+      debug <span class="hljs-string">"closing tunnel to <span class="hljs-subst">#{name}</span>"</span>
+      <span class="hljs-keyword">delete</span> conn.tunnel[name]
+      <span class="hljs-keyword">unless</span> Object.keys(conn.tunnel).length
+        conn.end()
+    tunnel.setup =
+      <span class="hljs-attribute">host</span>: setup.localHost
+      <span class="hljs-attribute">port</span>: setup.localPort
+    conn.tunnel[name] = tunnel
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-22" id="section-22">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-22" id="section-22"></a>
 </div>
 <p>return running tunnel</p>
+
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-    <span class="nx">tunnel</span><span class="p">.</span><span class="nx">useAuth</span> <span class="nx">socks</span><span class="p">.</span><span class="nx">auth</span><span class="p">.</span><span class="nx">None</span><span class="p">()</span>
-    <span class="nx">tunnel</span><span class="p">.</span><span class="nx">listen</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="p">,</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localHost</span><span class="p">,</span> <span class="nf">-&gt;</span>
-      <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">tunnel</span>
+        <td class="code highlight">
+          <pre class="coffeescript">    tunnel.useAuth socks.auth.None()
+    tunnel.listen setup.localPort, setup.localHost, <span class="hljs-function">-&gt;</span>
+      cb <span class="hljs-literal">null</span>, tunnel
 
-
-</pre></div>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap" id="find%20an%20unused%20port">
+          <div class="pilwrap" id="find-an-unused-port">
   <h3>
-    <a href="#find%20an%20unused%20port" name="find%20an%20unused%20port" class="pilcrow">&#182;</a>
-    find an unused port
+    <a href="#find-an-unused-port" name="find-an-unused-port" class="pilcrow"></a>
+find an unused port
   </h3>
 </div>
 
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="nv">findPort = </span><span class="nf">(setup, cb) -&gt;</span>
-  <span class="nv">portfinder.basePort = </span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span> <span class="o">?</span> <span class="mi">8000</span>
-  <span class="nx">portfinder</span><span class="p">.</span><span class="nx">getPort</span> <span class="nf">(err, port) -&gt;</span>
-    <span class="k">return</span> <span class="nx">cb</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
-    <span class="k">if</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="o">?</span> <span class="o">and</span> <span class="nx">port</span> <span class="o">isnt</span> <span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span>
-      <span class="nx">debug</span> <span class="nx">chalk</span><span class="p">.</span><span class="nx">magenta</span> <span class="s">&quot;given port </span><span class="si">#{</span><span class="nx">setup</span><span class="p">.</span><span class="nx">localPort</span><span class="si">}</span><span class="s"> is blocked using </span><span class="si">#{</span><span class="nx">port</span><span class="si">}</span><span class="s">&quot;</span>
-    <span class="nv">setup.localPort = </span><span class="nx">port</span>
-    <span class="k">return</span> <span class="nx">cb</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">setup</span>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-function"><span class="hljs-title">findPort</span> = <span class="hljs-params">(setup, cb)</span> -&gt;</span>
+  portfinder.basePort = setup.localPort ? <span class="hljs-number">8000</span>
+  portfinder.getPort (err, port) -&gt;
+    <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+    <span class="hljs-keyword">if</span> setup.localPort? <span class="hljs-keyword">and</span> port <span class="hljs-keyword">isnt</span> setup.localPort
+      debug chalk.magenta <span class="hljs-string">"given port <span class="hljs-subst">#{setup.localPort}</span> is blocked using <span class="hljs-subst">#{port}</span>"</span>
+    setup.localPort = port
+    <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, setup
 
-
-</pre></div>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap" id="close%20all%20tunnels%20and%20ssh%20connections">
+          <div class="pilwrap" id="close-all-tunnels-and-ssh-connections">
   <h3>
-    <a href="#close%20all%20tunnels%20and%20ssh%20connections" name="close%20all%20tunnels%20and%20ssh%20connections" class="pilcrow">&#182;</a>
-    close all tunnels and ssh connections
+    <a href="#close-all-tunnels-and-ssh-connections" name="close-all-tunnels-and-ssh-connections" class="pilcrow"></a>
+close all tunnels and ssh connections
   </h3>
 </div>
 
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="nv">exports.close = </span><span class="nf">-&gt;</span>
-  <span class="nx">conn</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span> <span class="k">for</span> <span class="nx">conn</span> <span class="k">in</span> <span class="nx">connections</span>
-</pre></div>
+        <td class="code highlight">
+          <pre class="coffeescript">exports.close = <span class="hljs-function">-&gt;</span>
+  conn.end() <span class="hljs-keyword">for</span> conn <span class="hljs-keyword">in</span> connections
+
+</pre>
         </td>
       </tr>
+    
   </tbody>
 </table>
+
   </div>
 </body>
 </html>
