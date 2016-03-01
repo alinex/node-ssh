@@ -137,8 +137,7 @@ chalk = <span class="hljs-built_in">require</span> <span class="hljs-string">'ch
 net = <span class="hljs-built_in">require</span> <span class="hljs-string">'net'</span>
 ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'ssh2'</span>
 util = <span class="hljs-built_in">require</span> <span class="hljs-string">'util'</span>
-portfinder = <span class="hljs-built_in">require</span> <span class="hljs-string">'portfinder'</span>
-</pre>
+portfinder = <span class="hljs-built_in">require</span> <span class="hljs-string">'portfinder'</span></pre>
         </td>
       </tr>
     
@@ -152,9 +151,7 @@ portfinder = <span class="hljs-built_in">require</span> <span class="hljs-string
         </td>
         <td class="code highlight">
           <pre class="coffeescript">async = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-async'</span>
-{object} = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span>
-
-</pre>
+{object} = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span></pre>
         </td>
       </tr>
     
@@ -170,8 +167,7 @@ Control tunnel creation
         </td>
         <td class="code highlight">
           <pre class="coffeescript"><span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-params">(setup, cb)</span> -&gt;</span>
-  debug chalk.grey <span class="hljs-string">"init tunnel..."</span>
-</pre>
+  debug chalk.grey <span class="hljs-string">"init tunnel..."</span></pre>
         </td>
       </tr>
     
@@ -185,8 +181,7 @@ Control tunnel creation
         </td>
         <td class="code highlight">
           <pre class="coffeescript">  connect setup.ssh, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span>
-    <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
-</pre>
+    <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err</pre>
         </td>
       </tr>
     
@@ -206,8 +201,7 @@ Control tunnel creation
       forward conn, spec, cb
     , <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
       <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
-      <span class="hljs-keyword">if</span> setup.tunnel?.host <span class="hljs-keyword">and</span> setup.tunnel?.port
-</pre>
+      <span class="hljs-keyword">if</span> setup.tunnel?.host <span class="hljs-keyword">and</span> setup.tunnel?.port</pre>
         </td>
       </tr>
     
@@ -223,8 +217,7 @@ Control tunnel creation
           <pre class="coffeescript">        forward conn, setup.tunnel, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span>
           <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
           cb <span class="hljs-literal">null</span>, tunnel
-      <span class="hljs-keyword">else</span>
-</pre>
+      <span class="hljs-keyword">else</span></pre>
         </td>
       </tr>
     
@@ -239,8 +232,7 @@ Control tunnel creation
         <td class="code highlight">
           <pre class="coffeescript">        proxy conn, setup.tunnel, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span>
           <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
-          cb <span class="hljs-literal">null</span>, tunnel
-</pre>
+          cb <span class="hljs-literal">null</span>, tunnel</pre>
         </td>
       </tr>
     
@@ -253,9 +245,7 @@ Control tunnel creation
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">connections = {}
-
-</pre>
+          <pre class="coffeescript">connections = {}</pre>
         </td>
       </tr>
     
@@ -287,8 +277,7 @@ open ssh connection
         <td class="code highlight">
           <pre class="coffeescript">connect = async.onceTime (setup, cb) -&gt;
   name = <span class="hljs-string">"<span class="hljs-subst">#{setup.host}</span>:<span class="hljs-subst">#{setup.port}</span>"</span>
-  <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, connections[name] <span class="hljs-keyword">if</span> connections[name]?._sock?._handle
-</pre>
+  <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, connections[name] <span class="hljs-keyword">if</span> connections[name]?._sock?._handle</pre>
         </td>
       </tr>
     
@@ -304,8 +293,7 @@ open ssh connection
           <pre class="coffeescript">  debug chalk.grey <span class="hljs-string">"establish new ssh connection to <span class="hljs-subst">#{name}</span>"</span>
   conn = <span class="hljs-keyword">new</span> ssh.Client()
   conn.<span class="hljs-literal">on</span> <span class="hljs-string">'ready'</span>, <span class="hljs-function">-&gt;</span>
-    debug chalk.grey <span class="hljs-string">"ssh client ready"</span>
-</pre>
+    debug chalk.grey <span class="hljs-string">"ssh client ready"</span></pre>
         </td>
       </tr>
     
@@ -334,8 +322,7 @@ open ssh connection
     debug chalk.grey <span class="hljs-string">"ssh client closing"</span>
     <span class="hljs-keyword">delete</span> connections[name]
     <span class="hljs-keyword">for</span> tunnel <span class="hljs-keyword">of</span> conn.tunnel
-      tunnel.end()
-</pre>
+      tunnel.end()</pre>
         </td>
       </tr>
     
@@ -350,9 +337,7 @@ open ssh connection
         <td class="code highlight">
           <pre class="coffeescript">  conn.connect object.extend {}, setup,
     <span class="hljs-attribute">debug</span>: <span class="hljs-keyword">unless</span> setup.debug <span class="hljs-keyword">then</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">else</span> (msg) -&gt;
-      debugDebug chalk.grey msg
-
-</pre>
+      debugDebug chalk.grey msg</pre>
         </td>
       </tr>
     
@@ -370,9 +355,7 @@ snip communication strings for debugging
           <pre class="coffeescript"><span class="hljs-function"><span class="hljs-title">snip</span> = <span class="hljs-params">(data)</span> -&gt;</span>
   text = util.inspect data.toString()
   text = text[<span class="hljs-number">0.</span><span class="hljs-number">.30</span>] + <span class="hljs-string">'...\''</span> <span class="hljs-keyword">if</span> text.length &gt; <span class="hljs-number">30</span>
-  text
-
-</pre>
+  text</pre>
         </td>
       </tr>
     
@@ -389,8 +372,7 @@ open outgoin tunnel
         <td class="code highlight">
           <pre class="coffeescript"><span class="hljs-function"><span class="hljs-title">forward</span> = <span class="hljs-params">(conn, setup, cb)</span> -&gt;</span>
   name = <span class="hljs-string">"<span class="hljs-subst">#{setup.host}</span>:<span class="hljs-subst">#{setup.port}</span>"</span>
-  <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, conn.tunnel[name] <span class="hljs-keyword">if</span> conn.tunnel[name]
-</pre>
+  <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, conn.tunnel[name] <span class="hljs-keyword">if</span> conn.tunnel[name]</pre>
         </td>
       </tr>
     
@@ -427,8 +409,7 @@ open outgoin tunnel
     tunnel.setup =
       <span class="hljs-attribute">host</span>: setup.localHost
       <span class="hljs-attribute">port</span>: setup.localPort
-    conn.tunnel[name] = tunnel
-</pre>
+    conn.tunnel[name] = tunnel</pre>
         </td>
       </tr>
     
@@ -442,9 +423,7 @@ open outgoin tunnel
         </td>
         <td class="code highlight">
           <pre class="coffeescript">    tunnel.listen setup.localPort, setup.localHost, <span class="hljs-function">-&gt;</span>
-      cb <span class="hljs-literal">null</span>, tunnel
-
-</pre>
+      cb <span class="hljs-literal">null</span>, tunnel</pre>
         </td>
       </tr>
     
@@ -462,8 +441,7 @@ open outgoin tunnel
           <pre class="coffeescript"><span class="hljs-function"><span class="hljs-title">proxy</span> = <span class="hljs-params">(conn, setup = {}, cb)</span> -&gt;</span>
   socks = <span class="hljs-built_in">require</span> <span class="hljs-string">'socksv5'</span>
   name = <span class="hljs-string">"socksv5 proxy"</span>
-  <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, conn.tunnel[name] <span class="hljs-keyword">if</span> conn.tunnel[name]
-</pre>
+  <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, conn.tunnel[name] <span class="hljs-keyword">if</span> conn.tunnel[name]</pre>
         </td>
       </tr>
     
@@ -503,8 +481,7 @@ open outgoin tunnel
     tunnel.setup =
       <span class="hljs-attribute">host</span>: setup.localHost
       <span class="hljs-attribute">port</span>: setup.localPort
-    conn.tunnel[name] = tunnel
-</pre>
+    conn.tunnel[name] = tunnel</pre>
         </td>
       </tr>
     
@@ -519,9 +496,7 @@ open outgoin tunnel
         <td class="code highlight">
           <pre class="coffeescript">    tunnel.useAuth socks.auth.None()
     tunnel.listen setup.localPort, setup.localHost, <span class="hljs-function">-&gt;</span>
-      cb <span class="hljs-literal">null</span>, tunnel
-
-</pre>
+      cb <span class="hljs-literal">null</span>, tunnel</pre>
         </td>
       </tr>
     
@@ -543,9 +518,7 @@ find an unused port
     <span class="hljs-keyword">if</span> setup.localPort? <span class="hljs-keyword">and</span> port <span class="hljs-keyword">isnt</span> setup.localPort
       debug chalk.magenta <span class="hljs-string">"given port <span class="hljs-subst">#{setup.localPort}</span> is blocked using <span class="hljs-subst">#{port}</span>"</span>
     setup.localPort = port
-    <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, setup
-
-</pre>
+    <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, setup</pre>
         </td>
       </tr>
     
@@ -561,9 +534,7 @@ close all tunnels and ssh connections
         </td>
         <td class="code highlight">
           <pre class="coffeescript">exports.close = <span class="hljs-function">-&gt;</span>
-  conn.end() <span class="hljs-keyword">for</span> conn <span class="hljs-keyword">in</span> connections
-
-</pre>
+  conn.end() <span class="hljs-keyword">for</span> conn <span class="hljs-keyword">in</span> connections</pre>
         </td>
       </tr>
     
