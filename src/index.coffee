@@ -12,13 +12,12 @@ debug = require('debug')('sshtunnel')
 debugData = require('debug')('sshtunnel:data')
 debugDebug = require('debug')('sshtunnel:debug')
 chalk = require 'chalk'
+async = require 'async'
 net = require 'net'
 ssh = require 'ssh2'
-util = require 'util'
 portfinder = require 'portfinder'
 # include alinex modules
-async = require 'alinex-async'
-{object} = require 'alinex-util'
+util = require 'alinex-util'
 
 # Control tunnel creation
 # -------------------------------------------------
@@ -29,7 +28,7 @@ module.exports = (setup, cb) ->
     return cb err if err
     # reopen already setup tunnels
     async.each Object.keys(conn.tunnel), (tunnel, cb) ->
-      spec = object.extend {}, setup.tunel,
+      spec = util.extend 'MODE CLONE', setup.tunel,
         localHost: tunnel.setup.host
         localPort: tunnel.setup.port
       forward conn, spec, cb
@@ -52,7 +51,7 @@ connections = {}
 # -------------------------------------------------
 
 # ### open ssh connection
-connect = async.onceTime (setup, cb) ->
+connect = util.function.onceTime (setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
   return cb null, connections[name] if connections[name]?._sock?._handle
   # open new ssh
@@ -70,7 +69,7 @@ connect = async.onceTime (setup, cb) ->
     debug chalk.magenta "got error: #{err.message}"
     conn.end()
     debug "reconnect ssh connection to #{name}"
-    conn.connect object.extend {}, setup,
+    conn.connect util.extend 'MODE CLONE', setup,
       debug: unless setup.debug then null else (msg) ->
         debugDebug chalk.grey msg
   conn.on 'end', ->
@@ -79,7 +78,7 @@ connect = async.onceTime (setup, cb) ->
     for tunnel of conn.tunnel
       tunnel.end()
   # start connection
-  conn.connect object.extend {}, setup,
+  conn.connect util.extend util.clone(setup),
     debug: unless setup.debug then null else (msg) ->
       debugDebug chalk.grey msg
 
