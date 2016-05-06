@@ -4,6 +4,12 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.1.2 (2016-05-06)
+-------------------------------------------------
+- Update util and async calls.
+- Upgraded async, util, chalk, portfinder, ssh2, exec and builder packages.
+- Fixed general link in README.
+
 Version 1.1.1 (2016-02-05)
 -------------------------------------------------
 - Updated packages for ssh, pathfinder and alinex classes.
