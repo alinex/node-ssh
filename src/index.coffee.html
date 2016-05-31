@@ -7,7 +7,7 @@
   <script src="../doc-filelist.js"></script>
   <script>
     var relativeDir = "../";
-    var thisFile = "home/alex/github/node-sshtunnel/src/index.coffee";
+    var thisFile = "src/index.coffee";
     var defaultSidebar = true;
   </script>
   <script src="../doc-script.js"></script>
@@ -134,9 +134,9 @@ Node Modules
 debugData = <span class="hljs-built_in">require</span>(<span class="hljs-string">'debug'</span>)(<span class="hljs-string">'sshtunnel:data'</span>)
 debugDebug = <span class="hljs-built_in">require</span>(<span class="hljs-string">'debug'</span>)(<span class="hljs-string">'sshtunnel:debug'</span>)
 chalk = <span class="hljs-built_in">require</span> <span class="hljs-string">'chalk'</span>
+async = <span class="hljs-built_in">require</span> <span class="hljs-string">'async'</span>
 net = <span class="hljs-built_in">require</span> <span class="hljs-string">'net'</span>
 ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'ssh2'</span>
-util = <span class="hljs-built_in">require</span> <span class="hljs-string">'util'</span>
 portfinder = <span class="hljs-built_in">require</span> <span class="hljs-string">'portfinder'</span></pre>
         </td>
       </tr>
@@ -150,8 +150,7 @@ portfinder = <span class="hljs-built_in">require</span> <span class="hljs-string
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">async = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-async'</span>
-{object} = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span></pre>
+          <pre class="coffeescript">util = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span></pre>
         </td>
       </tr>
     
@@ -195,9 +194,9 @@ Control tunnel creation
         </td>
         <td class="code highlight">
           <pre class="coffeescript">    async.each Object.keys(conn.tunnel), <span class="hljs-function"><span class="hljs-params">(tunnel, cb)</span> -&gt;</span>
-      spec = object.extend {}, setup.tunel,
-        <span class="hljs-attribute">localHost</span>: tunnel.setup.host
-        <span class="hljs-attribute">localPort</span>: tunnel.setup.port
+      spec = util.extend <span class="hljs-string">'MODE CLONE'</span>, setup.tunel,
+        localHost: tunnel.setup.host
+        localPort: tunnel.setup.port
       forward conn, spec, cb
     , <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
       <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
@@ -275,7 +274,7 @@ open ssh connection
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">connect = async.onceTime (setup, cb) -&gt;
+          <pre class="coffeescript">connect = util.function.onceTime (setup, cb) -&gt;
   name = <span class="hljs-string">"<span class="hljs-subst">#{setup.host}</span>:<span class="hljs-subst">#{setup.port}</span>"</span>
   <span class="hljs-keyword">return</span> cb <span class="hljs-literal">null</span>, connections[name] <span class="hljs-keyword">if</span> connections[name]?._sock?._handle</pre>
         </td>
@@ -315,8 +314,8 @@ open ssh connection
     debug chalk.magenta <span class="hljs-string">"got error: <span class="hljs-subst">#{err.message}</span>"</span>
     conn.end()
     debug <span class="hljs-string">"reconnect ssh connection to <span class="hljs-subst">#{name}</span>"</span>
-    conn.connect object.extend {}, setup,
-      <span class="hljs-attribute">debug</span>: <span class="hljs-keyword">unless</span> setup.debug <span class="hljs-keyword">then</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">else</span> (msg) -&gt;
+    conn.connect util.extend <span class="hljs-string">'MODE CLONE'</span>, setup,
+      debug: <span class="hljs-keyword">unless</span> setup.debug <span class="hljs-keyword">then</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">else</span> (msg) -&gt;
         debugDebug chalk.grey msg
   conn.<span class="hljs-literal">on</span> <span class="hljs-string">'end'</span>, <span class="hljs-function">-&gt;</span>
     debug chalk.grey <span class="hljs-string">"ssh client closing"</span>
@@ -335,8 +334,8 @@ open ssh connection
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">  conn.connect object.extend {}, setup,
-    <span class="hljs-attribute">debug</span>: <span class="hljs-keyword">unless</span> setup.debug <span class="hljs-keyword">then</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">else</span> (msg) -&gt;
+          <pre class="coffeescript">  conn.connect util.extend util.clone(setup),
+    debug: <span class="hljs-keyword">unless</span> setup.debug <span class="hljs-keyword">then</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">else</span> (msg) -&gt;
       debugDebug chalk.grey msg</pre>
         </td>
       </tr>
@@ -407,8 +406,8 @@ open outgoin tunnel
       <span class="hljs-keyword">unless</span> Object.keys(conn.tunnel).length
         conn.end()
     tunnel.setup =
-      <span class="hljs-attribute">host</span>: setup.localHost
-      <span class="hljs-attribute">port</span>: setup.localPort
+      host: setup.localHost
+      port: setup.localPort
     conn.tunnel[name] = tunnel</pre>
         </td>
       </tr>
@@ -479,8 +478,8 @@ open outgoin tunnel
       <span class="hljs-keyword">unless</span> Object.keys(conn.tunnel).length
         conn.end()
     tunnel.setup =
-      <span class="hljs-attribute">host</span>: setup.localHost
-      <span class="hljs-attribute">port</span>: setup.localPort
+      host: setup.localHost
+      port: setup.localPort
     conn.tunnel[name] = tunnel</pre>
         </td>
       </tr>

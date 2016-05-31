@@ -7,7 +7,7 @@
   <script src="doc-filelist.js"></script>
   <script>
     var relativeDir = "";
-    var thisFile = "home/alex/github/node-sshtunnel/README.md";
+    var thisFile = "README.md";
     var defaultSidebar = true;
   </script>
   <script src="doc-script.js"></script>
@@ -86,7 +86,7 @@ they may be used also from external programs.</p>
 </ul>
 <blockquote>
 <p>It is one of the modules of the <a href="http://alinex.github.io/code.html">Alinex Universe</a>
-following the code standards defined in the <a href="http://alinex.github.io/node-alinex">General Docs</a>.</p>
+following the code standards defined in the <a href="http://alinex.github.io/develop">General Docs</a>.</p>
 </blockquote>
 <div class="pilwrap" id="install">
   <h2>
@@ -104,7 +104,7 @@ Install
 <p>And update it to the latest version later:</p>
 <pre><code class="sh">npm update alinex-sshtunnel --save
 </code></pre>
-<p>Always have a look at the latest <a href="Changelog.md.html.html">changes</a>.</p>
+<p>Always have a look at the latest <a href="Changelog.md.html">changes</a>.</p>
 <div class="pilwrap" id="usage">
   <h2>
     <a href="#usage" name="usage" class="pilcrow"></a>
@@ -115,20 +115,20 @@ Usage
 <p>First you can open a tunnel:</p>
 <pre><code class="coffee">sshtunnel = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-sshtunnel'</span>
 sshtunnel
-  <span class="hljs-attribute">ssh</span>:
-    <span class="hljs-attribute">host</span>: <span class="hljs-string">'65.25.98.25'</span>
-    <span class="hljs-attribute">port</span>:  <span class="hljs-number">22</span>
-    <span class="hljs-attribute">username</span>: <span class="hljs-string">'root'</span>
+  ssh:
+    host: <span class="hljs-string">'65.25.98.25'</span>
+    port:  <span class="hljs-number">22</span>
+    username: <span class="hljs-string">'root'</span>
     <span class="hljs-comment">#passphrase: 'mypass'</span>
-    <span class="hljs-attribute">privateKey</span>: <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>).readFileSync <span class="hljs-string">'/home/alex/.ssh/id_rsa'</span>
+    privateKey: <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>).readFileSync <span class="hljs-string">'/home/alex/.ssh/id_rsa'</span>
     <span class="hljs-comment">#localHostname: "Localost"</span>
     <span class="hljs-comment">#localUsername: "LocalUser"</span>
     <span class="hljs-comment">#readyTimeout: 20000</span>
-    <span class="hljs-attribute">keepaliveInterval</span>: <span class="hljs-number">1000</span>
+    keepaliveInterval: <span class="hljs-number">1000</span>
     <span class="hljs-comment">#debug: true</span>
-  <span class="hljs-attribute">tunnel</span>:
-    <span class="hljs-attribute">host</span>: <span class="hljs-string">'172.30.0.11'</span>
-    <span class="hljs-attribute">port</span>: <span class="hljs-number">80</span>
+  tunnel:
+    host: <span class="hljs-string">'172.30.0.11'</span>
+    port: <span class="hljs-number">80</span>
     <span class="hljs-comment">#localhost: '127.0.0.1'</span>
     <span class="hljs-comment">#localPort: 8080</span>
 , <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span>
@@ -147,16 +147,16 @@ nearly the same, only the tunnel host and port are missing (the tunnel group
 may also be removed completely):</p>
 <pre><code class="coffee">sshtunnel = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-sshtunnel'</span>
 sshtunnel
-  <span class="hljs-attribute">ssh</span>:
-    <span class="hljs-attribute">host</span>: <span class="hljs-string">'65.25.98.25'</span>
-    <span class="hljs-attribute">port</span>:  <span class="hljs-number">22</span>
-    <span class="hljs-attribute">username</span>: <span class="hljs-string">'root'</span>
+  ssh:
+    host: <span class="hljs-string">'65.25.98.25'</span>
+    port:  <span class="hljs-number">22</span>
+    username: <span class="hljs-string">'root'</span>
     <span class="hljs-comment">#passphrase: 'mypass'</span>
-    <span class="hljs-attribute">privateKey</span>: <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>).readFileSync <span class="hljs-string">'/home/alex/.ssh/id_rsa'</span>
+    privateKey: <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>).readFileSync <span class="hljs-string">'/home/alex/.ssh/id_rsa'</span>
     <span class="hljs-comment">#localHostname: "Localost"</span>
     <span class="hljs-comment">#localUsername: "LocalUser"</span>
     <span class="hljs-comment">#readyTimeout: 20000</span>
-    <span class="hljs-attribute">keepaliveInterval</span>: <span class="hljs-number">1000</span>
+    keepaliveInterval: <span class="hljs-number">1000</span>
     <span class="hljs-comment">#debug: true</span>
 <span class="hljs-comment">#  tunnel:</span>
 <span class="hljs-comment">#    localhost: '127.0.0.1'</span>
