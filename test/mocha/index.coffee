@@ -5,13 +5,28 @@ expect = chai.expect
 sshtunnel = require '../../src/index'
 Exec = require 'alinex-exec'
 
+
 ssh =
   host: '85.25.98.25'
   port: 22
   username: 'root'
   privateKey: require('fs').readFileSync '/home/alex/.ssh/id_rsa'
   keepaliveInterval: 1000
+  readyTimeout: 1000
   debug: true
+
+describe.only "problems", ->
+  @timeout 30000
+
+  it "should fail on unknown host", (cb) ->
+    sshtunnel
+      ssh: ssh
+      tunnel:
+        host: 'a-nonexistent-host.anywhere'
+        port: 80
+    , (err) ->
+      expect(err, 'tunnel error').to.exist
+      setTimeout cb, 100
 
 describe "forward tunneling", ->
 

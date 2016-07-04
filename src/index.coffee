@@ -68,10 +68,11 @@ connect = util.function.onceTime (setup, cb) ->
   conn.on 'error', (err) ->
     debug chalk.magenta "got error: #{err.message}"
     conn.end()
-    debug "reconnect ssh connection to #{name}"
-    conn.connect util.extend 'MODE CLONE', setup,
-      debug: unless setup.debug then null else (msg) ->
-        debugDebug chalk.grey msg
+    cb err
+#    debug "reconnect ssh connection to #{name}"
+#    conn.connect util.extend util.clone(setup),
+#      debug: unless setup.debug then null else (msg) ->
+#        debugDebug chalk.grey msg
   conn.on 'end', ->
     debug chalk.grey "ssh client closing"
     delete connections[name]
