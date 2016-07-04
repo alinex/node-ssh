@@ -15,7 +15,7 @@ ssh =
   readyTimeout: 1000
   debug: true
 
-describe.only "problems", ->
+describe "problems", ->
   @timeout 30000
 
   it "should fail on unknown host", (cb) ->
