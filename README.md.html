@@ -52,6 +52,14 @@
         <a href="#usage">Usage</a>
       </div>
 
+      <div class="heading h3">
+        <a href="#simple-forward-tunnel">Simple forward tunnel</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#dynamic-socksv5-proxy">Dynamic SOCKSv5 Proxy</a>
+      </div>
+
       <div class="heading h2">
         <a href="#license">License</a>
       </div>
@@ -112,7 +120,13 @@ Usage
   </h2>
 </div>
 <p>This module has a very simple API, you can do two things:</p>
-<p>First you can open a tunnel:</p>
+<div class="pilwrap" id="simple-forward-tunnel">
+  <h3>
+    <a href="#simple-forward-tunnel" name="simple-forward-tunnel" class="pilcrow"></a>
+Simple forward tunnel
+  </h3>
+</div>
+<p>You can open a tunnel with:</p>
 <pre><code class="coffee">sshtunnel = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-sshtunnel'</span>
 sshtunnel
   ssh:
@@ -142,6 +156,12 @@ sshtunnel
 close all tunnels with:</p>
 <pre><code class="coffee">sshtunnel.close()
 </code></pre>
+<div class="pilwrap" id="dynamic-socksv5-proxy">
+  <h3>
+    <a href="#dynamic-socksv5-proxy" name="dynamic-socksv5-proxy" class="pilcrow"></a>
+Dynamic SOCKSv5 Proxy
+  </h3>
+</div>
 <p>The following script shows how to make a dynamic 1:1 proxy using SOCKSv5. It's
 nearly the same, only the tunnel host and port are missing (the tunnel group
 may also be removed completely):</p>
