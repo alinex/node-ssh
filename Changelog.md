@@ -4,6 +4,12 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.1.3 (2016-07-04)
+-------------------------------------------------
+- Disabled tests which run only locally.
+- Allow all checks to run again.
+- Remove endless connection tries and return error on problems.
+
 Version 1.1.2 (2016-05-06)
 -------------------------------------------------
 - Update util and async calls.
