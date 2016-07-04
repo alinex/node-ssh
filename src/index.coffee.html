@@ -137,7 +137,9 @@ chalk = <span class="hljs-built_in">require</span> <span class="hljs-string">'ch
 async = <span class="hljs-built_in">require</span> <span class="hljs-string">'async'</span>
 net = <span class="hljs-built_in">require</span> <span class="hljs-string">'net'</span>
 ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'ssh2'</span>
-portfinder = <span class="hljs-built_in">require</span> <span class="hljs-string">'portfinder'</span></pre>
+portfinder = <span class="hljs-built_in">require</span> <span class="hljs-string">'portfinder'</span>
+exec = <span class="hljs-built_in">require</span>(<span class="hljs-string">'child_process'</span>).exec
+path = <span class="hljs-built_in">require</span> <span class="hljs-string">'path'</span></pre>
         </td>
       </tr>
     
@@ -175,11 +177,11 @@ Control tunnel creation
           <div class="pilwrap">
   <a class="pilcrow" href="#section-6" id="section-6"></a>
 </div>
-<p>open ssh connection</p>
+<p>add setup defaults</p>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">  connect setup.ssh, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span>
+          <pre class="coffeescript">  optimize setup, <span class="hljs-function"><span class="hljs-params">(err, setup)</span> -&gt;</span>
     <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err</pre>
         </td>
       </tr>
@@ -189,18 +191,12 @@ Control tunnel creation
           <div class="pilwrap">
   <a class="pilcrow" href="#section-7" id="section-7"></a>
 </div>
-<p>reopen already setup tunnels</p>
+<p>open ssh connection</p>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">    async.each Object.keys(conn.tunnel), <span class="hljs-function"><span class="hljs-params">(tunnel, cb)</span> -&gt;</span>
-      spec = util.extend <span class="hljs-string">'MODE CLONE'</span>, setup.tunel,
-        localHost: tunnel.setup.host
-        localPort: tunnel.setup.port
-      forward conn, spec, cb
-    , <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
-      <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
-      <span class="hljs-keyword">if</span> setup.tunnel?.host <span class="hljs-keyword">and</span> setup.tunnel?.port</pre>
+          <pre class="coffeescript">    connect setup.ssh, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err</pre>
         </td>
       </tr>
     
@@ -209,14 +205,18 @@ Control tunnel creation
           <div class="pilwrap">
   <a class="pilcrow" href="#section-8" id="section-8"></a>
 </div>
-<p>open new tunnel</p>
+<p>reopen already setup tunnels</p>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">        forward conn, setup.tunnel, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span>
-          <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
-          cb <span class="hljs-literal">null</span>, tunnel
-      <span class="hljs-keyword">else</span></pre>
+          <pre class="coffeescript">      async.each Object.keys(conn.tunnel), <span class="hljs-function"><span class="hljs-params">(tunnel, cb)</span> -&gt;</span>
+        spec = util.extend <span class="hljs-string">'MODE CLONE'</span>, setup.tunel,
+          localHost: tunnel.setup.host
+          localPort: tunnel.setup.port
+        forward conn, spec, cb
+      , <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+        <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+        <span class="hljs-keyword">if</span> setup.tunnel?.host <span class="hljs-keyword">and</span> setup.tunnel?.port</pre>
         </td>
       </tr>
     
@@ -225,13 +225,14 @@ Control tunnel creation
           <div class="pilwrap">
   <a class="pilcrow" href="#section-9" id="section-9"></a>
 </div>
-<p>open SOCKSv5 proxy</p>
+<p>open new tunnel</p>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">        proxy conn, setup.tunnel, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span>
-          <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
-          cb <span class="hljs-literal">null</span>, tunnel</pre>
+          <pre class="coffeescript">          forward conn, setup.tunnel, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span>
+            <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+            cb <span class="hljs-literal">null</span>, tunnel
+        <span class="hljs-keyword">else</span></pre>
         </td>
       </tr>
     
@@ -239,6 +240,21 @@ Control tunnel creation
         <td class="docs">
           <div class="pilwrap">
   <a class="pilcrow" href="#section-10" id="section-10"></a>
+</div>
+<p>open SOCKSv5 proxy</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">          proxy conn, setup.tunnel, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span>
+            <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+            cb <span class="hljs-literal">null</span>, tunnel</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-11" id="section-11"></a>
 </div>
 <p>map of ssh connections</p>
 
@@ -259,7 +275,23 @@ Helper methods
 
         </td>
         <td class="code highlight">
-          
+          <pre class="coffeescript"><span class="hljs-function">
+<span class="hljs-title">optimize</span> = <span class="hljs-params">(setup, cb)</span> -&gt;</span>
+  async.parallel [
+    (cb) -&gt;
+      <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">if</span> setup.ssh.username
+      <span class="hljs-keyword">if</span> process.env.USERPROFILE
+        setup.ssh.username = process.env.USERPROFILE.split(path.sep)[<span class="hljs-number">2</span>]
+        <span class="hljs-keyword">return</span> cb()
+      setup.ssh.username = process.env.USER ? process.env.USERNAME
+      <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">if</span> setup.ssh.username
+      exec <span class="hljs-string">'whoami'</span>,
+        encoding: <span class="hljs-string">'utf8'</span>
+      , <span class="hljs-function"><span class="hljs-params">(err, name)</span> -&gt;</span>
+        setup.ssh.username = name?.trim()
+        cb err
+  ], <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+    cb err, setup</pre>
         </td>
       </tr>
     
@@ -283,7 +315,7 @@ open ssh connection
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13"></a>
+  <a class="pilcrow" href="#section-14" id="section-14"></a>
 </div>
 <p>open new ssh</p>
 
@@ -299,7 +331,7 @@ open ssh connection
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-14" id="section-14"></a>
+  <a class="pilcrow" href="#section-15" id="section-15"></a>
 </div>
 <p>store connection</p>
 
@@ -320,7 +352,7 @@ open ssh connection
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-15" id="section-15"></a>
+  <a class="pilcrow" href="#section-16" id="section-16"></a>
 </div>
 <p>debug &quot;reconnect ssh connection to #{name}&quot;
 conn.connect util.extend util.clone(setup),
@@ -340,7 +372,7 @@ debugDebug chalk.grey msg</p>
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-16" id="section-16"></a>
+  <a class="pilcrow" href="#section-17" id="section-17"></a>
 </div>
 <p>start connection</p>
 
@@ -390,7 +422,7 @@ open outgoin tunnel
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-19" id="section-19"></a>
+  <a class="pilcrow" href="#section-20" id="section-20"></a>
 </div>
 <p>make new tunnel</p>
 
@@ -427,7 +459,7 @@ open outgoin tunnel
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-20" id="section-20"></a>
+  <a class="pilcrow" href="#section-21" id="section-21"></a>
 </div>
 <p>return running tunnel</p>
 
@@ -459,7 +491,7 @@ open outgoin tunnel
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-22" id="section-22"></a>
+  <a class="pilcrow" href="#section-23" id="section-23"></a>
 </div>
 <p>make new tunnel</p>
 
@@ -499,7 +531,7 @@ open outgoin tunnel
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-23" id="section-23"></a>
+  <a class="pilcrow" href="#section-24" id="section-24"></a>
 </div>
 <p>return running tunnel</p>
 

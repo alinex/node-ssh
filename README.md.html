@@ -214,78 +214,47 @@ Setup
 <p>Like shown above you may use several settings to specify your tunneling.</p>
 <p>The <code>ssh</code> connection setup:</p>
 <ul>
-<li>
-<p>host - define the host to bind the tunnel to as hostname or ip address</p>
-</li>
-<li>
-<p>port - the ssh port on the above host (default: 22)</p>
-</li>
-<li>
-<p>forceIPv4 - set to <code>true</code> to only use resolved IPv4 address for host (default: false)</p>
-</li>
-<li>
-<p>forceIPv6 - set to <code>true</code> to only use resolved IPv6 address for host (default: false)</p>
-</li>
-<li>
-<p>username - the user under which to connect (default: <your username>)</p>
-</li>
-<li>
-<p>passphrase - password for the above user (or privateKey)</p>
-</li>
-<li>
-<p>privateKey - private key, content to use (default: <use keys from ssh dir>)</p>
-</li>
-<li>
-<p>localHostname - along with localUsername and privateKey for hostbased user authentication</p>
-</li>
-<li>
-<p>localUsername - along with localHostname and privateKey for hostbased user authentication</p>
-</li>
-<li>
-<p>keepaliveInterval - how often (in milliseconds) to send SSH-level keepalive packets
-to the server (default: 0 to disable)</p>
-</li>
-<li>
-<p>keepaliveCountMax - how many consecutive, unanswered SSH-level keepalive packets that can
-be sent to the server before disconnection (default: 3)</p>
-</li>
-<li>
-<p>readyTimeout - how long (in milliseconds) to wait for the SSH handshake to complete
-(default: 20000)</p>
-</li>
-<li>
-<p>strictVendor - performs a strict server vendor check before sending vendor-specific
-requests, etc. (default: true)</p>
-</li>
-<li>
-<p>algorithms - this option allows you to explicitly override the default transport
+<li><code>host</code> - define the host to bind the tunnel to as hostname or ip address</li>
+<li><code>port</code> - the ssh port on the above host (default: 22)</li>
+<li><code>forceIPv4</code> - set to <code>true</code> to only use resolved IPv4 address for host (default: false)</li>
+<li><code>forceIPv6</code> - set to <code>true</code> to only use resolved IPv6 address for host (default: false)</li>
+<li><code>username</code> - the user under which to connect (default: <your username>)</li>
+<li><code>passphrase</code> - password for the above user (or privateKey)</li>
+<li><code>privateKey</code> - private key, content to use (default: <use keys from ssh dir>)</li>
+<li><code>localHostname</code> - along with localUsername and privateKey for hostbased user authentication</li>
+<li><code>localUsername</code> - along with localHostname and privateKey for hostbased user authentication</li>
+<li><code>keepaliveInterval</code> - how often (in milliseconds) to send SSH-level keepalive packets
+to the server (default: 0 to disable)</li>
+<li><code>keepaliveCountMax</code> - how many consecutive, unanswered SSH-level keepalive packets that can
+be sent to the server before disconnection (default: 3)</li>
+<li><code>readyTimeout</code> - how long (in milliseconds) to wait for the SSH handshake to complete
+(default: 20000)</li>
+<li><code>strictVendor</code> - performs a strict server vendor check before sending vendor-specific
+requests, etc. (default: true)</li>
+<li><code>algorithms</code> - this option allows you to explicitly override the default transport
 layer algorithms used for the connection. The order of the algorithms in the arrays
-are important, with the most favorable being first.</p>
+are important, with the most favorable being first.
 <ul>
-<li>kex - (array) Key exchange algorithms</li>
-<li>cipher - (array) Ciphers</li>
-<li>serverHostKey - (array) Server host key formats</li>
-<li>hmac - (array) (H)MAC algorithms</li>
-<li>compress - (array) Compression algorithms</li>
+<li><code>kex</code> - (array) Key exchange algorithms</li>
+<li><code>cipher</code> - (array) Ciphers</li>
+<li><code>serverHostKey</code> - (array) Server host key formats</li>
+<li><code>hmac</code> - (array) (H)MAC algorithms</li>
+<li><code>compress</code> - (array) Compression algorithms</li>
 </ul>
 </li>
-<li>
-<p>compress - set to <code>true</code> to enable compression if server supports it, <code>'force'</code> to
+<li><code>compress</code> - set to <code>true</code> to enable compression if server supports it, <code>'force'</code> to
 force compression (disconnecting if server does not support it), or <code>false</code> to explicitly
-opt out of compression all of the time. (only possible if no algorithms defined)</p>
-</li>
-<li>
-<p>debug - also log detailed debug messages if <code>DEBUG=sshtunnel:debug</code> is set as
-environment variable (default: false)</p>
-</li>
+opt out of compression all of the time. (only possible if no algorithms defined)</li>
+<li><code>debug</code> - also log detailed debug messages if <code>DEBUG=sshtunnel:debug</code> is set as
+environment variable (default: false)</li>
 </ul>
 <p>For a simple tunnel you also have to define which connection you want to tunnel
 in setting <code>tunnel</code>:</p>
 <ul>
-<li>host - hostname or ip address which to tunnel</li>
-<li>port - port to tunnel</li>
-<li>localhost - local ip where the tunnel will be setup (default: 127.0.0.1)</li>
-<li>localPort - local port to bind to the tunnel (default: 8000)</li>
+<li><code>host</code> - hostname or ip address which to tunnel</li>
+<li><code>port</code> - port to tunnel</li>
+<li><code>localhost</code> - local ip where the tunnel will be setup (default: 127.0.0.1)</li>
+<li><code>localPort</code> - local port to bind to the tunnel (default: 8000)</li>
 </ul>
 <div class="pilwrap" id="license">
   <h2>
