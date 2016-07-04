@@ -27,7 +27,6 @@ describe "sshtunnel", ->
         ssh:
           host: 'a-nonexistent-host.anywhere'
           port: 22
-          username: 'root'
         tunnel:
           host: '127.0.0.1'
           port: 80

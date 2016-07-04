@@ -16,6 +16,8 @@ async = require 'async'
 net = require 'net'
 ssh = require 'ssh2'
 portfinder = require 'portfinder'
+exec = require('child_process').exec
+path = require 'path'
 # include alinex modules
 util = require 'alinex-util'
 
@@ -23,32 +25,53 @@ util = require 'alinex-util'
 # -------------------------------------------------
 module.exports = (setup, cb) ->
   debug chalk.grey "init tunnel..."
-  # open ssh connection
-  connect setup.ssh, (err, conn) ->
+  # add setup defaults
+  optimize setup, (err, setup) ->
     return cb err if err
-    # reopen already setup tunnels
-    async.each Object.keys(conn.tunnel), (tunnel, cb) ->
-      spec = util.extend 'MODE CLONE', setup.tunel,
-        localHost: tunnel.setup.host
-        localPort: tunnel.setup.port
-      forward conn, spec, cb
-    , (err) ->
+    # open ssh connection
+    connect setup.ssh, (err, conn) ->
       return cb err if err
-      if setup.tunnel?.host and setup.tunnel?.port
-        # open new tunnel
-        forward conn, setup.tunnel, (err, tunnel) ->
-          return cb err if err
-          cb null, tunnel
-      else
-        # open SOCKSv5 proxy
-        proxy conn, setup.tunnel, (err, tunnel) ->
-          return cb err if err
-          cb null, tunnel
+      # reopen already setup tunnels
+      async.each Object.keys(conn.tunnel), (tunnel, cb) ->
+        spec = util.extend 'MODE CLONE', setup.tunel,
+          localHost: tunnel.setup.host
+          localPort: tunnel.setup.port
+        forward conn, spec, cb
+      , (err) ->
+        return cb err if err
+        if setup.tunnel?.host and setup.tunnel?.port
+          # open new tunnel
+          forward conn, setup.tunnel, (err, tunnel) ->
+            return cb err if err
+            cb null, tunnel
+        else
+          # open SOCKSv5 proxy
+          proxy conn, setup.tunnel, (err, tunnel) ->
+            return cb err if err
+            cb null, tunnel
+
 # map of ssh connections
 connections = {}
 
 # Helper methods
 # -------------------------------------------------
+
+optimize = (setup, cb) ->
+  async.parallel [
+    (cb) ->
+      return cb() if setup.ssh.username
+      if process.env.USERPROFILE
+        setup.ssh.username = process.env.USERPROFILE.split(path.sep)[2]
+        return cb()
+      setup.ssh.username = process.env.USER ? process.env.USERNAME
+      return cb() if setup.ssh.username
+      exec 'whoami',
+        encoding: 'utf8'
+      , (err, name) ->
+        setup.ssh.username = name?.trim()
+        cb err
+  ], (err) ->
+    cb err, setup
 
 # ### open ssh connection
 connect = util.function.onceTime (setup, cb) ->
