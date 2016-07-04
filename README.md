@@ -52,7 +52,9 @@ Usage
 -------------------------------------------------
 This module has a very simple API, you can do two things:
 
-First you can open a tunnel:
+### Simple forward tunnel
+
+You can open a tunnel with:
 
 ``` coffee
 sshtunnel = require 'alinex-sshtunnel'
@@ -88,6 +90,8 @@ close all tunnels with:
 sshtunnel.close()
 ```
 
+### Dynamic SOCKSv5 Proxy
+
 The following script shows how to make a dynamic 1:1 proxy using SOCKSv5. It's
 nearly the same, only the tunnel host and port are missing (the tunnel group
 may also be removed completely):
@@ -106,9 +110,6 @@ sshtunnel
     #readyTimeout: 20000
     keepaliveInterval: 1000
     #debug: true
-#  tunnel:
-#    localhost: '127.0.0.1'
-#    localPort: 8080
 , (err, tunnel) ->
     console.log "tunnel opened at #{tunnel.setup.host}:#{tunnel.setup.port}"
     # wait 10 seconds, then close the tunnel
@@ -116,6 +117,67 @@ sshtunnel
       tunnel.end()
     , 10000
 ```
+
+### Debugging
+
+If you have any problems with the tunnel you may always run it with debugging by
+only setting the `DEBUG` environment variable like:
+
+``` coffee
+DEBUG=sshtunnel* myprog-usingsshtunnel
+```
+
+To get even more information you may also set the `debug` flag to `true` in the
+setup of your ssh tunnel.
+
+
+Setup
+-------------------------------------------------
+
+Like shown above you may use several settings to specify your tunneling.
+
+The `ssh` connection setup:
+
+- host - define the host to bind the tunnel to as hostname or ip address
+- port - the ssh port on the above host (default: 22)
+- forceIPv4 - set to `true` to only use resolved IPv4 address for host (default: false)
+- forceIPv6 - set to `true` to only use resolved IPv6 address for host (default: false)
+- username - the user under which to connect (default: <your username>)
+- passphrase - password for the above user (or privateKey)
+- privateKey - private key, content to use (default: <use keys from ssh dir>)
+- localHostname - along with localUsername and privateKey for hostbased user authentication
+- localUsername - along with localHostname and privateKey for hostbased user authentication
+- keepaliveInterval - how often (in milliseconds) to send SSH-level keepalive packets
+  to the server (default: 0 to disable)
+- keepaliveCountMax - how many consecutive, unanswered SSH-level keepalive packets that can
+  be sent to the server before disconnection (default: 3)
+- readyTimeout - how long (in milliseconds) to wait for the SSH handshake to complete
+  (default: 20000)
+- strictVendor - performs a strict server vendor check before sending vendor-specific
+  requests, etc. (default: true)
+
+- algorithms - this option allows you to explicitly override the default transport
+  layer algorithms used for the connection. The order of the algorithms in the arrays
+  are important, with the most favorable being first.
+  - kex - (array) Key exchange algorithms
+  - cipher - (array) Ciphers
+  - serverHostKey - (array) Server host key formats
+  - hmac - (array) (H)MAC algorithms
+  - compress - (array) Compression algorithms
+
+- compress - set to `true` to enable compression if server supports it, `'force'` to
+  force compression (disconnecting if server does not support it), or `false` to explicitly
+  opt out of compression all of the time. (only possible if no algorithms defined)
+- debug - also log detailed debug messages if `DEBUG=sshtunnel:debug` is set as
+  environment variable (default: false)
+
+For a simple tunnel you also have to define which connection you want to tunnel
+in setting `tunnel`:
+
+- host - hostname or ip address which to tunnel
+- port - port to tunnel
+- localhost - local ip where the tunnel will be setup (default: 127.0.0.1)
+- localPort - local port to bind to the tunnel (default: 8000)
 
 
 License
