@@ -33,7 +33,7 @@
     "lib": "./lib"
   },
   "dependencies": {
-    "alinex-util": "^2.1.0",
+    "alinex-util": "^2.3.1",
     "async": "^2.0.0-rc.3",
     "chalk": "^1.1.3",
     "debug": "^2.2.0",
@@ -42,8 +42,8 @@
     "ssh2": "^0.5.0"
   },
   "devDependencies": {
-    "alinex-builder": "^2.0.4",
-    "alinex-exec": "^1.1.1",
+    "alinex-builder": "^2.1.13",
+    "alinex-exec": "^1.1.3",
     "chai": "^3.5.0"
   },
   "optionalDependencies": {},
