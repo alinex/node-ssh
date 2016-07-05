@@ -94,6 +94,26 @@ describe "sshtunnel", ->
         tunnel.close()
         setTimeout cb, 100
 
+    it "should open/close tunnel (multiple tries)", (cb) ->
+      sshtunnel
+        ssh: [
+          host: 'localhost'
+          port: 22
+          username: 'alex'
+          password: 'thisiswroong'
+        ,
+          ssh
+        ]
+        tunnel:
+          host: '172.30.22.241'
+          port: 80
+          #localPort: 8080
+      , (err, tunnel) ->
+        expect(err, 'tunnel error').to.not.exist
+        expect(tunnel, 'tunnel').to.exist
+        tunnel.close()
+        setTimeout cb, 100
+
     it  "should connect socket through tunnel", (cb) ->
       sshtunnel
         ssh: ssh
