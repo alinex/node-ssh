@@ -75,6 +75,9 @@ sshtunnel
     port: 80
     #localhost: '127.0.0.1'
     #localPort: 8080
+  retry:
+    times: 3
+    intervall: 200
 , (err, tunnel) ->
     console.log "tunnel opened at #{tunnel.setup.host}:#{tunnel.setup.port}"
     # wait 10 seconds, then close the tunnel
@@ -179,6 +182,13 @@ in setting `tunnel`:
 - `port` - port to tunnel
 - `localhost` - local ip where the tunnel will be setup (default: 127.0.0.1)
 - `localPort` - local port to bind to the tunnel (default: 8000)
+
+And finally to make connecting more robust you may add a retry setting which will
+lead to a retry on problems while connecting. Short network problems won't make a
+problem here (using `retry`):
+
+- `times` - number of times to try to connect
+- `intervall` - intervall to wait (in milliseconds) between tries
 
 
 License

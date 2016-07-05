@@ -30,6 +30,8 @@ describe "sshtunnel", ->
         tunnel:
           host: '127.0.0.1'
           port: 80
+        retry:
+          times: 3
       , (err) ->
         debug err.message
         expect(err, 'tunnel error').to.exist
