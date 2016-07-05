@@ -18,6 +18,7 @@ ssh = require 'ssh2'
 portfinder = require 'portfinder'
 exec = require('child_process').exec
 path = require 'path'
+fs = require 'fs'
 # include alinex modules
 util = require 'alinex-util'
 
@@ -81,6 +82,21 @@ optimize = (setup, cb) ->
         , (err, name) ->
           entry.username = name?.trim()
           cb err
+      (cb) ->
+        return cb() if entry.passphrase or entry.privateKey
+        home = if process.platform is 'win32' then 'USERPROFILE' else 'HOME'
+        dir = "#{process.env[home]}/.ssh"
+        # search for ssh keys
+        fs.readdir dir, (err, files) ->
+          return cb() if err or not files.length
+          async.each files, (file, cb) ->
+            fs.readFile "#{dir}/#{file}", 'utf8', (err, content) ->
+              return cb() if err
+              return cb() unless content.match /-----BEGIN .*? PRIVATE KEY-----/
+              setup.ssh.push util.extend util.clone(entry),
+                privateKey: content
+              cb()
+          , cb
     ], cb
   , (err) ->
     cb err, setup
@@ -112,7 +128,7 @@ connect = util.function.onceTime (setup, cb) ->
   conn.on 'end', ->
     debug chalk.grey "#{conn.name}: ssh client closing"
     for tunnel of conn.tunnel
-      tunnel.end()
+      tunnel.end?()
     delete connections[name]
   # start connection
   conn.connect util.extend util.clone(setup),

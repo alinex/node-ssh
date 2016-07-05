@@ -144,7 +144,7 @@ The `ssh` connection setup:
 - `forceIPv6` - set to `true` to only use resolved IPv6 address for host (default: false)
 - `username` - the user under which to connect (default: <your username>)
 - `passphrase` - password for the above user (or privateKey)
-- `privateKey` - private key, content to use (default: <use keys from ssh dir>)
+- `privateKey` - private key, content to use (default: <use keys from .ssh dir>)
 - `localHostname` - along with localUsername and privateKey for hostbased user authentication
 - `localUsername` - along with localHostname and privateKey for hostbased user authentication
 - `keepaliveInterval` - how often (in milliseconds) to send SSH-level keepalive packets

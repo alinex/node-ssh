@@ -114,6 +114,22 @@ describe "sshtunnel", ->
         tunnel.close()
         setTimeout cb, 100
 
+    it "should open/close tunnel (with autodetect key)", (cb) ->
+      sshtunnel
+        ssh:
+          host: '85.25.98.25'
+          port: 22
+          username: 'root'
+        tunnel:
+          host: '172.30.22.241'
+          port: 80
+          #localPort: 8080
+      , (err, tunnel) ->
+        expect(err, 'tunnel error').to.not.exist
+        expect(tunnel, 'tunnel').to.exist
+        tunnel.close()
+        setTimeout cb, 100
+
     it  "should connect socket through tunnel", (cb) ->
       sshtunnel
         ssh: ssh
