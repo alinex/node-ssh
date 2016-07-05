@@ -49,7 +49,22 @@ describe "sshtunnel", ->
         expect(err, 'tunnel error').to.exist
         cb()
 
-    it "should fail on wrong authentication", (cb) ->
+    it "should fail on wrong password", (cb) ->
+      sshtunnel
+        ssh:
+          host: 'localhost'
+          port: 22
+          username: 'alex'
+          password: 'thisiswroong'
+        tunnel:
+          host: '127.0.0.1'
+          port: 80
+      , (err) ->
+        debug err.message
+        expect(err, 'tunnel error').to.exist
+        cb()
+
+    it "should fail on wrong privateKey", (cb) ->
       sshtunnel
         ssh:
           host: 'localhost'
@@ -97,7 +112,7 @@ describe "sshtunnel", ->
           expect(err, 'ping error').to.not.exist
           setTimeout cb, 300
 
-  describe.skip "socksv5 proxy", ->
+  describe "socksv5 proxy", ->
 
     it "should open/close tunnel", (cb) ->
       sshtunnel

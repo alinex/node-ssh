@@ -29,11 +29,20 @@ module.exports = (setup, cb) ->
   optimize setup, (err, setup) ->
     return cb err if err
     # open ssh connection
-    connect setup.ssh, (err, conn) ->
-      return cb err if err
+    problems = []
+    async.mapSeries setup.ssh, (entry, cb) ->
+      # try each connection setting till one works
+      connect entry, (err, conn) ->
+        problems.push err.message if err
+        return cb() unless conn
+        cb 'STOP', conn
+    , (_, result) ->
+      # the last entry should be a connection
+      conn = result.pop()
+      return cb new Error "Connecting to server impossible!\n" + problems.join '\n' unless conn
       # reopen already setup tunnels
       async.each Object.keys(conn.tunnel), (tunnel, cb) ->
-        spec = util.extend 'MODE CLONE', setup.tunel,
+        spec = util.extend 'MODE CLONE', setup.tunnel,
           localHost: tunnel.setup.host
           localPort: tunnel.setup.port
         forward conn, spec, cb
@@ -57,20 +66,23 @@ connections = {}
 # -------------------------------------------------
 
 optimize = (setup, cb) ->
-  async.parallel [
-    (cb) ->
-      return cb() if setup.ssh.username
-      if process.env.USERPROFILE
-        setup.ssh.username = process.env.USERPROFILE.split(path.sep)[2]
-        return cb()
-      setup.ssh.username = process.env.USER ? process.env.USERNAME
-      return cb() if setup.ssh.username
-      exec 'whoami',
-        encoding: 'utf8'
-      , (err, name) ->
-        setup.ssh.username = name?.trim()
-        cb err
-  ], (err) ->
+  setup.ssh = [setup.ssh] unless Array.isArray setup.ssh
+  async.each setup.ssh, (entry, cb) ->
+    async.parallel [
+      (cb) ->
+        return cb() if entry.username
+        if process.env.USERPROFILE
+          entry.username = process.env.USERPROFILE.split(path.sep)[2]
+          return cb()
+        entry.username = process.env.USER ? process.env.USERNAME
+        return cb() if entry.username
+        exec 'whoami',
+          encoding: 'utf8'
+        , (err, name) ->
+          entry.username = name?.trim()
+          cb err
+    ], cb
+  , (err) ->
     cb err, setup
 
 # ### open ssh connection
@@ -98,9 +110,9 @@ connect = util.function.onceTime (setup, cb) ->
 #        debugDebug chalk.grey msg
   conn.on 'end', ->
     debug chalk.grey "ssh client closing"
-    delete connections[name]
     for tunnel of conn.tunnel
       tunnel.end()
+    delete connections[name]
   # start connection
   conn.connect util.extend util.clone(setup),
     debug: unless setup.debug then null else (msg) ->

@@ -169,6 +169,9 @@ The `ssh` connection setup:
 - `debug` - also log detailed debug messages if `DEBUG=sshtunnel:debug` is set as
   environment variable (default: false)
 
+> You may also provide an Array for the `ssh` setting. The module will try each server
+> setup in order to get a working connection and uses the first one succeding.
+
 For a simple tunnel you also have to define which connection you want to tunnel
 in setting `tunnel`:
 
