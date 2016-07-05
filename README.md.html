@@ -153,6 +153,9 @@ sshtunnel
     port: <span class="hljs-number">80</span>
     <span class="hljs-comment">#localhost: '127.0.0.1'</span>
     <span class="hljs-comment">#localPort: 8080</span>
+  retry:
+    times: <span class="hljs-number">3</span>
+    intervall: <span class="hljs-number">200</span>
 , <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span>
     <span class="hljs-built_in">console</span>.log <span class="hljs-string">"tunnel opened at <span class="hljs-subst">#{tunnel.setup.host}</span>:<span class="hljs-subst">#{tunnel.setup.port}</span>"</span>
     <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span>
@@ -220,7 +223,7 @@ Setup
 <li><code>forceIPv6</code> - set to <code>true</code> to only use resolved IPv6 address for host (default: false)</li>
 <li><code>username</code> - the user under which to connect (default: <your username>)</li>
 <li><code>passphrase</code> - password for the above user (or privateKey)</li>
-<li><code>privateKey</code> - private key, content to use (default: <use keys from ssh dir>)</li>
+<li><code>privateKey</code> - private key, content to use (default: &lt;use keys from .ssh dir&gt;)</li>
 <li><code>localHostname</code> - along with localUsername and privateKey for hostbased user authentication</li>
 <li><code>localUsername</code> - along with localHostname and privateKey for hostbased user authentication</li>
 <li><code>keepaliveInterval</code> - how often (in milliseconds) to send SSH-level keepalive packets
@@ -248,6 +251,10 @@ opt out of compression all of the time. (only possible if no algorithms defined)
 <li><code>debug</code> - also log detailed debug messages if <code>DEBUG=sshtunnel:debug</code> is set as
 environment variable (default: false)</li>
 </ul>
+<blockquote>
+<p>You may also provide an Array for the <code>ssh</code> setting. The module will try each server
+setup in order to get a working connection and uses the first one succeding.</p>
+</blockquote>
 <p>For a simple tunnel you also have to define which connection you want to tunnel
 in setting <code>tunnel</code>:</p>
 <ul>
@@ -255,6 +262,13 @@ in setting <code>tunnel</code>:</p>
 <li><code>port</code> - port to tunnel</li>
 <li><code>localhost</code> - local ip where the tunnel will be setup (default: 127.0.0.1)</li>
 <li><code>localPort</code> - local port to bind to the tunnel (default: 8000)</li>
+</ul>
+<p>And finally to make connecting more robust you may add a retry setting which will
+lead to a retry on problems while connecting. Short network problems won't make a
+problem here (using <code>retry</code>):</p>
+<ul>
+<li><code>times</code> - number of times to try to connect</li>
+<li><code>intervall</code> - intervall to wait (in milliseconds) between tries</li>
 </ul>
 <div class="pilwrap" id="license">
   <h2>

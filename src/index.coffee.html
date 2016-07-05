@@ -139,7 +139,8 @@ net = <span class="hljs-built_in">require</span> <span class="hljs-string">'net'
 ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'ssh2'</span>
 portfinder = <span class="hljs-built_in">require</span> <span class="hljs-string">'portfinder'</span>
 exec = <span class="hljs-built_in">require</span>(<span class="hljs-string">'child_process'</span>).exec
-path = <span class="hljs-built_in">require</span> <span class="hljs-string">'path'</span></pre>
+path = <span class="hljs-built_in">require</span> <span class="hljs-string">'path'</span>
+fs = <span class="hljs-built_in">require</span> <span class="hljs-string">'fs'</span></pre>
         </td>
       </tr>
     
@@ -195,8 +196,12 @@ Control tunnel creation
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">    connect setup.ssh, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span>
-      <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err</pre>
+          <pre class="coffeescript">    async.retry
+      times: setup.retry?.times ? <span class="hljs-number">1</span>
+      interval: setup.retry?.intervall ? <span class="hljs-number">200</span>
+    , <span class="hljs-function"><span class="hljs-params">(cb)</span> -&gt;</span>
+      problems = []
+      async.mapSeries setup.ssh, <span class="hljs-function"><span class="hljs-params">(entry, cb)</span> -&gt;</span></pre>
         </td>
       </tr>
     
@@ -205,12 +210,46 @@ Control tunnel creation
           <div class="pilwrap">
   <a class="pilcrow" href="#section-8" id="section-8"></a>
 </div>
+<p>try each connection setting till one works</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">        connect entry, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span>
+          problems.push err.message <span class="hljs-keyword">if</span> err
+          <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">unless</span> conn
+          cb <span class="hljs-string">'STOP'</span>, conn
+      , <span class="hljs-function"><span class="hljs-params">(_, result)</span> -&gt;</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-9" id="section-9"></a>
+</div>
+<p>the last entry should be a connection</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">        conn = result.pop()
+        <span class="hljs-keyword">return</span> cb <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Connecting to server impossible!\n"</span> + problems.join <span class="hljs-string">'\n'</span> <span class="hljs-keyword">unless</span> conn
+        cb <span class="hljs-literal">null</span>, conn
+    , <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10"></a>
+</div>
 <p>reopen already setup tunnels</p>
 
         </td>
         <td class="code highlight">
           <pre class="coffeescript">      async.each Object.keys(conn.tunnel), <span class="hljs-function"><span class="hljs-params">(tunnel, cb)</span> -&gt;</span>
-        spec = util.extend <span class="hljs-string">'MODE CLONE'</span>, setup.tunel,
+        spec = util.extend <span class="hljs-string">'MODE CLONE'</span>, setup.tunnel,
           localHost: tunnel.setup.host
           localPort: tunnel.setup.port
         forward conn, spec, cb
@@ -223,7 +262,7 @@ Control tunnel creation
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-9" id="section-9"></a>
+  <a class="pilcrow" href="#section-11" id="section-11"></a>
 </div>
 <p>open new tunnel</p>
 
@@ -239,7 +278,7 @@ Control tunnel creation
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-10" id="section-10"></a>
+  <a class="pilcrow" href="#section-12" id="section-12"></a>
 </div>
 <p>open SOCKSv5 proxy</p>
 
@@ -254,7 +293,7 @@ Control tunnel creation
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-11" id="section-11"></a>
+  <a class="pilcrow" href="#section-13" id="section-13"></a>
 </div>
 <p>map of ssh connections</p>
 
@@ -277,20 +316,49 @@ Helper methods
         <td class="code highlight">
           <pre class="coffeescript"><span class="hljs-function">
 <span class="hljs-title">optimize</span> = <span class="hljs-params">(setup, cb)</span> -&gt;</span>
-  async.parallel [
-    (cb) -&gt;
-      <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">if</span> setup.ssh.username
-      <span class="hljs-keyword">if</span> process.env.USERPROFILE
-        setup.ssh.username = process.env.USERPROFILE.split(path.sep)[<span class="hljs-number">2</span>]
-        <span class="hljs-keyword">return</span> cb()
-      setup.ssh.username = process.env.USER ? process.env.USERNAME
-      <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">if</span> setup.ssh.username
-      exec <span class="hljs-string">'whoami'</span>,
-        encoding: <span class="hljs-string">'utf8'</span>
-      , <span class="hljs-function"><span class="hljs-params">(err, name)</span> -&gt;</span>
-        setup.ssh.username = name?.trim()
-        cb err
-  ], <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+  setup.ssh = [setup.ssh] <span class="hljs-keyword">unless</span> Array.isArray setup.ssh
+  async.each setup.ssh, <span class="hljs-function"><span class="hljs-params">(entry, cb)</span> -&gt;</span>
+    async.parallel [
+      (cb) -&gt;
+        <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">if</span> entry.username
+        <span class="hljs-keyword">if</span> process.env.USERPROFILE
+          entry.username = process.env.USERPROFILE.split(path.sep)[<span class="hljs-number">2</span>]
+          <span class="hljs-keyword">return</span> cb()
+        entry.username = process.env.USER ? process.env.USERNAME
+        <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">if</span> entry.username
+        exec <span class="hljs-string">'whoami'</span>,
+          encoding: <span class="hljs-string">'utf8'</span>
+        , <span class="hljs-function"><span class="hljs-params">(err, name)</span> -&gt;</span>
+          entry.username = name?.trim()
+          cb err
+      (cb) -&gt;
+        <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">if</span> entry.passphrase <span class="hljs-keyword">or</span> entry.privateKey
+        home = <span class="hljs-keyword">if</span> process.platform <span class="hljs-keyword">is</span> <span class="hljs-string">'win32'</span> <span class="hljs-keyword">then</span> <span class="hljs-string">'USERPROFILE'</span> <span class="hljs-keyword">else</span> <span class="hljs-string">'HOME'</span>
+        dir = <span class="hljs-string">"<span class="hljs-subst">#{process.env[home]}</span>/.ssh"</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-15" id="section-15"></a>
+</div>
+<p>search for ssh keys</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">        fs.readdir dir, <span class="hljs-function"><span class="hljs-params">(err, files)</span> -&gt;</span>
+          <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">if</span> err <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> files.length
+          async.each files, <span class="hljs-function"><span class="hljs-params">(file, cb)</span> -&gt;</span>
+            fs.readFile <span class="hljs-string">"<span class="hljs-subst">#{dir}</span>/<span class="hljs-subst">#{file}</span>"</span>, <span class="hljs-string">'utf8'</span>, <span class="hljs-function"><span class="hljs-params">(err, content)</span> -&gt;</span>
+              <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">if</span> err
+              <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">unless</span> content.match <span class="hljs-regexp">/-----BEGIN .*? PRIVATE KEY-----/</span>
+              setup.ssh.push util.extend util.clone(entry),
+                privateKey: content
+              cb()
+          , cb
+    ], cb
+  , <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
     cb err, setup</pre>
         </td>
       </tr>
@@ -315,7 +383,7 @@ open ssh connection
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-14" id="section-14"></a>
+  <a class="pilcrow" href="#section-17" id="section-17"></a>
 </div>
 <p>open new ssh</p>
 
@@ -323,15 +391,16 @@ open ssh connection
         <td class="code highlight">
           <pre class="coffeescript">  debug chalk.grey <span class="hljs-string">"establish new ssh connection to <span class="hljs-subst">#{name}</span>"</span>
   conn = <span class="hljs-keyword">new</span> ssh.Client()
+  conn.name = name
   conn.<span class="hljs-literal">on</span> <span class="hljs-string">'ready'</span>, <span class="hljs-function">-&gt;</span>
-    debug chalk.grey <span class="hljs-string">"ssh client ready"</span></pre>
+    debug chalk.grey <span class="hljs-string">"<span class="hljs-subst">#{conn.name}</span>: ssh client ready"</span></pre>
         </td>
       </tr>
     
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-15" id="section-15"></a>
+  <a class="pilcrow" href="#section-18" id="section-18"></a>
 </div>
 <p>store connection</p>
 
@@ -343,7 +412,7 @@ open ssh connection
   conn.<span class="hljs-literal">on</span> <span class="hljs-string">'banner'</span>, <span class="hljs-function"><span class="hljs-params">(msg)</span> -&gt;</span>
     debug chalk.yellow msg
   conn.<span class="hljs-literal">on</span> <span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
-    debug chalk.magenta <span class="hljs-string">"got error: <span class="hljs-subst">#{err.message}</span>"</span>
+    debug chalk.magenta <span class="hljs-string">"<span class="hljs-subst">#{conn.name}</span>: got error: <span class="hljs-subst">#{err.message}</span>"</span>
     conn.end()
     cb err</pre>
         </td>
@@ -352,7 +421,7 @@ open ssh connection
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-16" id="section-16"></a>
+  <a class="pilcrow" href="#section-19" id="section-19"></a>
 </div>
 <p>debug &quot;reconnect ssh connection to #{name}&quot;
 conn.connect util.extend util.clone(setup),
@@ -362,17 +431,17 @@ debugDebug chalk.grey msg</p>
         </td>
         <td class="code highlight">
           <pre class="coffeescript">  conn.<span class="hljs-literal">on</span> <span class="hljs-string">'end'</span>, <span class="hljs-function">-&gt;</span>
-    debug chalk.grey <span class="hljs-string">"ssh client closing"</span>
-    <span class="hljs-keyword">delete</span> connections[name]
+    debug chalk.grey <span class="hljs-string">"<span class="hljs-subst">#{conn.name}</span>: ssh client closing"</span>
     <span class="hljs-keyword">for</span> tunnel <span class="hljs-keyword">of</span> conn.tunnel
-      tunnel.end()</pre>
+      tunnel.end?()
+    <span class="hljs-keyword">delete</span> connections[name]</pre>
         </td>
       </tr>
     
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-17" id="section-17"></a>
+  <a class="pilcrow" href="#section-20" id="section-20"></a>
 </div>
 <p>start connection</p>
 
@@ -422,18 +491,31 @@ open outgoin tunnel
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-20" id="section-20"></a>
+  <a class="pilcrow" href="#section-23" id="section-23"></a>
 </div>
 <p>make new tunnel</p>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">  debug <span class="hljs-string">"open new tunnel to <span class="hljs-subst">#{name}</span>"</span>
+          <pre class="coffeescript">  debug <span class="hljs-string">"<span class="hljs-subst">#{conn.name}</span>: open new tunnel to <span class="hljs-subst">#{name}</span>"</span>
   findPort setup, <span class="hljs-function"><span class="hljs-params">(err, setup)</span> -&gt;</span>
     <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
     setup.localHost ?= <span class="hljs-string">'127.0.0.1'</span>
-    debug chalk.grey <span class="hljs-string">"opening tunnel on local port <span class="hljs-subst">#{setup.localHost}</span>:<span class="hljs-subst">#{setup.localPort}</span>"</span>
-    tunnel = net.createServer (sock) -&gt;
+    debug chalk.grey <span class="hljs-string">"<span class="hljs-subst">#{conn.name}</span>: opening tunnel on local port
+</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-24" id="section-24"></a>
+</div>
+<p>{setup.localHost}:#{setup.localPort}&quot;</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    tunnel = net.createServer (sock) -&gt;
       conn.forwardOut sock.remoteAddress, sock.remotePort, setup.host, setup.port, <span class="hljs-function"><span class="hljs-params">(err, stream)</span> -&gt;</span>
         <span class="hljs-keyword">if</span> err
           <span class="hljs-keyword">return</span> tunnel.end()
@@ -445,7 +527,7 @@ open outgoin tunnel
       <span class="hljs-keyword">try</span>
         tunnel.close()
     tunnel.<span class="hljs-literal">on</span> <span class="hljs-string">'close'</span>, <span class="hljs-function">-&gt;</span>
-      debug <span class="hljs-string">"closing tunnel to <span class="hljs-subst">#{name}</span>"</span>
+      debug <span class="hljs-string">"<span class="hljs-subst">#{conn.name}</span>: closing tunnel to <span class="hljs-subst">#{name}</span>"</span>
       <span class="hljs-keyword">delete</span> conn.tunnel[name]
       <span class="hljs-keyword">unless</span> Object.keys(conn.tunnel).length
         conn.end()
@@ -459,7 +541,7 @@ open outgoin tunnel
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-21" id="section-21"></a>
+  <a class="pilcrow" href="#section-25" id="section-25"></a>
 </div>
 <p>return running tunnel</p>
 
@@ -491,18 +573,31 @@ open outgoin tunnel
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-23" id="section-23"></a>
+  <a class="pilcrow" href="#section-27" id="section-27"></a>
 </div>
 <p>make new tunnel</p>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">  debug <span class="hljs-string">"open new tunnel to <span class="hljs-subst">#{name}</span>"</span>
+          <pre class="coffeescript">  debug <span class="hljs-string">"<span class="hljs-subst">#{conn.name}</span>: open new tunnel to <span class="hljs-subst">#{name}</span>"</span>
   findPort setup, <span class="hljs-function"><span class="hljs-params">(err, setup)</span> -&gt;</span>
     <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
     setup.localHost ?= <span class="hljs-string">'127.0.0.1'</span>
-    debug chalk.grey <span class="hljs-string">"opening tunnel on local port <span class="hljs-subst">#{setup.localHost}</span>:<span class="hljs-subst">#{setup.localPort}</span>"</span>
-    tunnel = socks.createServer (info, accept) -&gt;
+    debug chalk.grey <span class="hljs-string">"<span class="hljs-subst">#{conn.name}</span>: opening tunnel on local port
+</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-28" id="section-28"></a>
+</div>
+<p>{setup.localHost}:#{setup.localPort}&quot;</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    tunnel = socks.createServer (info, accept) -&gt;
       conn.forwardOut info.srcAddr, info.srcPort, info.dstAddr, info.dstPort, <span class="hljs-function"><span class="hljs-params">(err, stream)</span> -&gt;</span>
         <span class="hljs-keyword">if</span> err
           <span class="hljs-keyword">return</span> tunnel.end()
@@ -517,7 +612,7 @@ open outgoin tunnel
       <span class="hljs-keyword">try</span>
         tunnel.close()
     tunnel.<span class="hljs-literal">on</span> <span class="hljs-string">'close'</span>, <span class="hljs-function">-&gt;</span>
-      debug <span class="hljs-string">"closing tunnel to <span class="hljs-subst">#{name}</span>"</span>
+      debug <span class="hljs-string">"<span class="hljs-subst">#{conn.name}</span>: closing tunnel to <span class="hljs-subst">#{name}</span>"</span>
       <span class="hljs-keyword">delete</span> conn.tunnel[name]
       <span class="hljs-keyword">unless</span> Object.keys(conn.tunnel).length
         conn.end()
@@ -531,7 +626,7 @@ open outgoin tunnel
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-24" id="section-24"></a>
+  <a class="pilcrow" href="#section-29" id="section-29"></a>
 </div>
 <p>return running tunnel</p>
 
