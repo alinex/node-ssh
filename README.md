@@ -58,7 +58,7 @@ You can open a tunnel with:
 
 ``` coffee
 sshtunnel = require 'alinex-sshtunnel'
-sshtunnel
+sshtunnel.open
   ssh:
     host: '65.25.98.25'
     port:  22
@@ -101,7 +101,7 @@ may also be removed completely):
 
 ``` coffee
 sshtunnel = require 'alinex-sshtunnel'
-sshtunnel
+sshtunnel.open
   ssh:
     host: '65.25.98.25'
     port:  22
@@ -119,6 +119,17 @@ sshtunnel
     setTimeout ->
       tunnel.end()
     , 10000
+```
+
+### Configuration files
+
+To use configuration files you also need to setup and initialize this before using it:
+
+``` coffee
+sshtunnel = require 'alinex-sshtunnel'
+sshtunnel.setup (err) ->
+  sshtunnel.init (err) ->
+    # do your work
 ```
 
 ### Debugging
@@ -189,6 +200,16 @@ problem here (using `retry`):
 
 - `times` - number of times to try to connect
 - `intervall` - intervall to wait (in milliseconds) between tries
+
+### Configuration
+
+You may also put your configuration in external files using [config](http://alinex.github.io/node-config).
+
+    /ssh.yaml - contains named setup of ssh connections
+    /tunnel.yaml - set the tunnel configuration with name
+
+Both of them needs the above documented settings. Now you may put your settings
+outside of code with less effort.
 
 
 License

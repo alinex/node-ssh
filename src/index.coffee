@@ -21,51 +21,72 @@ path = require 'path'
 fs = require 'fs'
 # include alinex modules
 util = require 'alinex-util'
+config = require 'alinex-config'
+# internal helpers
+schema = require './configSchema'
+
+
+# set the modules config paths and validation schema
+exports.setup = setup = util.function.once this, (cb) ->
+  # add schema for module's configuration
+  config.setSchema '/ssh', schema.ssh, cb
+  config.setSchema '/tunnel', schema.tunnel, cb
+
+# set the modules config paths, validation schema and initialize the configuration
+exports.init = init = util.function.once this, (cb) ->
+  debug "initialize"
+  # set module search path
+  setup (err) ->
+    return cb err if err
+    config.init cb
+
 
 # Control tunnel creation
 # -------------------------------------------------
-module.exports = (setup, cb) ->
-  debug chalk.grey "init tunnel..."
-  # add setup defaults
-  optimize setup, (err, setup) ->
+exports.open = (setup, cb) ->
+  init (err) ->
     return cb err if err
-    # open ssh connection
-    async.retry
-      times: setup.retry?.times ? 1
-      interval: setup.retry?.intervall ? 200
-    , (cb) ->
-      problems = []
-      async.mapSeries setup.ssh, (entry, cb) ->
-        # try each connection setting till one works
-        connect entry, (err, conn) ->
-          problems.push err.message if err
-          return cb() unless conn
-          cb 'STOP', conn
-      , (_, result) ->
-        # the last entry should be a connection
-        conn = result.pop()
-        return cb new Error "Connecting to server impossible!\n" + problems.join '\n' unless conn
-        cb null, conn
-    , (err, conn) ->
+    debug chalk.grey "open tunnel..."
+    # add setup defaults
+    optimize setup, (err, setup) ->
       return cb err if err
-      # reopen already setup tunnels
-      async.each Object.keys(conn.tunnel), (tunnel, cb) ->
-        spec = util.extend 'MODE CLONE', setup.tunnel,
-          localHost: tunnel.setup.host
-          localPort: tunnel.setup.port
-        forward conn, spec, cb
-      , (err) ->
+      # open ssh connection
+      async.retry
+        times: setup.retry?.times ? 1
+        interval: setup.retry?.intervall ? 200
+      , (cb) ->
+        problems = []
+        async.mapSeries setup.ssh, (entry, cb) ->
+          # try each connection setting till one works
+          connect entry, (err, conn) ->
+            problems.push err.message if err
+            return cb() unless conn
+            cb 'STOP', conn
+        , (_, result) ->
+          # the last entry should be a connection
+          conn = result.pop()
+          return cb new Error "Connecting to server impossible!\n" + problems.join '\n' unless conn
+          cb null, conn
+      , (err, conn) ->
         return cb err if err
-        if setup.tunnel?.host and setup.tunnel?.port
-          # open new tunnel
-          forward conn, setup.tunnel, (err, tunnel) ->
-            return cb err if err
-            cb null, tunnel
-        else
-          # open SOCKSv5 proxy
-          proxy conn, setup.tunnel, (err, tunnel) ->
-            return cb err if err
-            cb null, tunnel
+        # reopen already setup tunnels
+        async.each Object.keys(conn.tunnel), (tunnel, cb) ->
+          spec = util.extend 'MODE CLONE', setup.tunnel,
+            localHost: tunnel.setup.host
+            localPort: tunnel.setup.port
+          forward conn, spec, cb
+        , (err) ->
+          return cb err if err
+          if setup.tunnel?.host and setup.tunnel?.port
+            # open new tunnel
+            forward conn, setup.tunnel, (err, tunnel) ->
+              return cb err if err
+              cb null, tunnel
+          else
+            # open SOCKSv5 proxy
+            proxy conn, setup.tunnel, (err, tunnel) ->
+              return cb err if err
+              cb null, tunnel
 
 # map of ssh connections
 connections = {}
@@ -74,6 +95,12 @@ connections = {}
 # -------------------------------------------------
 
 optimize = (setup, cb) ->
+  # use configuration
+  if typeof setup is 'string'
+    setup.ssh = config.get "/tunnel/#{setup}"
+  if typeof setup.ssh is 'string'
+    setup.ssh = config.get "/ssh/#{setup.ssh}"
+  # optimize settings with defaults
   setup.ssh = [setup.ssh] unless Array.isArray setup.ssh
   async.each setup.ssh, (entry, cb) ->
     async.parallel [
