@@ -29,8 +29,9 @@ schema = require './configSchema'
 # set the modules config paths and validation schema
 exports.setup = setup = util.function.once this, (cb) ->
   # add schema for module's configuration
-  config.setSchema '/ssh', schema.ssh, cb
-  config.setSchema '/tunnel', schema.tunnel, cb
+  config.setSchema '/ssh', schema.ssh, (err) ->
+    return cb err if err
+    config.setSchema '/tunnel', schema.tunnel, cb
 
 # set the modules config paths, validation schema and initialize the configuration
 exports.init = init = util.function.once this, (cb) ->
@@ -53,7 +54,7 @@ exports.open = (setup, cb) ->
       # open ssh connection
       async.retry
         times: setup.retry?.times ? 1
-        interval: setup.retry?.intervall ? 200
+        interval: setup.retry?.interval ? 200
       , (cb) ->
         problems = []
         async.mapSeries setup.ssh, (entry, cb) ->
@@ -117,7 +118,7 @@ optimize = (setup, cb) ->
           entry.username = name?.trim()
           cb err
       (cb) ->
-        return cb() if entry.passphrase or entry.privateKey
+        return cb() if entry.password or entry.privateKey
         home = if process.platform is 'win32' then 'USERPROFILE' else 'HOME'
         dir = "#{process.env[home]}/.ssh"
         # search for ssh keys

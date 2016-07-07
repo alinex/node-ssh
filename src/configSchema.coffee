@@ -6,10 +6,12 @@
 # SSH Settings
 # -------------------------------------------------
 exports.ssh = ssh =
-  title: "SSH Connection"
-  description: "a remote server for ssh tunneling"
+  title: "SSH Connection List"
+  description: "the list of possible ssh connections"
   type: 'object'
   entries: [
+    title: "SSH Connection"
+    description: "a ssh connection setting"
     type: 'array'
     toArray: true
     entries:
@@ -46,14 +48,19 @@ exports.ssh = ssh =
           description: "the username to use for the connection"
           type: 'string'
           optional: true
-        passphrase:
-          title: "Passphrase"
-          description: "the passphrase used to decrypt an encrypted private key"
+        password:
+          title: "Password"
+          description: "the password for user based authentication"
           type: 'string'
           optional: true
         privateKey:
           title: "Private Key"
           description: "the private key file to use for OpenSSH authentication"
+          type: 'string'
+          optional: true
+        passphrase:
+          title: "Passphrase"
+          description: "the passphrase used to decrypt an encrypted private key"
           type: 'string'
           optional: true
         localHostname:
@@ -124,60 +131,63 @@ exports.tunnel =
   title: "Tunnel Setup"
   description: "the setup of a ssh tunnel"
   type: 'object'
-  allowedKeys: true
-  mandatoryKeys: ['ssh']
-  keys:
-    ssh:
-      type: 'or'
-      or: [
-        type: 'string'
-        list: '<<<context:///ssh>>>'
-      , ssh
-      ]
-    tunnel:
-      title: "Tunnel"
-      description: "the connection to tunnel"
-      type: 'object'
-      allowedKeys: true
-      keys:
-        host:
-          title: "Host"
-          description: "the hostname or ip address which to tunnel"
-          type: 'or'
-          or: [
-            type: 'hostname'
-          ,
+  entries: [
+    type: 'object'
+    allowedKeys: true
+    mandatoryKeys: ['ssh']
+    keys:
+      ssh:
+        type: 'or'
+        or: [
+          type: 'string'
+          list: '<<<context:///ssh>>>'
+        , ssh
+        ]
+      tunnel:
+        title: "Tunnel"
+        description: "the connection to tunnel"
+        type: 'object'
+        allowedKeys: true
+        keys:
+          host:
+            title: "Host"
+            description: "the hostname or ip address which to tunnel"
+            type: 'or'
+            or: [
+              type: 'hostname'
+            ,
+              type: 'ipaddr'
+            ]
+          port:
+            title: "Port"
+            description: "port to tunnel"
+            type: 'port'
+          localhost:
+            title: "Local IP"
+            description: "the local ip where the tunnel will be setup"
             type: 'ipaddr'
-          ]
-        port:
-          title: "Port"
-          description: "port to tunnel"
-          type: 'port'
-        localhost:
-          title: "Local IP"
-          description: "the local ip where the tunnel will be setup"
-          type: 'ipaddr'
-          default: '127.0.0.1'
-        localPort:
-          title: "Local Port"
-          description: "the local port to bind to the tunnel"
-          type: 'port'
-          default: 8000
-      optional: true
-    retry:
-      type: 'object'
-      allowedKeys: true
-      keys:
-        times:
-          title: "Number of Tries"
-          description: "the number of times to try to connect"
-          type: 'integer'
-          min: 0
-          optional: true
-        intervall:
-          title: "Wait between Tries"
-          description: "the intervall to wait (in milliseconds) between tries"
-          type: 'intervall'
-          min: 0
-          optional: true
-      optional: true
+            default: '127.0.0.1'
+          localPort:
+            title: "Local Port"
+            description: "the local port to bind to the tunnel"
+            type: 'port'
+            default: 8000
+        optional: true
+      retry:
+        type: 'object'
+        allowedKeys: true
+        keys:
+          times:
+            title: "Number of Tries"
+            description: "the number of times to try to connect"
+            type: 'integer'
+            min: 0
+            optional: true
+          interval:
+            title: "Wait between Tries"
+            description: "the interval to wait (in milliseconds) between tries"
+            type: 'interval'
+            min: 0
+            optional: true
+        optional: true
+  ]

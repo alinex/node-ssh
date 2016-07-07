@@ -1,0 +1,8 @@
+# SSH Configuration
+# ===============================================================
+
+localhostHttp:
+  ssh: localhost
+  tunnel:
+    host: '127.0.0.1'
+    port: 80

@@ -17,10 +17,9 @@ This module enables you to open and control such tunnels from your script while
 they may be used also from external programs.
 
 - outgoing tunneling through SSH
-- using pooled ssh connections
-- pooling also for the tunnels
-- auto reconnect
+- pooling ssh connection for tunnels
 - dynamic port forwarding using SOCKSv5 proxy
+- configurable by file
 
 > It is one of the modules of the [Alinex Universe](http://alinex.github.io/code.html)
 > following the code standards defined in the [General Docs](http://alinex.github.io/develop).
