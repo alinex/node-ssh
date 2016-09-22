@@ -71,10 +71,10 @@ exports.open = (setup, cb) ->
       , (err, conn) ->
         return cb err if err
         # reopen already setup tunnels
-        async.each Object.keys(conn.tunnel), (tunnel, cb) ->
+        async.each Object.keys(conn.tunnel), (tk, cb) ->
           spec = util.extend 'MODE CLONE', setup.tunnel,
-            localHost: tunnel.setup.host
-            localPort: tunnel.setup.port
+            localHost: conn.tunnel[tk].setup.host
+            localPort: conn.tunnel[tk].setup.port
           forward conn, spec, cb
         , (err) ->
           return cb err if err
