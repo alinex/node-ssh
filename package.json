@@ -33,19 +33,19 @@
     "lib": "./lib"
   },
   "dependencies": {
-    "alinex-config": "^1.1.6",
-    "alinex-util": "^2.3.1",
-    "async": "^2.0.0-rc.3",
+    "alinex-config": "^1.4.0",
+    "alinex-util": "^2.4.2",
+    "async": "^2.1.2",
     "chalk": "^1.1.3",
     "debug": "^2.2.0",
-    "portfinder": "^1.0.3",
+    "portfinder": "^1.0.7",
     "socksv5": "0.0.6",
-    "ssh2": "^0.5.0"
+    "ssh2": "^0.5.2"
   },
   "devDependencies": {
-    "alinex-builder": "^2.1.13",
+    "alinex-builder": "^2.3.8",
     "alinex-exec": "^1.1.3",
-    "alinex-validator": "^1.6.6",
+    "alinex-validator": "^2.0.1",
     "chai": "^3.5.0"
   },
   "optionalDependencies": {},

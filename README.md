@@ -1,7 +1,36 @@
-Package: alinex-sshtunnel
+Alinex SSH Tunnel: Readme
 =================================================
 
-[![Dependency Status](https://gemnasium.com/alinex/node-sshtunnel.png)](https://gemnasium.com/alinex/node-sshtunnel)
+[![GitHub watchers](
+  https://img.shields.io/github/watchers/alinex/node-sshtunnel.svg?style=social&label=Watch&maxAge=2592000)](
+  https://github.com/alinex/node-sshtunnel/subscription)<!-- {.hidden-small} -->
+[![GitHub stars](
+  https://img.shields.io/github/stars/alinex/node-sshtunnel.svg?style=social&label=Star&maxAge=2592000)](
+  https://github.com/alinex/node-sshtunnel)
+[![GitHub forks](
+  https://img.shields.io/github/forks/alinex/node-sshtunnel.svg?style=social&label=Fork&maxAge=2592000)](
+  https://github.com/alinex/node-sshtunnel)<!-- {.hidden-small} -->
+<!-- {p:.right} -->
+
+[![npm package](
+  https://img.shields.io/npm/v/alinex-sshtunnel.svg?maxAge=2592000&label=latest%20version)](
+  https://www.npmjs.com/package/alinex-sshtunnel)
+[![latest version](
+  https://img.shields.io/npm/l/alinex-sshtunnel.svg?maxAge=2592000)](
+  #license)<!-- {.hidden-small} -->
+[![Travis status](
+  https://img.shields.io/travis/alinex/node-sshtunnel.svg?maxAge=2592000&label=develop)](
+  https://travis-ci.org/alinex/node-sshtunnel)
+[![Coveralls status](
+  https://img.shields.io/coveralls/alinex/node-sshtunnel.svg?maxAge=2592000)](
+  https://coveralls.io/r/alinex/node-sshtunnel?branch=master)
+[![Gemnasium status](
+  https://img.shields.io/gemnasium/alinex/node-sshtunnel.svg?maxAge=2592000)](
+  https://gemnasium.com/alinex/node-sshtunnel)
+[![GitHub issues](
+  https://img.shields.io/github/issues/alinex/node-sshtunnel.svg?maxAge=2592000)](
+  https://github.com/alinex/node-sshtunnel/issues)<!-- {.hidden-small} -->
+
 
 Proxy ssh tunnel allows you to open tunnels through ssh connections which may be
 used for communication.
@@ -21,8 +50,13 @@ they may be used also from external programs.
 - dynamic port forwarding using SOCKSv5 proxy
 - configurable by file
 
-> It is one of the modules of the [Alinex Namespace](http://alinex.github.io/code.html)
-> following the code standards defined in the [General Docs](http://alinex.github.io/develop).
+> It is one of the modules of the [Alinex Namespace](https://alinex.github.io/code.html)
+> following the code standards defined in the [General Docs](https://alinex.github.io/develop).
+
+__Read the complete documentation under
+[https://alinex.github.io/node-sshtunnel](https://alinex.github.io/node-sshtunnel).__
+<!-- {p: .hidden} -->
+
 
 Install
 -------------------------------------------------
