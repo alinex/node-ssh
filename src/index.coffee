@@ -21,6 +21,7 @@ fs = require 'fs'
 # include alinex modules
 util = require 'alinex-util'
 config = require 'alinex-config'
+validator = null # loaded on demand
 # internal helpers
 schema = require './configSchema'
 
@@ -62,6 +63,13 @@ connections = {}
 # @param {Function(Error, Object)} cb callback with `Error` if something went wrong
 # or with the tunnel specification if it was opened
 exports.open = (setup, cb) ->
+  if debug.enabled
+    validator ?= require 'alinex-validator'
+    validator.checkSync
+      name: 'sshTunnelSetup'
+      title: "SSH Tunnel to Open"
+      value: setup
+      schema: schema.tunnel
   init (err) ->
     return cb err if err
     debug chalk.grey "open tunnel..." if debug.enabled

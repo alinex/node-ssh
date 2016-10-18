@@ -186,6 +186,8 @@ DEBUG=sshtunnel* myprog-usingsshtunnel
 To get even more information you may also set the `debug` flag to `true` in the
 setup of your ssh tunnel.
 
+If you enable debugging of `sshtunnel` the given configuration will also be validated.
+
 
 License
 -------------------------------------------------
