@@ -4,10 +4,9 @@
 # This is an object oriented implementation around the core `process.spawn`
 # command and alternatively ssh connections.
 
+
 # Node Modules
 # -------------------------------------------------
-
-# include base modules
 debug = require('debug')('sshtunnel')
 debugData = require('debug')('sshtunnel:data')
 debugDebug = require('debug')('sshtunnel:debug')
@@ -26,14 +25,21 @@ config = require 'alinex-config'
 schema = require './configSchema'
 
 
-# set the modules config paths and validation schema
+# Setup
+# -------------------------------------------------
+
+# Set the modules config paths and validation schema.
+#
+# @param {Function(Error)} cb callback with `Error` if something went wrong
 exports.setup = setup = util.function.once this, (cb) ->
   # add schema for module's configuration
   config.setSchema '/ssh', schema.ssh, (err) ->
     return cb err if err
     config.setSchema '/tunnel', schema.tunnel, cb
 
-# set the modules config paths, validation schema and initialize the configuration
+# Set the modules config paths, validation schema and initialize the configuration
+#
+# @param {Function(Error)} cb callback with `Error` if something went wrong
 exports.init = init = util.function.once this, (cb) ->
   debug "initialize"
   # set module search path
@@ -41,9 +47,20 @@ exports.init = init = util.function.once this, (cb) ->
     return cb err if err
     config.init cb
 
+# Map of ssh connections.
+#
+# @type {Object}
+connections = {}
+
 
 # Control tunnel creation
 # -------------------------------------------------
+
+# Open new tunnel.
+#
+# @param {Object} setup like described in {@link configSchema.coffee}
+# @param {Function(Error, Object)} cb callback with `Error` if something went wrong
+# or with the tunnel specification if it was opened
 exports.open = (setup, cb) ->
   init (err) ->
     return cb err if err
@@ -89,12 +106,17 @@ exports.open = (setup, cb) ->
               return cb err if err
               cb null, tunnel
 
-# map of ssh connections
-connections = {}
 
 # Helper methods
 # -------------------------------------------------
 
+# Optimize settings and add defaults. This includes the detection of the user's name
+# and his private keys if stored in the default place. In case of multiple private
+# keys the list will get multiple copies of the origin entry with each key.
+#
+# @param {Object} setup like described in {@link configSchema.coffee}
+# @param {Function(Error, Object)} cb callback with `Error` if something went wrong
+# or the optimized setup
 optimize = (setup, cb) ->
   # use configuration
   if typeof setup is 'string'
@@ -107,6 +129,7 @@ optimize = (setup, cb) ->
     async.parallel [
       (cb) ->
         return cb() if entry.username
+        # auto detect user name from system
         if process.env.USERPROFILE
           entry.username = process.env.USERPROFILE.split(path.sep)[2]
           return cb()
@@ -119,6 +142,7 @@ optimize = (setup, cb) ->
           cb err
       (cb) ->
         return cb() if entry.password or entry.privateKey
+        # auto read the private keys and make a setting for each one found
         home = if process.platform is 'win32' then 'USERPROFILE' else 'HOME'
         dir = "#{process.env[home]}/.ssh"
         # search for ssh keys
@@ -136,7 +160,13 @@ optimize = (setup, cb) ->
   , (err) ->
     cb err, setup
 
-# ### open ssh connection
+# Open ssh connection.
+#
+# @param {Object} setup like described in {@link configSchema.coffee}
+# @param {Function(Error, Connection)} cb callback with `Error` if something went wrong
+# or the Connection with:
+# - `name` - `String` with host/ip and port
+# - `tunnel` - `Object<Server>` with the opened tunnels
 connect = util.function.onceTime (setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
   return cb null, connections[name] if connections[name]?._sock?._handle
@@ -156,10 +186,6 @@ connect = util.function.onceTime (setup, cb) ->
     debug chalk.magenta "#{conn.name}: got error: #{err.message}"
     conn.end()
     cb err
-#    debug "reconnect ssh connection to #{name}"
-#    conn.connect util.extend util.clone(setup),
-#      debug: unless setup.debug then null else (msg) ->
-#        debugDebug chalk.grey msg
   conn.on 'end', ->
     debug chalk.grey "#{conn.name}: ssh client closing"
     for tunnel of conn.tunnel
@@ -170,13 +196,21 @@ connect = util.function.onceTime (setup, cb) ->
     debug: unless setup.debug then null else (msg) ->
       debugDebug chalk.grey msg
 
-# ### snip communication strings for debugging
+# Snip communication strings for debugging.
+#
+# @param {String} data communication string from ssh connection
+# @return {String} simplified string
 snip = (data) ->
   text = util.inspect data.toString()
   text = text[0..30] + '...\'' if text.length > 30
   text
 
-# ### open outgoin tunnel
+# Open Outgoing Tunnel
+#
+# @param {Connection} conn the ssh connection
+# @param {Object} setup for tunnel like described in {@link configSchema.coffee#tunnel-settings}
+# @param {Function(Error, Server)} cb callback with `Error` if something went wrong
+# or the working server tunnel
 forward = (conn, setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
   return cb null, conn.tunnel[name] if conn.tunnel[name]
@@ -211,7 +245,12 @@ forward = (conn, setup, cb) ->
     tunnel.listen setup.localPort, setup.localHost, ->
       cb null, tunnel
 
-# ### open outgoin tunnel
+# Open outgoin tunnel.
+#
+# @param {Connection} conn the ssh connection
+# @param {Object} setup for tunnel like described in {@link configSchema.coffee#tunnel-settings}
+# @param {Function(Error, Server)} cb callback with `Error` if something went wrong
+# or the working server tunnel
 proxy = (conn, setup = {}, cb) ->
   socks = require 'socksv5'
   name = "socksv5 proxy"
@@ -251,7 +290,11 @@ proxy = (conn, setup = {}, cb) ->
     tunnel.listen setup.localPort, setup.localHost, ->
       cb null, tunnel
 
-# ### find an unused port
+# Find an unused port and add it to setup.
+#
+# @param {Object} setup for tunnel like described in {@link configSchema.coffee#tunnel-settings}
+# @param {Function(Error, Object)} cb callback with `Error` if something went wrong
+# or the optimized setup
 findPort = (setup, cb) ->
   portfinder.basePort = setup.localPort ? 8000
   portfinder.getPort (err, port) ->
@@ -261,6 +304,8 @@ findPort = (setup, cb) ->
     setup.localPort = port
     return cb null, setup
 
-# ### close all tunnels and ssh connections
+# Close all tunnels and ssh connections.
+#
+# This will end all operations and should be called on shutdown.
 exports.close = ->
   conn.end() for conn in connections

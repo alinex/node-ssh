@@ -197,7 +197,7 @@ exports.tunnel =
             title: "Port"
             description: "port to tunnel"
             type: 'port'
-          localhost:
+          localHost:
             title: "Local IP"
             description: "the local ip where the tunnel will be setup"
             type: 'ipaddr'
