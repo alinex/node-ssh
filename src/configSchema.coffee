@@ -122,6 +122,7 @@ exports.ssh = ssh =
           title: "Extended Debug"
           description: "the DEBUG=exec.ssh messages are extended with server communication"
           type: 'boolean'
+          optional: true
   ]
 
 
