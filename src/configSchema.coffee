@@ -1,10 +1,18 @@
-# Check definitions
-# =================================================
-# This contains configuration definitions for the
-# [alinex-validator](http://alinex.github.io/node-validator).
+###
+Configuration
+===================================================
+The configuration consists of two parts:
+- SSH Connection
+- Tunneling (referencing a SSH connection)
+###
 
-# SSH Settings
-# -------------------------------------------------
+
+###
+SSH Connection
+------------------------------------------------------
+{@schema #ssh}
+###
+
 exports.ssh = ssh =
   title: "SSH Connection List"
   description: "the list of possible ssh connections"
@@ -126,8 +134,12 @@ exports.ssh = ssh =
   ]
 
 
-# Tunnel Settings
-# -------------------------------------------------
+###
+Tunnel Settings
+------------------------------------------------------
+{@schema #tunnel}
+###
+
 exports.tunnel =
   title: "Tunnel Setup"
   description: "the setup of a ssh tunnel"
