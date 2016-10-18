@@ -18,11 +18,13 @@ exports.ssh = ssh =
   description: "the list of possible ssh connections"
   type: 'object'
   entries: [
-    title: "SSH Connection"
-    description: "a ssh connection setting"
+    title: "SSH Connections"
+    description: "a ssh connection list"
     type: 'array'
     toArray: true
     entries:
+      title: "SSH Connection"
+      description: "a ssh connection setting"
       type: 'object'
       allowedKeys: true
       mandatoryKeys: ['host', 'port']
@@ -32,8 +34,12 @@ exports.ssh = ssh =
           description: "the hostname or IP address to connect to"
           type: 'or'
           or: [
+            title: "Hostname"
+            description: "the hostname to connect to"
             type: 'hostname'
           ,
+            title: "IP Address"
+            description: "the IP address to connect to"
             type: 'ipaddr'
           ]
         port:
@@ -112,6 +118,8 @@ exports.ssh = ssh =
           type: 'array'
           toArray: true
           entries:
+            title: "Algorithm"
+            description: "an allowed transport layer algorithm"
             type: 'string'
             values: ['kex', 'cipher', 'serverHostKey', 'hmac', 'compress']
           optional: true
@@ -120,9 +128,13 @@ exports.ssh = ssh =
           description: "a flag to enable compression if server supports it or force it"
           type: 'or'
           or: [
+            title: "Force Compression"
+            description: "a setting to force compression use"
             type: 'string'
             values: ['force']
           ,
+            title: "Compression Allowed"
+            description: "a flag to allow/disallow compression"
             type: 'boolean'
           ]
           optional: true
@@ -141,17 +153,23 @@ Tunnel Settings
 ###
 
 exports.tunnel =
-  title: "Tunnel Setup"
-  description: "the setup of a ssh tunnel"
+  title: "Tunnel Setup List"
+  description: "the setup of ssh tunnels"
   type: 'object'
   entries: [
+    title: "Tunnel Setup"
+    description: "the setup of a ssh tunnel"
     type: 'object'
     allowedKeys: true
     mandatoryKeys: ['ssh']
     keys:
       ssh:
+        title: "SSH Connection"
+        description: "the ssh connection to use"
         type: 'or'
         or: [
+          title: "Connection Reference"
+          description: "the reference name for an defined ssh connection under config '/ssh/NAME'"
           type: 'string'
           list: '<<<context:///ssh>>>'
         , ssh
@@ -167,8 +185,12 @@ exports.tunnel =
             description: "the hostname or ip address which to tunnel"
             type: 'or'
             or: [
+              title: "Hostname"
+              description: "the hostname which is tunneled"
               type: 'hostname'
             ,
+              title: "IP Address"
+              description: "the IP address which is tunneled"
               type: 'ipaddr'
             ]
           port:
@@ -187,6 +209,8 @@ exports.tunnel =
             default: 8000
         optional: true
       retry:
+        title: "Retry"
+        description: "the handling of retries on connecting"
         type: 'object'
         allowedKeys: true
         keys:
