@@ -64,7 +64,7 @@ connections = {}
 exports.open = (setup, cb) ->
   init (err) ->
     return cb err if err
-    debug chalk.grey "open tunnel..."
+    debug chalk.grey "open tunnel..." if debug.enabled
     # add setup defaults
     optimize setup, (err, setup) ->
       return cb err if err
@@ -171,30 +171,31 @@ connect = util.function.onceTime (setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
   return cb null, connections[name] if connections[name]?._sock?._handle
   # open new ssh
-  debug chalk.grey "establish new ssh connection to #{name}"
+  debug chalk.grey "establish new ssh connection to #{name}" if debug.enabled
   conn = new ssh.Client()
   conn.name = name
   conn.on 'ready', ->
-    debug chalk.grey "#{conn.name}: ssh client ready"
+    debug chalk.grey "#{conn.name}: ssh client ready" if debug.enabled
     # store connection
     conn.tunnel ?= {}
     connections[name] = conn
     cb null, conn
-  conn.on 'banner', (msg) ->
-    debug chalk.yellow msg
+  if debug.enabled
+    conn.on 'banner', (msg) ->
+      debug chalk.yellow msg
   conn.on 'error', (err) ->
-    debug chalk.magenta "#{conn.name}: got error: #{err.message}"
+    debug chalk.magenta "#{conn.name}: got error: #{err.message}" if debug.enabled
     conn.end()
     cb err
   conn.on 'end', ->
-    debug chalk.grey "#{conn.name}: ssh client closing"
+    debug chalk.grey "#{conn.name}: ssh client closing" if debug.enabled
     for tunnel of conn.tunnel
       tunnel.end?()
     delete connections[name]
   # start connection
   conn.connect util.extend util.clone(setup),
     debug: unless setup.debug then null else (msg) ->
-      debugDebug chalk.grey msg
+      debugDebug chalk.grey msg if debugDebug.enabled
 
 # Snip communication strings for debugging.
 #
@@ -215,25 +216,27 @@ forward = (conn, setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
   return cb null, conn.tunnel[name] if conn.tunnel[name]
   # make new tunnel
-  debug "#{conn.name}: open new tunnel to #{name}"
+  debug "#{conn.name}: open new tunnel to #{name}" if debug.enabled
   findPort setup, (err, setup) ->
     return cb err if err
     setup.localHost ?= '127.0.0.1'
-    debug chalk.grey "#{conn.name}: opening tunnel on local port
-    #{setup.localHost}:#{setup.localPort}"
+    if debug.enabled
+      debug chalk.grey "#{conn.name}: opening tunnel on local port
+      #{setup.localHost}:#{setup.localPort}"
     tunnel = net.createServer (sock) ->
       conn.forwardOut sock.remoteAddress, sock.remotePort, setup.host, setup.port, (err, stream) ->
         if err
           return tunnel.end()
         sock.pipe stream
         stream.pipe sock
-        sock.on 'data', (data) -> debugData chalk.grey "request : #{snip data}"
-        stream.on 'data', (data) -> debugData chalk.grey "response: #{snip data}"
+        if debugData.enabled
+          sock.on 'data', (data) -> debugData chalk.grey "request : #{snip data}"
+          stream.on 'data', (data) -> debugData chalk.grey "response: #{snip data}"
     tunnel.end = ->
       try
         tunnel.close()
     tunnel.on 'close', ->
-      debug "#{conn.name}: closing tunnel to #{name}"
+      debug "#{conn.name}: closing tunnel to #{name}" if debug.enabled
       delete conn.tunnel[name]
       unless Object.keys(conn.tunnel).length
         conn.end()
@@ -256,12 +259,13 @@ proxy = (conn, setup = {}, cb) ->
   name = "socksv5 proxy"
   return cb null, conn.tunnel[name] if conn.tunnel[name]
   # make new tunnel
-  debug "#{conn.name}: open new tunnel to #{name}"
+  debug "#{conn.name}: open new tunnel to #{name}" if debug.enabled
   findPort setup, (err, setup) ->
     return cb err if err
     setup.localHost ?= '127.0.0.1'
-    debug chalk.grey "#{conn.name}: opening tunnel on local port
-    #{setup.localHost}:#{setup.localPort}"
+    if debug.enabled
+      debug chalk.grey "#{conn.name}: opening tunnel on local port
+      #{setup.localHost}:#{setup.localPort}"
     tunnel = socks.createServer (info, accept) ->
       conn.forwardOut info.srcAddr, info.srcPort, info.dstAddr, info.dstPort, (err, stream) ->
         if err
@@ -269,15 +273,16 @@ proxy = (conn, setup = {}, cb) ->
         if sock = accept(true)
           sock.pipe stream
           stream.pipe sock
-          sock.on 'data', (data) -> debugData chalk.grey "request : #{snip data}"
-          stream.on 'data', (data) -> debugData chalk.grey "response: #{snip data}"
+          if debugData.enabled
+            sock.on 'data', (data) -> debugData chalk.grey "request : #{snip data}"
+            stream.on 'data', (data) -> debugData chalk.grey "response: #{snip data}"
         else
           tunnel.end()
     tunnel.end = ->
       try
         tunnel.close()
     tunnel.on 'close', ->
-      debug "#{conn.name}: closing tunnel to #{name}"
+      debug "#{conn.name}: closing tunnel to #{name}" if debug.enabled
       delete conn.tunnel[name]
       unless Object.keys(conn.tunnel).length
         conn.end()
@@ -299,7 +304,7 @@ findPort = (setup, cb) ->
   portfinder.basePort = setup.localPort ? 8000
   portfinder.getPort (err, port) ->
     return cb err if err
-    if setup.localPort? and port isnt setup.localPort
+    if debug.enabled and setup.localPort? and port isnt setup.localPort
       debug chalk.magenta "given port #{setup.localPort} is blocked using #{port}"
     setup.localPort = port
     return cb null, setup
