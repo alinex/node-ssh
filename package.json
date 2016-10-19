@@ -27,7 +27,7 @@
   "main": "./lib/index.js",
   "scripts": {
     "prepublish": "node_modules/.bin/builder compile",
-    "test": "node_modules/.bin/builder test"
+    "test": "node_modules/.bin/builder test -vvv"
   },
   "directories": {
     "lib": "./lib"
