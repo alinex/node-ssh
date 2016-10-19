@@ -3,7 +3,8 @@ Alinex SSH Tunnel: Readme
 
 [![GitHub watchers](
   https://img.shields.io/github/watchers/alinex/node-sshtunnel.svg?style=social&label=Watch&maxAge=2592000)](
-  https://github.com/alinex/node-sshtunnel/subscription)<!-- {.hidden-small} -->
+  https://github.com/alinex/node-sshtunnel/subscription)
+<!-- {.hidden-small} -->
 [![GitHub stars](
   https://img.shields.io/github/stars/alinex/node-sshtunnel.svg?style=social&label=Star&maxAge=2592000)](
   https://github.com/alinex/node-sshtunnel)
@@ -18,7 +19,8 @@ Alinex SSH Tunnel: Readme
   https://www.npmjs.com/package/alinex-sshtunnel)
 [![latest version](
   https://img.shields.io/npm/l/alinex-sshtunnel.svg?maxAge=2592000)](
-  #license)<!-- {.hidden-small} -->
+  #license)
+<!-- {.hidden-small} -->
 [![Travis status](
   https://img.shields.io/travis/alinex/node-sshtunnel.svg?maxAge=2592000&label=develop)](
   https://travis-ci.org/alinex/node-sshtunnel)
