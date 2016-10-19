@@ -12,9 +12,11 @@ sshtunnel.setup ->
   config.pushOrigin
     uri: "#{__dirname}/../data/config/*"
 
+  # skip all tests if no correct ssl environment set
+  return unless fs.existsSync '/home/alex/.ssh/id_rsa'
+
   describe "sshtunnel", ->
     @timeout 30000
-    return @skip() unless fs.existsSync '/home/alex/.ssh/id_rsa'
 
     ssh =
       host: '85.25.98.25'
