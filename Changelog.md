@@ -4,6 +4,27 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.3.0 (2016-10-19)
+-------------------------------------------------
+- Remove alinex-exec as dev-dependency.
+- Update portfinder@1.0.9, alinex-builder@2.3.9, alinex-validator@2.0.4
+- Fix tests to skip on travis.
+- Make npm test run verbose.
+- Validate tunnel setup if debug enabled.
+- Only call debug if it is enabled.
+- Update internal documentation.
+- Make schema more describable.
+- Update documentation for configuration.
+- Make debug config value optional.
+- Update portfinder@1.0.7, alinex-config@1.4.0, alinex-util@2.4.2, async@2.1.2, alinex-builder@2.3.8, alinex-validator@2.0.1, ssh2@0.5.2
+- Update travis checks.
+- Merge pull request #2 from brumfb/bad_tunnel_spec
+- Fix reference to connection setup data for tunnel spec
+- Rename links to Alinex Namespace.
+- Add copyright sign.
+- Allow tunneling to work with new API.
+- Start breaking change and allow external configuration.
+
 Version 1.2.0 (2016-07-05)
 -------------------------------------------------
 Extended and easier configuration by autodetecting and multiple options.
