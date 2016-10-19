@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuration</title>
+    <meta name="HandheldFriendly" content="true" />
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">#topnav{text-align:center;background:#333;padding-bottom:20px;position:fixed;margin-top:0;width:100%;bottom:0;top:51px;}#topnav .navbar-nav{margin:0;margin-top:8px;display:-webkit-inline-box;display:-moz-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-box;display:inline-flex}#topnav .sidebar-to-top .btn{text-align:left}#topnav .sidebar-to-top li.level2>a{margin-left:20px}#topnav .sidebar-to-top li.level3>a{margin-left:40px}#topnav .sidebar-to-top li.level4>a{margin-left:60px}#topnav .sidebar-to-top li.level5>a{margin-left:80px}#topnav .sidebar-to-top li.level6>a{margin-left:100px}.navbar-fixed-top .navbar-collapse{max-height:100%}.navbar{min-width:300px}.nav>li{padding:2px 12px}.navbar-inverse .nav>li>a{color:#222;font-weight:bold;padding-top:6px;padding-bottom:6px;}.navbar-inverse .nav>li>a:focus,.navbar-inverse .nav>li>a:hover{background:#73aad8;background:#4b91cd -webkit-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -moz-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -o-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -ms-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd linear-gradient(180deg, #73aad8, #4b91cd) repeat-x}.navbar-inverse .nav>li>a.btn-warning:focus,.navbar-inverse .nav>li>a.btn-warning:hover{background:#ec9721;background:#c97c11 -webkit-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -moz-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -o-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -ms-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 linear-gradient(180deg, #ec9721, #c97c11) repeat-x}.navbar-spacer{height:51px}.btn-warning:active,.btn-primary:active{-webkit-transform:scale(.92);-moz-transform:scale(.92);-o-transform:scale(.92);-ms-transform:scale(.92);transform:scale(.92)}.btn-warning{background:#f2b560;background:#ee9f31 -webkit-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -moz-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -o-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -ms-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 linear-gradient(180deg, #f2b560, #ee9f31) repeat-x}.btn-primary{background:#3d88c9;background:#2e6ea5 -webkit-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -moz-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -o-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -ms-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 linear-gradient(180deg, #3d88c9, #2e6ea5) repeat-x}.sidebar .nav{display:none;list-style:disc;padding-left:25px;}.sidebar .nav>li{display:list-item;}.sidebar .nav>li>a{color:#222;}.sidebar .nav>li>a:active{-webkit-box-shadow:0 2px 10px 2px rgba(0,0,0,0.25);box-shadow:0 2px 10px 2px rgba(0,0,0,0.25)}.sidebar .nav>li>a:hover{background:#3d88c9;background:#2e6ea5 -webkit-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -moz-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -o-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -ms-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 linear-gradient(180deg, #3d88c9, #2e6ea5) repeat-x;color:#fff}.sidebar .nav>li.header,.sidebar .nav>li.active{display:none}.sidebar .nav>li.active>a{background:#73aad8;background:#4b91cd -webkit-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -moz-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -o-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -ms-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd linear-gradient(180deg, #73aad8, #4b91cd) repeat-x;}.sidebar .nav>li.active>a:hover{background:#3d88c9;background:#2e6ea5 -webkit-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -moz-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -o-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -ms-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 linear-gradient(180deg, #3d88c9, #2e6ea5) repeat-x;color:#fff}.sidebar .nav>li.header>a{font-weight:bold;background:#f2b560;background:#ee9f31 -webkit-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -moz-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -o-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -ms-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 linear-gradient(180deg, #f2b560, #ee9f31) repeat-x;}.sidebar .nav>li.header>a:hover{background:#ec9721;background:#c97c11 -webkit-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -moz-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -o-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -ms-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 linear-gradient(180deg, #ec9721, #c97c11) repeat-x;color:#fff}.sidebar .nav>li.level2>a{padding-left:30px}.sidebar .nav>li.level3>a{padding-left:50px}.sidebar .nav>li.level4>a{padding-left:70px}.sidebar .nav>li.level5>a,.sidebar .nav>li.level6>a{padding-left:90px}.navbar-inverse .navbar-toggle{background-color:#444;}.navbar-inverse .navbar-toggle:hover{background-color:#666}@media (min-width:768px){#topnav{position:inherit;background:#222;padding-bottom:0}#topnav .nav>li{padding:0 4px}#topnav .sidebar-to-top{display:none}.navbar-right{margin-right:0}.navbar-nav >li>a{padding:6px 10px}.sidebar{overflow:auto;position:fixed;top:51px;left:0;bottom:0;background:#ddd;padding:0;}.sidebar h1,.sidebar h2{display:none}.sidebar .nav{display:block;list-style:none;padding-left:0;}.sidebar .nav>li{padding:0;}.sidebar .nav>li.header,.sidebar .nav>li.active{display:block;}.sidebar .nav>li.header.level2>a:before,.sidebar .nav>li.active.level2>a:before,.sidebar .nav>li.header.level3>a:before,.sidebar .nav>li.active.level3>a:before,.sidebar .nav>li.header.level4>a:before,.sidebar .nav>li.active.level4>a:before,.sidebar .nav>li.header.level5>a:before,.sidebar .nav>li.active.level5>a:before,.sidebar .nav>li.header.level6>a:before,.sidebar .nav>li.active.level6>a:before{content:"•"}.sidebar .nav>li>a{padding-top:8px;padding-bottom:8px}.sidebar .nav>li.level2>a:before,.sidebar .nav>li.level3>a:before,.sidebar .nav>li.level4>a:before,.sidebar .nav>li.level5>a:before,.sidebar .nav>li.level6>a:before{content:"◦";font-size:150%;line-height:10%;font-weight:bold;padding-right:5px;display:block;float:left;margin-top:8px;margin-left:-15px;color:#666}}img.preload{display:none}body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:16px;line-height:1.2;-ms-word-break:break-all;word-break:break-all;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;-ms-hyphens:auto;hyphens:auto;-webkit-hyphenate-before:2;-webkit-hyphenate-after:3;hyphenate-lines:3;min-width:300px}h1,h2,h3,h4,h5,h6{font-weight:bold;}h1:before,h2:before,h3:before,h4:before,h5:before,h6:before{display:block;content:" ";margin-top:-66px;height:66px;visibility:hidden}h1,h2,h3{clear:both}h1{border-bottom:3px solid #222;padding-bottom:5px}h2{border-bottom:2px dotted #222;padding-bottom:3px}h3{border-bottom:2px dotted #aaa;padding-bottom:2px}h4{border-bottom:1px dotted #aaa}dt{font-weight:bold;margin-top:8px}dd{margin-left:20px}blockquote{border:1px solid #eee;border-radius:3px;border-left:5px solid #337ab7;padding:5px 15px;margin:10px 0;}blockquote ul li p{margin-bottom:0}svg,img{max-width:100%}table{border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all;margin-bottom:10px;}table th,table td{padding:6px 13px;border:1px solid #ddd}table th{background-color:rgba(0,0,0,0.04);font-weight:bold;border-bottom:3px solid #999}table tr{background-color:#fff;border-top:1px solid #ccc;}table tr:nth-child(2n){background-color:rgba(0,0,0,0.04)}img{vertical-align:middle}.emoji{height:1em}abbr,acronym{border-bottom:dotted 1px}a code{color:#337ab7}code,tt{background-color:#fafafa;border-radius:4px;font-size:85%;margin:0;padding:.2em 0}pre{background-color:#fafafa;border-radius:10px;border:1px solid #a4a4a4;font-size:85%;margin:20px;padding:10px;}pre code,pre tt{background:none}pre.language{counter-reset:line;max-height:265px;padding-top:30px;padding-bottom:0;overflow-x:hidden;}pre.language code,pre.language tt{display:block;position:relative;float:left;width:100%;border-left:45px solid #ddd;margin-left:-10px;padding-left:5px;}pre.language code:before,pre.language tt:before{counter-increment:line;content:counter(line);min-width:35px;float:left;text-align:right;padding-right:5px;color:#808080;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-user-select:none;margin-left:-45px}pre.language code:first-of-type,pre.language tt:first-of-type{padding-top:10px}pre.language code:last-child,pre.language tt:last-child{padding-bottom:10px}pre.language header{border-top-left-radius:4px;border-top-right-radius:4px;font-weight:bold;background:#fafafa;margin:-30px -10px 0 -10px;padding:5px 15px}pre.language.coffeescript header,pre.language.javascript header,pre.language.ruby header,pre.language.python header,pre.language.perl header,pre.language.cc header,pre.language.cpp header,pre.language.cs header,pre.language.java header,pre.language.jsp header,pre.language.groovy header,pre.language.php header,pre.language.bash header,pre.language.sql header,pre.language.makefile header{background:#f0ad4e}pre.language.json header,pre.language.cson header,pre.language.yaml header{background:#61b961}pre.language.handlebars header,pre.language.css header,pre.language.stylus header,pre.language.scss header,pre.language.less header,pre.language.markdown header{background:#76abca}ul.table-of-contents{max-width:100px;max-height:30px;overflow:hidden;position:fixed;top:51px;right:0;background:#ddd;padding:5px 15px;-webkit-transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;-moz-transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;-o-transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;-ms-transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;border-left:2px solid #999;border-bottom:2px solid #999;border-bottom-left-radius:10px;list-style-type:none;white-space:nowrap;z-index:100;}ul.table-of-contents:hover{max-width:285px;max-height:248px;-webkit-transition:max-width 100ms ease, max-height 1s ease 100ms;-moz-transition:max-width 100ms ease, max-height 1s ease 100ms;-o-transition:max-width 100ms ease, max-height 1s ease 100ms;-ms-transition:max-width 100ms ease, max-height 1s ease 100ms;transition:max-width 100ms ease, max-height 1s ease 100ms;overflow-y:auto}ul.table-of-contents header{background:#999;font-weight:bold;margin:-5px -15px;padding:5px 15px}ul.table-of-contents>li{padding-bottom:2px;padding-right:8px;}ul.table-of-contents>li:first-of-type{padding-top:10px}ul.table-of-contents a{color:#222}ul.table-of-contents li.sidebar{display:list-item}@media (min-width:768px){ul.table-of-contents li.sidebar{display:none}}div.detail,div.info,div.warning,div.alert{padding:30px 10px 6px 10px;margin:5px 0 8px 0;border-radius:3px;padding-left:60px;border-radius:18px;border-top-left-radius:0;}div.detail>p,div.info>p,div.warning>p,div.alert>p{margin-bottom:0}div.detail header,div.info header,div.warning header,div.alert header{font-weight:bold;position:absolute;margin-top:-30px;margin-left:-60px;padding:3px 20px 3px 10px;border-bottom-right-radius:18px}div:before{content:'\24D8';color:#666;position:absolute;font-size:28px;font-weight:900;padding-top:5px;margin-left:-50px}div.detail{background-color:#fafafa;border:2px solid #ddd;padding-top:0}div.info{background-color:#9f9;background-image:-webkit-linear-gradient(top, #bfb 0%, #6d6 100%);background-image:-moz-linear-gradient(top, #bfb 0%, #6d6 100%);background-image:-o-linear-gradient(top, #bfb 0%, #6d6 100%);background-image:-ms-linear-gradient(top, #bfb 0%, #6d6 100%);background-image:linear-gradient(to bottom, #bfb 0%, #6d6 100%);border:2px solid #6d6;}div.info header{background-color:#6d6}div.info:before{content:'\24D8';text-shadow:0 -1px 0 #6d6}div.warning{background-color:#fc9;background-image:-webkit-linear-gradient(top, #f97 0%, #e86 100%);background-image:-moz-linear-gradient(top, #f97 0%, #e86 100%);background-image:-o-linear-gradient(top, #f97 0%, #e86 100%);background-image:-ms-linear-gradient(top, #f97 0%, #e86 100%);background-image:linear-gradient(to bottom, #f97 0%, #e86 100%);border:2px solid #e86;}div.warning header{background-color:#e86}div.warning:before{content:'\2605';text-shadow:0 -1px 0 #e86}div.alert{background-color:#f99;background-image:-webkit-linear-gradient(top, #faa 0%, #c00 100%);background-image:-moz-linear-gradient(top, #faa 0%, #c00 100%);background-image:-o-linear-gradient(top, #faa 0%, #c00 100%);background-image:-ms-linear-gradient(top, #faa 0%, #c00 100%);background-image:linear-gradient(to bottom, #faa 0%, #c00 100%);border:2px solid #c00;}div.alert header{background-color:#c00;color:#fff}div.alert:before{content:'\24D8';text-shadow:0 -1px 0 #c00}.cse .gsc-control-cse,.gsc-control-cse{padding:0 !important;}.cse .gsc-control-cse table tr,.gsc-control-cse table tr,.cse .gsc-control-cse table th,.gsc-control-cse table th,.cse .gsc-control-cse table td,.gsc-control-cse table td{border:0}.cse .gsc-control-cse .gsc-cursor-current-page,.gsc-control-cse .gsc-cursor-current-page{color:#fff !important}.cse .gsc-control-cse .gsc-webResult.gsc-result:hover,.gsc-control-cse .gsc-webResult.gsc-result:hover,.cse .gsc-control-cse .gsc-imageResult:hover,.gsc-control-cse .gsc-imageResult:hover{border-left:5px solid #337ab7;padding-left:3px}.cse .gsc-control-cse .gcsc-branding,.gsc-control-cse .gcsc-branding{display:none !important}.gsc-adBlock{display:none !important}@media print{.navbar-spacer,.table-of-contents,.sidebar{display:none}.main{left:0;width:100%}pre.language header{border-bottom:2px solid #999}}.text-red{color:#d13f19}.text-green{color:#2ecc40}.text-yellow{color:#ffdc00}.text-blue{color:#0074d9}.text-magenta{color:#f0f}.text-cyan{color:#0ff}.text-gray{color:#aaa}.bg-white{background-color:#fff}.center{text-align:center}.left{float:left}.right{float:right}.spacing{padding:10px}.hidden{display:none}@media (max-width:767px){.hidden-small{display:none}}@media (min-width:768px){.hidden-large{display:none}}</style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topnav" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://alinex.github.io/" onmouseover="logo.src='https://alinex.github.io/images/Alinex-200.png'" onmouseout="logo.src='https://alinex.github.io/images/Alinex-black-200.png'">
+  <img name="logo" src="https://alinex.github.io/images/Alinex-black-200.png" width="150" title="Alinex Homepage">
+</a>
+<img class="preload" src="https://alinex.github.io/images/Alinex-200.png" aria-hidden="true">
+
+        </div>
+        <div id="topnav" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://alinex.github.io/blog" class="btn btn-primary">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Blog
+  </a></li>
+<li><a href="https://alinex.github.io/develop" class="btn btn-primary">
+    <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Develop
+  </a></li>
+<li><a href="https://alinex.github.io/code.html" class="btn btn-warning">
+    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Code
+  </a></li>
+
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input name="q" type="text" class="form-control" placeholder="Search...">
+          </form>
+          <ul class="nav sidebar-to-top">
+                <li class="level0">
+                  <a href="../README.md.html" title="Alinex SSH Tunnel: Readme (/README.md)" class="btn btn-primary">Readme</a>
+                </li>
+                <li class="active level1">
+                  <a href="configSchema.coffee.html" title="Configuration (/src/configSchema.coffee)" class="btn btn-warning">Configuration <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="level0">
+                  <a href="../Changelog.md.html" title="Version changes (/Changelog.md)" class="btn btn-primary">Version changes</a>
+                </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="navbar-spacer"></div>
+
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-sm-9 col-sm-push-3 main">
+          <script>
+  (function() {
+    var cx = '010539487162786288372:chxqbheanxc';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:searchresults-only></gcse:searchresults-only>
+
+          <main><p><ul class="table-of-contents" aria-hidden="true"><header>Index</header>
+<li><a href="#ssh-connection">SSH Connection</a></li>
+<li><a href="#tunnel-settings">Tunnel Settings</a></li>
+</ul>
+</p>
+<h1 id="configuration">Configuration</h1>
+<blockquote>
+<p>Path: <code>/src/configSchema.coffee</code> compiled to <code>/lib/configSchema.js</code></p>
+</blockquote>
+<p>The configuration consists of two parts:</p>
+<ul>
+<li>SSH Connection</li>
+<li>Tunneling (referencing a SSH connection)</li>
+</ul>
+<h2 id="ssh-connection">SSH Connection</h2>
+<p><strong>SSH Connection List</strong> is the list of possible ssh connections.</p>
+<p>An object. The entries are:</p>
+<ul>
+<li>
+<p>any key: <strong>SSH Connections</strong> are a ssh connection list.</p>
+<p>A list. Each entry has to be of type:</p>
+<blockquote>
+<p><strong>SSH Connection</strong> is a ssh connection setting.</p>
+<p>An  object with the following keys have to be present: <code>host</code>, <code>port</code>. The following keys are allowed: <code>forceIPv4</code>, <code>forceIPv6</code>, <code>username</code>, <code>password</code>, <code>privateKey</code>, <code>passphrase</code>, <code>localHostname</code>, <code>localUsername</code>, <code>keepaliveInterval</code>, <code>keepaliveCountMax</code>, <code>readyTimeout</code>, <code>strictVendor</code>, <code>algorithms</code>, <code>compress</code>, <code>debug</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>host</code></dt>
+<dd>
+<p><strong>Hostname or IP Address</strong> is the hostname or IP address to connect to.</p>
+<p>It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>
+<p><strong>Hostname</strong> is the hostname to connect to.</p>
+<p>A valid hostname. This has to be a valid name according to <a href="http://tools.ietf.org/html/rfc1123">RFC 1123</a></p>
+</li>
+<li>
+<p><strong>IP Address</strong> is the IP address to connect to.</p>
+<p>A valid IP address as string.</p>
+</li>
+</ul>
+</dd>
+<dt><code>port</code></dt>
+<dd>
+<p><strong>Port Number</strong> is the port on which to connect using ssh protocol.</p>
+<p>A TCP/UDP port number or name which is optional and will be set to 22 if not specified. It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>An integer value. The value should be between 0 and 65535.</li>
+<li>A text entry in which all control characters will be removed. Only the values: ‘rtmp’, ‘acr-nema’, ‘afbackup’, ‘afmbackup’, ‘afpovertcp’, ‘afs3-bos’, ‘afs3-callback’, ‘afs3-errors’, ‘afs3-fileserver’, ‘afs3-kaserver’, ‘afs3-prserver’, ‘afs3-rmtsys’, ‘afs3-update’, ‘afs3-vlserver’, ‘afs3-volser’, ‘amanda’, ‘amandaidx’, ‘amidxtape’, ‘amqp’, ‘aol’, ‘asf-rmcp’, ‘asp’, ‘at-echo’, ‘at-nbp’, ‘at-rtmp’, ‘at-zis’, ‘auth’, ‘bacula-dir’, ‘bacula-fd’, ‘bacula-sd’, ‘bgp’, ‘bgpd’, ‘bgpsim’, ‘biff’, ‘binkp’, ‘bootpc’, ‘bootps’, ‘bpcd’, ‘bpdbm’, ‘bpjava-msvc’, ‘bprd’, ‘canna’, ‘cfengine’, ‘cfinger’, ‘chargen’, ‘cisco-sccp’, ‘clc-build-daemon’, ‘clearcase’, ‘cmip-agent’, ‘cmip-man’, ‘codaauth2’, ‘codasrv’, ‘codasrv-se’, ‘conference’, ‘courier’, ‘csnet-ns’, ‘csync2’, ‘customs’, ‘cvspserver’, ‘daap’, ‘datametrics’, ‘daytime’, ‘db-lsp’, ‘dcap’, ‘dhcpv6-client’, ‘dhcpv6-server’, ‘dicom’, ‘dict’, ‘dircproxy’, ‘discard’, ‘distcc’, ‘distmp3’, ‘domain’, ‘echo’, ‘eklogin’, ‘enbd-cstatd’, ‘enbd-sstatd’, ‘epmd’, ‘exec’, ‘f5-globalsite’, ‘f5-iquery’, ‘fatserv’, ‘fax’, ‘fido’, ‘finger’, ‘font-service’, ‘freeciv’, ‘frox’, ‘fsp’, ‘ftp’, ‘ftp-data’, ‘ftps’, ‘ftps-data’, ‘gdomap’, ‘gds-db’, ‘ggz’, ‘git’, ‘gnunet’, ‘gnutella-rtr’, ‘gnutella-svc’, ‘gopher’, ‘gpsd’, ‘gris’, ‘groupwise’, ‘gsidcap’, ‘gsiftp’, ‘gsigatekeeper’, ‘hkp’, ‘hmmp-ind’, ‘hostmon’, ‘hostnames’, ‘http’, ‘http-alt’, ‘https’, ‘hylafax’, ‘iax’, ‘icpv2’, ‘idfp’, ‘imap2’, ‘imap3’, ‘imaps’, ‘imsp’, ‘ingreslock’, ‘ipp’, ‘iprop’, ‘ipsec-nat-t’, ‘ipx’, ‘irc’, ‘ircd’, ‘ircs’, ‘isakmp’, ‘iscsi-target’, ‘isdnlog’, ‘isisd’, ‘iso-tsap’, ‘kamanda’, ‘kazaa’, ‘kerberos4’, ‘kerberos’, ‘kerberos-adm’, ‘kerberos-master’, ‘kermit’, ‘klogin’, ‘knetd’, ‘kpasswd’, ‘kpop’, ‘krb-prop’, ‘krbupdate’, ‘kshell’, ‘kx’, ‘l2f’, ‘ldap’, ‘ldaps’, ‘link’, ‘linuxconf’, ‘loc-srv’, ‘login’, ‘log-server’, ‘lotusnote’, ‘mailq’, ‘mandelspawn’, ‘mdns’, ‘microsoft-ds’, ‘mmcc’, ‘moira-db’, ‘moira-update’, ‘moira-ureg’, ‘mon’, ‘mrtd’, ‘msnp’, ‘msp’, ‘ms-sql-m’, ‘ms-sql-s’, ‘mtn’, ‘mtp’, ‘munin’, ‘mysql’, ‘mysql-proxy’, ‘nameserver’, ‘nbd’, ‘nbp’, ‘nessus’, ‘netbios-dgm’, ‘netbios-ns’, ‘netbios-ssn’, ‘netnews’, ‘netstat’, ‘netwall’, ‘nextstep’, ‘nfs’, ‘ninstall’, ‘nntp’, ‘nntps’, ‘noclog’, ‘npmp-gui’, ‘npmp-local’, ‘nqs’, ‘nrpe’, ‘nsca’, ‘ntalk’, ‘ntp’, ‘nut’, ‘omirr’, ‘omniorb’, ‘openvpn’, ‘ospf6d’, ‘ospfapi’, ‘ospfd’, ‘passwd-server’, ‘pawserv’, ‘pcrd’, ‘pipe-server’, ‘pop2’, ‘pop3’, ‘pop3s’, ‘poppassd’, ‘postgresql’, ‘predict’, ‘printer’, ‘proofd’, ‘prospero’, ‘prospero-np’, ‘pwdgen’, ‘qmqp’, ‘qmtp’, ‘qotd’, ‘radius’, ‘radius-acct’, ‘radmin-port’, ‘re-mail-ck’, ‘remctl’, ‘remotefs’, ‘remoteping’, ‘rfe’, ‘ripd’, ‘ripngd’, ‘rje’, ‘rlp’, ‘rmiregistry’, ‘rmtcfg’, ‘rootd’, ‘route’, ‘rpc2portmap’, ‘rplay’, ‘rsync’, ‘rtcm-sc104’, ‘rtelnet’, ‘rtsp’, ‘saft’, ‘sa-msg-port’, ‘sane-port’, ‘search’, ‘sftp’, ‘sge-execd’, ‘sge-qmaster’, ‘sgi-cad’, ‘sgi-cmsd’, ‘sgi-crsd’, ‘sgi-gcd’, ‘shell’, ‘sieve’, ‘silc’, ‘sip’, ‘sip-tls’, ‘skkserv’, ‘smsqp’, ‘smtp’, ‘smux’, ‘snmp’, ‘snmp-trap’, ‘snpp’, ‘socks’, ‘spamd’, ‘ssh’, ‘submission’, ‘sunrpc’, ‘supdup’, ‘supfiledbg’, ‘supfilesrv’, ‘support’, ‘suucp’, ‘svn’, ‘svrloc’, ‘swat’, ‘syslog’, ‘syslog-tls’, ‘sysrqd’, ‘systat’, ‘tacacs’, ‘tacacs-ds’, ‘talk’, ‘tcpmux’, ‘telnet’, ‘telnets’, ‘tempo’, ‘tfido’, ‘tftp’, ‘time’, ‘timed’, ‘tinc’, ‘tproxy’, ‘ulistserv’, ‘unix-status’, ‘urd’, ‘uucp’, ‘uucp-path’, ‘vboxd’, ‘venus’, ‘venus-se’, ‘vnetd’, ‘vopied’, ‘webmin’, ‘webster’, ‘who’, ‘whois’, ‘wipld’, ‘wnn6’, ‘x11-1’, ‘x11-2’, ‘x11-3’, ‘x11-4’, ‘x11-5’, ‘x11’, ‘x11-6’, ‘x11-7’, ‘xdmcp’, ‘xinetd’, ‘xmms2’, ‘xmpp-client’, ‘xmpp-server’, ‘xpilot’, ‘xtel’, ‘xtell’, ‘xtelw’, ‘z3950’, ‘zabbix-agent’, ‘zabbix-trapper’, ‘zebra’, ‘zebrasrv’, ‘zephyr-clt’, ‘zephyr-hm’, ‘zephyr-srv’, ‘zip’, ‘zope’, ‘zope-ftp’, ‘zserv’ are allowed.</li>
+</ul>
+</dd>
+<dt><code>forceIPv4</code></dt>
+<dd>
+<p><strong>Force to use IPv4</strong> is a flag to only use resolved IPv4 address for host.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>forceIPv6</code></dt>
+<dd>
+<p><strong>Force to use IPv6</strong> is a flag to only use resolved IPv6 address for host.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>username</code></dt>
+<dd>
+<p><strong>Username</strong> is the username to use for the connection.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>password</code></dt>
+<dd>
+<p><strong>Password</strong> is the password for user based authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>privateKey</code></dt>
+<dd>
+<p><strong>Private Key</strong> is the private key file to use for OpenSSH authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>passphrase</code></dt>
+<dd>
+<p><strong>Passphrase</strong> is the passphrase used to decrypt an encrypted private key.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>localHostname</code></dt>
+<dd>
+<p><strong>Local Hostname</strong> is the host used for hostbased user authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>localUsername</code></dt>
+<dd>
+<p><strong>Local User</strong> is the username used for hostbased user authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>keepaliveInterval</code></dt>
+<dd>
+<p><strong>Keepalive Interval</strong> is the interval for the keepalive packets to be send.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional and will be set to 1000 if not specified. The result will be given as the number of ms. A numeric floating point number.</p>
+</dd>
+<dt><code>keepaliveCountMax</code></dt>
+<dd>
+<p><strong>Keepalive Tries</strong> are the number of unanswered SSH-level keepalive packets that can be sent to the server before disconnection.</p>
+<p>An integer value which is optional. The value should be greater than 0.</p>
+</dd>
+<dt><code>readyTimeout</code></dt>
+<dd>
+<p><strong>Ready TImeout</strong> is the time to wait for the ssh handshake to succeed.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional and will be set to 20000 if not specified. The result will be given as the number of ms. A numeric floating point number.</p>
+</dd>
+<dt><code>strictVendor</code></dt>
+<dd>
+<p><strong>Strict Vendor Check</strong> is a flag to performs a strict server vendor check before sending vendor-specific requests, etc…</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>algorithms</code></dt>
+<dd>
+<p><strong>Algotithms</strong> are the transport layer algorithms to use.</p>
+<p>A list which is optional. Each entry has to be of type:</p>
+<blockquote>
+<p><strong>Algorithm</strong> is an allowed transport layer algorithm.</p>
+<p>A text entry in which all control characters will be removed. Only the values: ‘kex’, ‘cipher’, ‘serverHostKey’, ‘hmac’, ‘compress’ are allowed.</p>
+</blockquote>
+</dd>
+<dt><code>compress</code></dt>
+<dd>
+<p><strong>Compression</strong> is a flag to enable compression if server supports it or force it.</p>
+<p>It has to be <strong>one of</strong> the following types (optional):</p>
+<ul>
+<li>
+<p><strong>Force Compression</strong> is a setting to force compression use.</p>
+<p>A text entry in which all control characters will be removed. Only the values: ‘force’ are allowed.</p>
+</li>
+<li>
+<p><strong>Compression Allowed</strong> is a flag to allow/disallow compression.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false.</p>
+</li>
+</ul>
+</dd>
+<dt><code>debug</code></dt>
+<dd>
+<p><strong>Extended Debug</strong> is the DEBUG=exec.ssh messages are extended with server communication.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+</dl>
+</blockquote>
+</li>
+</ul>
+<h2 id="tunnel-settings">Tunnel Settings</h2>
+<p><strong>Tunnel Setup List</strong> is the setup of ssh tunnels.</p>
+<p>An object. The entries are:</p>
+<ul>
+<li>
+<p>any key: <strong>Tunnel Setup</strong> is the setup of a ssh tunnel.</p>
+<p>An  object with the following keys have to be present: <code>ssh</code>. The following keys are allowed: <code>tunnel</code>, <code>retry</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>ssh</code></dt>
+<dd>
+<p><strong>SSH Connection</strong> is the ssh connection to use.</p>
+<p>It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>
+<p><strong>Connection Reference</strong> is the reference name for an defined ssh connection under config ‘/ssh/NAME’.</p>
+<p>A text entry in which all control characters will be removed.</p>
+</li>
+<li>
+<p><strong>SSH Connection List</strong> is the list of possible ssh connections.</p>
+<p>An object. The entries are:</p>
+<ul>
+<li>
+<p>any key: <strong>SSH Connections</strong> are a ssh connection list.</p>
+<p>A list. Each entry has to be of type:</p>
+<blockquote>
+<p><strong>SSH Connection</strong> is a ssh connection setting.</p>
+<p>An  object with the following keys have to be present: <code>host</code>, <code>port</code>. The following keys are allowed: <code>forceIPv4</code>, <code>forceIPv6</code>, <code>username</code>, <code>password</code>, <code>privateKey</code>, <code>passphrase</code>, <code>localHostname</code>, <code>localUsername</code>, <code>keepaliveInterval</code>, <code>keepaliveCountMax</code>, <code>readyTimeout</code>, <code>strictVendor</code>, <code>algorithms</code>, <code>compress</code>, <code>debug</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>host</code></dt>
+<dd>
+<p><strong>Hostname or IP Address</strong> is the hostname or IP address to connect to.</p>
+<p>It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>
+<p><strong>Hostname</strong> is the hostname to connect to.</p>
+<p>A valid hostname. This has to be a valid name according to <a href="http://tools.ietf.org/html/rfc1123">RFC 1123</a></p>
+</li>
+<li>
+<p><strong>IP Address</strong> is the IP address to connect to.</p>
+<p>A valid IP address as string.</p>
+</li>
+</ul>
+</dd>
+<dt><code>port</code></dt>
+<dd>
+<p><strong>Port Number</strong> is the port on which to connect using ssh protocol.</p>
+<p>A TCP/UDP port number or name which is optional and will be set to 22 if not specified. It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>An integer value. The value should be between 0 and 65535.</li>
+<li>A text entry in which all control characters will be removed. Only the values: ‘rtmp’, ‘acr-nema’, ‘afbackup’, ‘afmbackup’, ‘afpovertcp’, ‘afs3-bos’, ‘afs3-callback’, ‘afs3-errors’, ‘afs3-fileserver’, ‘afs3-kaserver’, ‘afs3-prserver’, ‘afs3-rmtsys’, ‘afs3-update’, ‘afs3-vlserver’, ‘afs3-volser’, ‘amanda’, ‘amandaidx’, ‘amidxtape’, ‘amqp’, ‘aol’, ‘asf-rmcp’, ‘asp’, ‘at-echo’, ‘at-nbp’, ‘at-rtmp’, ‘at-zis’, ‘auth’, ‘bacula-dir’, ‘bacula-fd’, ‘bacula-sd’, ‘bgp’, ‘bgpd’, ‘bgpsim’, ‘biff’, ‘binkp’, ‘bootpc’, ‘bootps’, ‘bpcd’, ‘bpdbm’, ‘bpjava-msvc’, ‘bprd’, ‘canna’, ‘cfengine’, ‘cfinger’, ‘chargen’, ‘cisco-sccp’, ‘clc-build-daemon’, ‘clearcase’, ‘cmip-agent’, ‘cmip-man’, ‘codaauth2’, ‘codasrv’, ‘codasrv-se’, ‘conference’, ‘courier’, ‘csnet-ns’, ‘csync2’, ‘customs’, ‘cvspserver’, ‘daap’, ‘datametrics’, ‘daytime’, ‘db-lsp’, ‘dcap’, ‘dhcpv6-client’, ‘dhcpv6-server’, ‘dicom’, ‘dict’, ‘dircproxy’, ‘discard’, ‘distcc’, ‘distmp3’, ‘domain’, ‘echo’, ‘eklogin’, ‘enbd-cstatd’, ‘enbd-sstatd’, ‘epmd’, ‘exec’, ‘f5-globalsite’, ‘f5-iquery’, ‘fatserv’, ‘fax’, ‘fido’, ‘finger’, ‘font-service’, ‘freeciv’, ‘frox’, ‘fsp’, ‘ftp’, ‘ftp-data’, ‘ftps’, ‘ftps-data’, ‘gdomap’, ‘gds-db’, ‘ggz’, ‘git’, ‘gnunet’, ‘gnutella-rtr’, ‘gnutella-svc’, ‘gopher’, ‘gpsd’, ‘gris’, ‘groupwise’, ‘gsidcap’, ‘gsiftp’, ‘gsigatekeeper’, ‘hkp’, ‘hmmp-ind’, ‘hostmon’, ‘hostnames’, ‘http’, ‘http-alt’, ‘https’, ‘hylafax’, ‘iax’, ‘icpv2’, ‘idfp’, ‘imap2’, ‘imap3’, ‘imaps’, ‘imsp’, ‘ingreslock’, ‘ipp’, ‘iprop’, ‘ipsec-nat-t’, ‘ipx’, ‘irc’, ‘ircd’, ‘ircs’, ‘isakmp’, ‘iscsi-target’, ‘isdnlog’, ‘isisd’, ‘iso-tsap’, ‘kamanda’, ‘kazaa’, ‘kerberos4’, ‘kerberos’, ‘kerberos-adm’, ‘kerberos-master’, ‘kermit’, ‘klogin’, ‘knetd’, ‘kpasswd’, ‘kpop’, ‘krb-prop’, ‘krbupdate’, ‘kshell’, ‘kx’, ‘l2f’, ‘ldap’, ‘ldaps’, ‘link’, ‘linuxconf’, ‘loc-srv’, ‘login’, ‘log-server’, ‘lotusnote’, ‘mailq’, ‘mandelspawn’, ‘mdns’, ‘microsoft-ds’, ‘mmcc’, ‘moira-db’, ‘moira-update’, ‘moira-ureg’, ‘mon’, ‘mrtd’, ‘msnp’, ‘msp’, ‘ms-sql-m’, ‘ms-sql-s’, ‘mtn’, ‘mtp’, ‘munin’, ‘mysql’, ‘mysql-proxy’, ‘nameserver’, ‘nbd’, ‘nbp’, ‘nessus’, ‘netbios-dgm’, ‘netbios-ns’, ‘netbios-ssn’, ‘netnews’, ‘netstat’, ‘netwall’, ‘nextstep’, ‘nfs’, ‘ninstall’, ‘nntp’, ‘nntps’, ‘noclog’, ‘npmp-gui’, ‘npmp-local’, ‘nqs’, ‘nrpe’, ‘nsca’, ‘ntalk’, ‘ntp’, ‘nut’, ‘omirr’, ‘omniorb’, ‘openvpn’, ‘ospf6d’, ‘ospfapi’, ‘ospfd’, ‘passwd-server’, ‘pawserv’, ‘pcrd’, ‘pipe-server’, ‘pop2’, ‘pop3’, ‘pop3s’, ‘poppassd’, ‘postgresql’, ‘predict’, ‘printer’, ‘proofd’, ‘prospero’, ‘prospero-np’, ‘pwdgen’, ‘qmqp’, ‘qmtp’, ‘qotd’, ‘radius’, ‘radius-acct’, ‘radmin-port’, ‘re-mail-ck’, ‘remctl’, ‘remotefs’, ‘remoteping’, ‘rfe’, ‘ripd’, ‘ripngd’, ‘rje’, ‘rlp’, ‘rmiregistry’, ‘rmtcfg’, ‘rootd’, ‘route’, ‘rpc2portmap’, ‘rplay’, ‘rsync’, ‘rtcm-sc104’, ‘rtelnet’, ‘rtsp’, ‘saft’, ‘sa-msg-port’, ‘sane-port’, ‘search’, ‘sftp’, ‘sge-execd’, ‘sge-qmaster’, ‘sgi-cad’, ‘sgi-cmsd’, ‘sgi-crsd’, ‘sgi-gcd’, ‘shell’, ‘sieve’, ‘silc’, ‘sip’, ‘sip-tls’, ‘skkserv’, ‘smsqp’, ‘smtp’, ‘smux’, ‘snmp’, ‘snmp-trap’, ‘snpp’, ‘socks’, ‘spamd’, ‘ssh’, ‘submission’, ‘sunrpc’, ‘supdup’, ‘supfiledbg’, ‘supfilesrv’, ‘support’, ‘suucp’, ‘svn’, ‘svrloc’, ‘swat’, ‘syslog’, ‘syslog-tls’, ‘sysrqd’, ‘systat’, ‘tacacs’, ‘tacacs-ds’, ‘talk’, ‘tcpmux’, ‘telnet’, ‘telnets’, ‘tempo’, ‘tfido’, ‘tftp’, ‘time’, ‘timed’, ‘tinc’, ‘tproxy’, ‘ulistserv’, ‘unix-status’, ‘urd’, ‘uucp’, ‘uucp-path’, ‘vboxd’, ‘venus’, ‘venus-se’, ‘vnetd’, ‘vopied’, ‘webmin’, ‘webster’, ‘who’, ‘whois’, ‘wipld’, ‘wnn6’, ‘x11-1’, ‘x11-2’, ‘x11-3’, ‘x11-4’, ‘x11-5’, ‘x11’, ‘x11-6’, ‘x11-7’, ‘xdmcp’, ‘xinetd’, ‘xmms2’, ‘xmpp-client’, ‘xmpp-server’, ‘xpilot’, ‘xtel’, ‘xtell’, ‘xtelw’, ‘z3950’, ‘zabbix-agent’, ‘zabbix-trapper’, ‘zebra’, ‘zebrasrv’, ‘zephyr-clt’, ‘zephyr-hm’, ‘zephyr-srv’, ‘zip’, ‘zope’, ‘zope-ftp’, ‘zserv’ are allowed.</li>
+</ul>
+</dd>
+<dt><code>forceIPv4</code></dt>
+<dd>
+<p><strong>Force to use IPv4</strong> is a flag to only use resolved IPv4 address for host.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>forceIPv6</code></dt>
+<dd>
+<p><strong>Force to use IPv6</strong> is a flag to only use resolved IPv6 address for host.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>username</code></dt>
+<dd>
+<p><strong>Username</strong> is the username to use for the connection.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>password</code></dt>
+<dd>
+<p><strong>Password</strong> is the password for user based authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>privateKey</code></dt>
+<dd>
+<p><strong>Private Key</strong> is the private key file to use for OpenSSH authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>passphrase</code></dt>
+<dd>
+<p><strong>Passphrase</strong> is the passphrase used to decrypt an encrypted private key.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>localHostname</code></dt>
+<dd>
+<p><strong>Local Hostname</strong> is the host used for hostbased user authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>localUsername</code></dt>
+<dd>
+<p><strong>Local User</strong> is the username used for hostbased user authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>keepaliveInterval</code></dt>
+<dd>
+<p><strong>Keepalive Interval</strong> is the interval for the keepalive packets to be send.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional and will be set to 1000 if not specified. The result will be given as the number of ms. A numeric floating point number.</p>
+</dd>
+<dt><code>keepaliveCountMax</code></dt>
+<dd>
+<p><strong>Keepalive Tries</strong> are the number of unanswered SSH-level keepalive packets that can be sent to the server before disconnection.</p>
+<p>An integer value which is optional. The value should be greater than 0.</p>
+</dd>
+<dt><code>readyTimeout</code></dt>
+<dd>
+<p><strong>Ready TImeout</strong> is the time to wait for the ssh handshake to succeed.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional and will be set to 20000 if not specified. The result will be given as the number of ms. A numeric floating point number.</p>
+</dd>
+<dt><code>strictVendor</code></dt>
+<dd>
+<p><strong>Strict Vendor Check</strong> is a flag to performs a strict server vendor check before sending vendor-specific requests, etc…</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>algorithms</code></dt>
+<dd>
+<p><strong>Algotithms</strong> are the transport layer algorithms to use.</p>
+<p>A list which is optional. Each entry has to be of type:</p>
+<blockquote>
+<p><strong>Algorithm</strong> is an allowed transport layer algorithm.</p>
+<p>A text entry in which all control characters will be removed. Only the values: ‘kex’, ‘cipher’, ‘serverHostKey’, ‘hmac’, ‘compress’ are allowed.</p>
+</blockquote>
+</dd>
+<dt><code>compress</code></dt>
+<dd>
+<p><strong>Compression</strong> is a flag to enable compression if server supports it or force it.</p>
+<p>It has to be <strong>one of</strong> the following types (optional):</p>
+<ul>
+<li>
+<p><strong>Force Compression</strong> is a setting to force compression use.</p>
+<p>A text entry in which all control characters will be removed. Only the values: ‘force’ are allowed.</p>
+</li>
+<li>
+<p><strong>Compression Allowed</strong> is a flag to allow/disallow compression.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false.</p>
+</li>
+</ul>
+</dd>
+<dt><code>debug</code></dt>
+<dd>
+<p><strong>Extended Debug</strong> is the DEBUG=exec.ssh messages are extended with server communication.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+</dl>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt><code>tunnel</code></dt>
+<dd>
+<p><strong>Tunnel</strong> is the connection to tunnel.</p>
+<p>An object which is optional. The following keys are allowed: <code>host</code>, <code>port</code>, <code>localHost</code>, <code>localPort</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>host</code></dt>
+<dd>
+<p><strong>Host</strong> is the hostname or ip address which to tunnel.</p>
+<p>It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>
+<p><strong>Hostname</strong> is the hostname which is tunneled.</p>
+<p>A valid hostname. This has to be a valid name according to <a href="http://tools.ietf.org/html/rfc1123">RFC 1123</a></p>
+</li>
+<li>
+<p><strong>IP Address</strong> is the IP address which is tunneled.</p>
+<p>A valid IP address as string.</p>
+</li>
+</ul>
+</dd>
+<dt><code>port</code></dt>
+<dd>
+<p><strong>Port</strong> is port to tunnel.</p>
+<p>A TCP/UDP port number or name. It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>An integer value. The value should be between 0 and 65535.</li>
+<li>A text entry in which all control characters will be removed. Only the values: ‘rtmp’, ‘acr-nema’, ‘afbackup’, ‘afmbackup’, ‘afpovertcp’, ‘afs3-bos’, ‘afs3-callback’, ‘afs3-errors’, ‘afs3-fileserver’, ‘afs3-kaserver’, ‘afs3-prserver’, ‘afs3-rmtsys’, ‘afs3-update’, ‘afs3-vlserver’, ‘afs3-volser’, ‘amanda’, ‘amandaidx’, ‘amidxtape’, ‘amqp’, ‘aol’, ‘asf-rmcp’, ‘asp’, ‘at-echo’, ‘at-nbp’, ‘at-rtmp’, ‘at-zis’, ‘auth’, ‘bacula-dir’, ‘bacula-fd’, ‘bacula-sd’, ‘bgp’, ‘bgpd’, ‘bgpsim’, ‘biff’, ‘binkp’, ‘bootpc’, ‘bootps’, ‘bpcd’, ‘bpdbm’, ‘bpjava-msvc’, ‘bprd’, ‘canna’, ‘cfengine’, ‘cfinger’, ‘chargen’, ‘cisco-sccp’, ‘clc-build-daemon’, ‘clearcase’, ‘cmip-agent’, ‘cmip-man’, ‘codaauth2’, ‘codasrv’, ‘codasrv-se’, ‘conference’, ‘courier’, ‘csnet-ns’, ‘csync2’, ‘customs’, ‘cvspserver’, ‘daap’, ‘datametrics’, ‘daytime’, ‘db-lsp’, ‘dcap’, ‘dhcpv6-client’, ‘dhcpv6-server’, ‘dicom’, ‘dict’, ‘dircproxy’, ‘discard’, ‘distcc’, ‘distmp3’, ‘domain’, ‘echo’, ‘eklogin’, ‘enbd-cstatd’, ‘enbd-sstatd’, ‘epmd’, ‘exec’, ‘f5-globalsite’, ‘f5-iquery’, ‘fatserv’, ‘fax’, ‘fido’, ‘finger’, ‘font-service’, ‘freeciv’, ‘frox’, ‘fsp’, ‘ftp’, ‘ftp-data’, ‘ftps’, ‘ftps-data’, ‘gdomap’, ‘gds-db’, ‘ggz’, ‘git’, ‘gnunet’, ‘gnutella-rtr’, ‘gnutella-svc’, ‘gopher’, ‘gpsd’, ‘gris’, ‘groupwise’, ‘gsidcap’, ‘gsiftp’, ‘gsigatekeeper’, ‘hkp’, ‘hmmp-ind’, ‘hostmon’, ‘hostnames’, ‘http’, ‘http-alt’, ‘https’, ‘hylafax’, ‘iax’, ‘icpv2’, ‘idfp’, ‘imap2’, ‘imap3’, ‘imaps’, ‘imsp’, ‘ingreslock’, ‘ipp’, ‘iprop’, ‘ipsec-nat-t’, ‘ipx’, ‘irc’, ‘ircd’, ‘ircs’, ‘isakmp’, ‘iscsi-target’, ‘isdnlog’, ‘isisd’, ‘iso-tsap’, ‘kamanda’, ‘kazaa’, ‘kerberos4’, ‘kerberos’, ‘kerberos-adm’, ‘kerberos-master’, ‘kermit’, ‘klogin’, ‘knetd’, ‘kpasswd’, ‘kpop’, ‘krb-prop’, ‘krbupdate’, ‘kshell’, ‘kx’, ‘l2f’, ‘ldap’, ‘ldaps’, ‘link’, ‘linuxconf’, ‘loc-srv’, ‘login’, ‘log-server’, ‘lotusnote’, ‘mailq’, ‘mandelspawn’, ‘mdns’, ‘microsoft-ds’, ‘mmcc’, ‘moira-db’, ‘moira-update’, ‘moira-ureg’, ‘mon’, ‘mrtd’, ‘msnp’, ‘msp’, ‘ms-sql-m’, ‘ms-sql-s’, ‘mtn’, ‘mtp’, ‘munin’, ‘mysql’, ‘mysql-proxy’, ‘nameserver’, ‘nbd’, ‘nbp’, ‘nessus’, ‘netbios-dgm’, ‘netbios-ns’, ‘netbios-ssn’, ‘netnews’, ‘netstat’, ‘netwall’, ‘nextstep’, ‘nfs’, ‘ninstall’, ‘nntp’, ‘nntps’, ‘noclog’, ‘npmp-gui’, ‘npmp-local’, ‘nqs’, ‘nrpe’, ‘nsca’, ‘ntalk’, ‘ntp’, ‘nut’, ‘omirr’, ‘omniorb’, ‘openvpn’, ‘ospf6d’, ‘ospfapi’, ‘ospfd’, ‘passwd-server’, ‘pawserv’, ‘pcrd’, ‘pipe-server’, ‘pop2’, ‘pop3’, ‘pop3s’, ‘poppassd’, ‘postgresql’, ‘predict’, ‘printer’, ‘proofd’, ‘prospero’, ‘prospero-np’, ‘pwdgen’, ‘qmqp’, ‘qmtp’, ‘qotd’, ‘radius’, ‘radius-acct’, ‘radmin-port’, ‘re-mail-ck’, ‘remctl’, ‘remotefs’, ‘remoteping’, ‘rfe’, ‘ripd’, ‘ripngd’, ‘rje’, ‘rlp’, ‘rmiregistry’, ‘rmtcfg’, ‘rootd’, ‘route’, ‘rpc2portmap’, ‘rplay’, ‘rsync’, ‘rtcm-sc104’, ‘rtelnet’, ‘rtsp’, ‘saft’, ‘sa-msg-port’, ‘sane-port’, ‘search’, ‘sftp’, ‘sge-execd’, ‘sge-qmaster’, ‘sgi-cad’, ‘sgi-cmsd’, ‘sgi-crsd’, ‘sgi-gcd’, ‘shell’, ‘sieve’, ‘silc’, ‘sip’, ‘sip-tls’, ‘skkserv’, ‘smsqp’, ‘smtp’, ‘smux’, ‘snmp’, ‘snmp-trap’, ‘snpp’, ‘socks’, ‘spamd’, ‘ssh’, ‘submission’, ‘sunrpc’, ‘supdup’, ‘supfiledbg’, ‘supfilesrv’, ‘support’, ‘suucp’, ‘svn’, ‘svrloc’, ‘swat’, ‘syslog’, ‘syslog-tls’, ‘sysrqd’, ‘systat’, ‘tacacs’, ‘tacacs-ds’, ‘talk’, ‘tcpmux’, ‘telnet’, ‘telnets’, ‘tempo’, ‘tfido’, ‘tftp’, ‘time’, ‘timed’, ‘tinc’, ‘tproxy’, ‘ulistserv’, ‘unix-status’, ‘urd’, ‘uucp’, ‘uucp-path’, ‘vboxd’, ‘venus’, ‘venus-se’, ‘vnetd’, ‘vopied’, ‘webmin’, ‘webster’, ‘who’, ‘whois’, ‘wipld’, ‘wnn6’, ‘x11-1’, ‘x11-2’, ‘x11-3’, ‘x11-4’, ‘x11-5’, ‘x11’, ‘x11-6’, ‘x11-7’, ‘xdmcp’, ‘xinetd’, ‘xmms2’, ‘xmpp-client’, ‘xmpp-server’, ‘xpilot’, ‘xtel’, ‘xtell’, ‘xtelw’, ‘z3950’, ‘zabbix-agent’, ‘zabbix-trapper’, ‘zebra’, ‘zebrasrv’, ‘zephyr-clt’, ‘zephyr-hm’, ‘zephyr-srv’, ‘zip’, ‘zope’, ‘zope-ftp’, ‘zserv’ are allowed.</li>
+</ul>
+</dd>
+<dt><code>localHost</code></dt>
+<dd>
+<p><strong>Local IP</strong> is the local ip where the tunnel will be setup.</p>
+<p>A valid IP address as string which is optional and will be set to ‘127.0.0.1’ if not specified.</p>
+</dd>
+<dt><code>localPort</code></dt>
+<dd>
+<p><strong>Local Port</strong> is the local port to bind to the tunnel.</p>
+<p>A TCP/UDP port number or name which is optional and will be set to 8000 if not specified. It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>An integer value. The value should be between 0 and 65535.</li>
+<li>A text entry in which all control characters will be removed. Only the values: ‘rtmp’, ‘acr-nema’, ‘afbackup’, ‘afmbackup’, ‘afpovertcp’, ‘afs3-bos’, ‘afs3-callback’, ‘afs3-errors’, ‘afs3-fileserver’, ‘afs3-kaserver’, ‘afs3-prserver’, ‘afs3-rmtsys’, ‘afs3-update’, ‘afs3-vlserver’, ‘afs3-volser’, ‘amanda’, ‘amandaidx’, ‘amidxtape’, ‘amqp’, ‘aol’, ‘asf-rmcp’, ‘asp’, ‘at-echo’, ‘at-nbp’, ‘at-rtmp’, ‘at-zis’, ‘auth’, ‘bacula-dir’, ‘bacula-fd’, ‘bacula-sd’, ‘bgp’, ‘bgpd’, ‘bgpsim’, ‘biff’, ‘binkp’, ‘bootpc’, ‘bootps’, ‘bpcd’, ‘bpdbm’, ‘bpjava-msvc’, ‘bprd’, ‘canna’, ‘cfengine’, ‘cfinger’, ‘chargen’, ‘cisco-sccp’, ‘clc-build-daemon’, ‘clearcase’, ‘cmip-agent’, ‘cmip-man’, ‘codaauth2’, ‘codasrv’, ‘codasrv-se’, ‘conference’, ‘courier’, ‘csnet-ns’, ‘csync2’, ‘customs’, ‘cvspserver’, ‘daap’, ‘datametrics’, ‘daytime’, ‘db-lsp’, ‘dcap’, ‘dhcpv6-client’, ‘dhcpv6-server’, ‘dicom’, ‘dict’, ‘dircproxy’, ‘discard’, ‘distcc’, ‘distmp3’, ‘domain’, ‘echo’, ‘eklogin’, ‘enbd-cstatd’, ‘enbd-sstatd’, ‘epmd’, ‘exec’, ‘f5-globalsite’, ‘f5-iquery’, ‘fatserv’, ‘fax’, ‘fido’, ‘finger’, ‘font-service’, ‘freeciv’, ‘frox’, ‘fsp’, ‘ftp’, ‘ftp-data’, ‘ftps’, ‘ftps-data’, ‘gdomap’, ‘gds-db’, ‘ggz’, ‘git’, ‘gnunet’, ‘gnutella-rtr’, ‘gnutella-svc’, ‘gopher’, ‘gpsd’, ‘gris’, ‘groupwise’, ‘gsidcap’, ‘gsiftp’, ‘gsigatekeeper’, ‘hkp’, ‘hmmp-ind’, ‘hostmon’, ‘hostnames’, ‘http’, ‘http-alt’, ‘https’, ‘hylafax’, ‘iax’, ‘icpv2’, ‘idfp’, ‘imap2’, ‘imap3’, ‘imaps’, ‘imsp’, ‘ingreslock’, ‘ipp’, ‘iprop’, ‘ipsec-nat-t’, ‘ipx’, ‘irc’, ‘ircd’, ‘ircs’, ‘isakmp’, ‘iscsi-target’, ‘isdnlog’, ‘isisd’, ‘iso-tsap’, ‘kamanda’, ‘kazaa’, ‘kerberos4’, ‘kerberos’, ‘kerberos-adm’, ‘kerberos-master’, ‘kermit’, ‘klogin’, ‘knetd’, ‘kpasswd’, ‘kpop’, ‘krb-prop’, ‘krbupdate’, ‘kshell’, ‘kx’, ‘l2f’, ‘ldap’, ‘ldaps’, ‘link’, ‘linuxconf’, ‘loc-srv’, ‘login’, ‘log-server’, ‘lotusnote’, ‘mailq’, ‘mandelspawn’, ‘mdns’, ‘microsoft-ds’, ‘mmcc’, ‘moira-db’, ‘moira-update’, ‘moira-ureg’, ‘mon’, ‘mrtd’, ‘msnp’, ‘msp’, ‘ms-sql-m’, ‘ms-sql-s’, ‘mtn’, ‘mtp’, ‘munin’, ‘mysql’, ‘mysql-proxy’, ‘nameserver’, ‘nbd’, ‘nbp’, ‘nessus’, ‘netbios-dgm’, ‘netbios-ns’, ‘netbios-ssn’, ‘netnews’, ‘netstat’, ‘netwall’, ‘nextstep’, ‘nfs’, ‘ninstall’, ‘nntp’, ‘nntps’, ‘noclog’, ‘npmp-gui’, ‘npmp-local’, ‘nqs’, ‘nrpe’, ‘nsca’, ‘ntalk’, ‘ntp’, ‘nut’, ‘omirr’, ‘omniorb’, ‘openvpn’, ‘ospf6d’, ‘ospfapi’, ‘ospfd’, ‘passwd-server’, ‘pawserv’, ‘pcrd’, ‘pipe-server’, ‘pop2’, ‘pop3’, ‘pop3s’, ‘poppassd’, ‘postgresql’, ‘predict’, ‘printer’, ‘proofd’, ‘prospero’, ‘prospero-np’, ‘pwdgen’, ‘qmqp’, ‘qmtp’, ‘qotd’, ‘radius’, ‘radius-acct’, ‘radmin-port’, ‘re-mail-ck’, ‘remctl’, ‘remotefs’, ‘remoteping’, ‘rfe’, ‘ripd’, ‘ripngd’, ‘rje’, ‘rlp’, ‘rmiregistry’, ‘rmtcfg’, ‘rootd’, ‘route’, ‘rpc2portmap’, ‘rplay’, ‘rsync’, ‘rtcm-sc104’, ‘rtelnet’, ‘rtsp’, ‘saft’, ‘sa-msg-port’, ‘sane-port’, ‘search’, ‘sftp’, ‘sge-execd’, ‘sge-qmaster’, ‘sgi-cad’, ‘sgi-cmsd’, ‘sgi-crsd’, ‘sgi-gcd’, ‘shell’, ‘sieve’, ‘silc’, ‘sip’, ‘sip-tls’, ‘skkserv’, ‘smsqp’, ‘smtp’, ‘smux’, ‘snmp’, ‘snmp-trap’, ‘snpp’, ‘socks’, ‘spamd’, ‘ssh’, ‘submission’, ‘sunrpc’, ‘supdup’, ‘supfiledbg’, ‘supfilesrv’, ‘support’, ‘suucp’, ‘svn’, ‘svrloc’, ‘swat’, ‘syslog’, ‘syslog-tls’, ‘sysrqd’, ‘systat’, ‘tacacs’, ‘tacacs-ds’, ‘talk’, ‘tcpmux’, ‘telnet’, ‘telnets’, ‘tempo’, ‘tfido’, ‘tftp’, ‘time’, ‘timed’, ‘tinc’, ‘tproxy’, ‘ulistserv’, ‘unix-status’, ‘urd’, ‘uucp’, ‘uucp-path’, ‘vboxd’, ‘venus’, ‘venus-se’, ‘vnetd’, ‘vopied’, ‘webmin’, ‘webster’, ‘who’, ‘whois’, ‘wipld’, ‘wnn6’, ‘x11-1’, ‘x11-2’, ‘x11-3’, ‘x11-4’, ‘x11-5’, ‘x11’, ‘x11-6’, ‘x11-7’, ‘xdmcp’, ‘xinetd’, ‘xmms2’, ‘xmpp-client’, ‘xmpp-server’, ‘xpilot’, ‘xtel’, ‘xtell’, ‘xtelw’, ‘z3950’, ‘zabbix-agent’, ‘zabbix-trapper’, ‘zebra’, ‘zebrasrv’, ‘zephyr-clt’, ‘zephyr-hm’, ‘zephyr-srv’, ‘zip’, ‘zope’, ‘zope-ftp’, ‘zserv’ are allowed.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><code>retry</code></dt>
+<dd>
+<p><strong>Retry</strong> is the handling of retries on connecting.</p>
+<p>An object which is optional. The following keys are allowed: <code>times</code>, <code>interval</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>times</code></dt>
+<dd>
+<p><strong>Number of Tries</strong> are the number of times to try to connect.</p>
+<p>An integer value which is optional. The value should be greater than 0.</p>
+</dd>
+<dt><code>interval</code></dt>
+<dd>
+<p><strong>Wait between Tries</strong> are the interval to wait (in milliseconds) between tries.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional. A numeric floating point number. The value should be greater than 0.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ul>
+</main>
+        </div>
+        <div class="col-sm-3 col-cm-pull-9 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="header">
+              <a href="../README.md.html">Alinex SSH Tunnel</a>
+            </li>
+                <li class="level0">
+                  <a href="../README.md.html" title="Alinex SSH Tunnel: Readme (/README.md)">Readme</a>
+                </li>
+                <li class="active level1">
+                  <a href="configSchema.coffee.html" title="Configuration (/src/configSchema.coffee)">Configuration <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="level0">
+                  <a href="../Changelog.md.html" title="Version changes (/Changelog.md)">Version changes</a>
+                </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script type="text/javascript"><!--
+    $(".table-of-contents").bind("mouseleave", function(event) { $(".table-of-contents").scrollTop(0); });
+    //--></script>
+  </body>
+</html>

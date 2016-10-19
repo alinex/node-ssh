@@ -1,88 +1,111 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>README.md</title>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" media="all" href="doc-style.css" />
-  <script src="doc-filelist.js"></script>
-  <script>
-    var relativeDir = "";
-    var thisFile = "README.md";
-    var defaultSidebar = true;
-  </script>
-  <script src="doc-script.js"></script>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alinex SSH Tunnel: Readme</title>
+    <meta name="HandheldFriendly" content="true" />
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/8.5.0/styles/solarized_light.min.css" /><style type="text/css">#topnav{text-align:center;background:#333;padding-bottom:20px;position:fixed;margin-top:0;width:100%;bottom:0;top:51px;}#topnav .navbar-nav{margin:0;margin-top:8px;display:-webkit-inline-box;display:-moz-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-box;display:inline-flex}#topnav .sidebar-to-top .btn{text-align:left}#topnav .sidebar-to-top li.level2>a{margin-left:20px}#topnav .sidebar-to-top li.level3>a{margin-left:40px}#topnav .sidebar-to-top li.level4>a{margin-left:60px}#topnav .sidebar-to-top li.level5>a{margin-left:80px}#topnav .sidebar-to-top li.level6>a{margin-left:100px}.navbar-fixed-top .navbar-collapse{max-height:100%}.navbar{min-width:300px}.nav>li{padding:2px 12px}.navbar-inverse .nav>li>a{color:#222;font-weight:bold;padding-top:6px;padding-bottom:6px;}.navbar-inverse .nav>li>a:focus,.navbar-inverse .nav>li>a:hover{background:#73aad8;background:#4b91cd -webkit-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -moz-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -o-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -ms-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd linear-gradient(180deg, #73aad8, #4b91cd) repeat-x}.navbar-inverse .nav>li>a.btn-warning:focus,.navbar-inverse .nav>li>a.btn-warning:hover{background:#ec9721;background:#c97c11 -webkit-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -moz-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -o-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -ms-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 linear-gradient(180deg, #ec9721, #c97c11) repeat-x}.navbar-spacer{height:51px}.btn-warning:active,.btn-primary:active{-webkit-transform:scale(.92);-moz-transform:scale(.92);-o-transform:scale(.92);-ms-transform:scale(.92);transform:scale(.92)}.btn-warning{background:#f2b560;background:#ee9f31 -webkit-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -moz-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -o-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -ms-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 linear-gradient(180deg, #f2b560, #ee9f31) repeat-x}.btn-primary{background:#3d88c9;background:#2e6ea5 -webkit-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -moz-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -o-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -ms-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 linear-gradient(180deg, #3d88c9, #2e6ea5) repeat-x}.sidebar .nav{display:none;list-style:disc;padding-left:25px;}.sidebar .nav>li{display:list-item;}.sidebar .nav>li>a{color:#222;}.sidebar .nav>li>a:active{-webkit-box-shadow:0 2px 10px 2px rgba(0,0,0,0.25);box-shadow:0 2px 10px 2px rgba(0,0,0,0.25)}.sidebar .nav>li>a:hover{background:#3d88c9;background:#2e6ea5 -webkit-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -moz-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -o-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -ms-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 linear-gradient(180deg, #3d88c9, #2e6ea5) repeat-x;color:#fff}.sidebar .nav>li.header,.sidebar .nav>li.active{display:none}.sidebar .nav>li.active>a{background:#73aad8;background:#4b91cd -webkit-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -moz-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -o-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -ms-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd linear-gradient(180deg, #73aad8, #4b91cd) repeat-x;}.sidebar .nav>li.active>a:hover{background:#3d88c9;background:#2e6ea5 -webkit-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -moz-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -o-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -ms-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 linear-gradient(180deg, #3d88c9, #2e6ea5) repeat-x;color:#fff}.sidebar .nav>li.header>a{font-weight:bold;background:#f2b560;background:#ee9f31 -webkit-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -moz-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -o-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -ms-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 linear-gradient(180deg, #f2b560, #ee9f31) repeat-x;}.sidebar .nav>li.header>a:hover{background:#ec9721;background:#c97c11 -webkit-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -moz-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -o-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -ms-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 linear-gradient(180deg, #ec9721, #c97c11) repeat-x;color:#fff}.sidebar .nav>li.level2>a{padding-left:30px}.sidebar .nav>li.level3>a{padding-left:50px}.sidebar .nav>li.level4>a{padding-left:70px}.sidebar .nav>li.level5>a,.sidebar .nav>li.level6>a{padding-left:90px}.navbar-inverse .navbar-toggle{background-color:#444;}.navbar-inverse .navbar-toggle:hover{background-color:#666}@media (min-width:768px){#topnav{position:inherit;background:#222;padding-bottom:0}#topnav .nav>li{padding:0 4px}#topnav .sidebar-to-top{display:none}.navbar-right{margin-right:0}.navbar-nav >li>a{padding:6px 10px}.sidebar{overflow:auto;position:fixed;top:51px;left:0;bottom:0;background:#ddd;padding:0;}.sidebar h1,.sidebar h2{display:none}.sidebar .nav{display:block;list-style:none;padding-left:0;}.sidebar .nav>li{padding:0;}.sidebar .nav>li.header,.sidebar .nav>li.active{display:block;}.sidebar .nav>li.header.level2>a:before,.sidebar .nav>li.active.level2>a:before,.sidebar .nav>li.header.level3>a:before,.sidebar .nav>li.active.level3>a:before,.sidebar .nav>li.header.level4>a:before,.sidebar .nav>li.active.level4>a:before,.sidebar .nav>li.header.level5>a:before,.sidebar .nav>li.active.level5>a:before,.sidebar .nav>li.header.level6>a:before,.sidebar .nav>li.active.level6>a:before{content:"•"}.sidebar .nav>li>a{padding-top:8px;padding-bottom:8px}.sidebar .nav>li.level2>a:before,.sidebar .nav>li.level3>a:before,.sidebar .nav>li.level4>a:before,.sidebar .nav>li.level5>a:before,.sidebar .nav>li.level6>a:before{content:"◦";font-size:150%;line-height:10%;font-weight:bold;padding-right:5px;display:block;float:left;margin-top:8px;margin-left:-15px;color:#666}}img.preload{display:none}body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:16px;line-height:1.2;-ms-word-break:break-all;word-break:break-all;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;-ms-hyphens:auto;hyphens:auto;-webkit-hyphenate-before:2;-webkit-hyphenate-after:3;hyphenate-lines:3;min-width:300px}h1,h2,h3,h4,h5,h6{font-weight:bold;}h1:before,h2:before,h3:before,h4:before,h5:before,h6:before{display:block;content:" ";margin-top:-66px;height:66px;visibility:hidden}h1,h2,h3{clear:both}h1{border-bottom:3px solid #222;padding-bottom:5px}h2{border-bottom:2px dotted #222;padding-bottom:3px}h3{border-bottom:2px dotted #aaa;padding-bottom:2px}h4{border-bottom:1px dotted #aaa}dt{font-weight:bold;margin-top:8px}dd{margin-left:20px}blockquote{border:1px solid #eee;border-radius:3px;border-left:5px solid #337ab7;padding:5px 15px;margin:10px 0;}blockquote ul li p{margin-bottom:0}svg,img{max-width:100%}table{border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all;margin-bottom:10px;}table th,table td{padding:6px 13px;border:1px solid #ddd}table th{background-color:rgba(0,0,0,0.04);font-weight:bold;border-bottom:3px solid #999}table tr{background-color:#fff;border-top:1px solid #ccc;}table tr:nth-child(2n){background-color:rgba(0,0,0,0.04)}img{vertical-align:middle}.emoji{height:1em}abbr,acronym{border-bottom:dotted 1px}a code{color:#337ab7}code,tt{background-color:#fafafa;border-radius:4px;font-size:85%;margin:0;padding:.2em 0}pre{background-color:#fafafa;border-radius:10px;border:1px solid #a4a4a4;font-size:85%;margin:20px;padding:10px;}pre code,pre tt{background:none}pre.language{counter-reset:line;max-height:265px;padding-top:30px;padding-bottom:0;overflow-x:hidden;}pre.language code,pre.language tt{display:block;position:relative;float:left;width:100%;border-left:45px solid #ddd;margin-left:-10px;padding-left:5px;}pre.language code:before,pre.language tt:before{counter-increment:line;content:counter(line);min-width:35px;float:left;text-align:right;padding-right:5px;color:#808080;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-user-select:none;margin-left:-45px}pre.language code:first-of-type,pre.language tt:first-of-type{padding-top:10px}pre.language code:last-child,pre.language tt:last-child{padding-bottom:10px}pre.language header{border-top-left-radius:4px;border-top-right-radius:4px;font-weight:bold;background:#fafafa;margin:-30px -10px 0 -10px;padding:5px 15px}pre.language.coffeescript header,pre.language.javascript header,pre.language.ruby header,pre.language.python header,pre.language.perl header,pre.language.cc header,pre.language.cpp header,pre.language.cs header,pre.language.java header,pre.language.jsp header,pre.language.groovy header,pre.language.php header,pre.language.bash header,pre.language.sql header,pre.language.makefile header{background:#f0ad4e}pre.language.json header,pre.language.cson header,pre.language.yaml header{background:#61b961}pre.language.handlebars header,pre.language.css header,pre.language.stylus header,pre.language.scss header,pre.language.less header,pre.language.markdown header{background:#76abca}ul.table-of-contents{max-width:100px;max-height:30px;overflow:hidden;position:fixed;top:51px;right:0;background:#ddd;padding:5px 15px;-webkit-transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;-moz-transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;-o-transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;-ms-transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;border-left:2px solid #999;border-bottom:2px solid #999;border-bottom-left-radius:10px;list-style-type:none;white-space:nowrap;z-index:100;}ul.table-of-contents:hover{max-width:285px;max-height:248px;-webkit-transition:max-width 100ms ease, max-height 1s ease 100ms;-moz-transition:max-width 100ms ease, max-height 1s ease 100ms;-o-transition:max-width 100ms ease, max-height 1s ease 100ms;-ms-transition:max-width 100ms ease, max-height 1s ease 100ms;transition:max-width 100ms ease, max-height 1s ease 100ms;overflow-y:auto}ul.table-of-contents header{background:#999;font-weight:bold;margin:-5px -15px;padding:5px 15px}ul.table-of-contents>li{padding-bottom:2px;padding-right:8px;}ul.table-of-contents>li:first-of-type{padding-top:10px}ul.table-of-contents a{color:#222}ul.table-of-contents li.sidebar{display:list-item}@media (min-width:768px){ul.table-of-contents li.sidebar{display:none}}div.detail,div.info,div.warning,div.alert{padding:30px 10px 6px 10px;margin:5px 0 8px 0;border-radius:3px;padding-left:60px;border-radius:18px;border-top-left-radius:0;}div.detail>p,div.info>p,div.warning>p,div.alert>p{margin-bottom:0}div.detail header,div.info header,div.warning header,div.alert header{font-weight:bold;position:absolute;margin-top:-30px;margin-left:-60px;padding:3px 20px 3px 10px;border-bottom-right-radius:18px}div:before{content:'\24D8';color:#666;position:absolute;font-size:28px;font-weight:900;padding-top:5px;margin-left:-50px}div.detail{background-color:#fafafa;border:2px solid #ddd;padding-top:0}div.info{background-color:#9f9;background-image:-webkit-linear-gradient(top, #bfb 0%, #6d6 100%);background-image:-moz-linear-gradient(top, #bfb 0%, #6d6 100%);background-image:-o-linear-gradient(top, #bfb 0%, #6d6 100%);background-image:-ms-linear-gradient(top, #bfb 0%, #6d6 100%);background-image:linear-gradient(to bottom, #bfb 0%, #6d6 100%);border:2px solid #6d6;}div.info header{background-color:#6d6}div.info:before{content:'\24D8';text-shadow:0 -1px 0 #6d6}div.warning{background-color:#fc9;background-image:-webkit-linear-gradient(top, #f97 0%, #e86 100%);background-image:-moz-linear-gradient(top, #f97 0%, #e86 100%);background-image:-o-linear-gradient(top, #f97 0%, #e86 100%);background-image:-ms-linear-gradient(top, #f97 0%, #e86 100%);background-image:linear-gradient(to bottom, #f97 0%, #e86 100%);border:2px solid #e86;}div.warning header{background-color:#e86}div.warning:before{content:'\2605';text-shadow:0 -1px 0 #e86}div.alert{background-color:#f99;background-image:-webkit-linear-gradient(top, #faa 0%, #c00 100%);background-image:-moz-linear-gradient(top, #faa 0%, #c00 100%);background-image:-o-linear-gradient(top, #faa 0%, #c00 100%);background-image:-ms-linear-gradient(top, #faa 0%, #c00 100%);background-image:linear-gradient(to bottom, #faa 0%, #c00 100%);border:2px solid #c00;}div.alert header{background-color:#c00;color:#fff}div.alert:before{content:'\24D8';text-shadow:0 -1px 0 #c00}.cse .gsc-control-cse,.gsc-control-cse{padding:0 !important;}.cse .gsc-control-cse table tr,.gsc-control-cse table tr,.cse .gsc-control-cse table th,.gsc-control-cse table th,.cse .gsc-control-cse table td,.gsc-control-cse table td{border:0}.cse .gsc-control-cse .gsc-cursor-current-page,.gsc-control-cse .gsc-cursor-current-page{color:#fff !important}.cse .gsc-control-cse .gsc-webResult.gsc-result:hover,.gsc-control-cse .gsc-webResult.gsc-result:hover,.cse .gsc-control-cse .gsc-imageResult:hover,.gsc-control-cse .gsc-imageResult:hover{border-left:5px solid #337ab7;padding-left:3px}.cse .gsc-control-cse .gcsc-branding,.gsc-control-cse .gcsc-branding{display:none !important}.gsc-adBlock{display:none !important}@media print{.navbar-spacer,.table-of-contents,.sidebar{display:none}.main{left:0;width:100%}pre.language header{border-bottom:2px solid #999}}.text-red{color:#d13f19}.text-green{color:#2ecc40}.text-yellow{color:#ffdc00}.text-blue{color:#0074d9}.text-magenta{color:#f0f}.text-cyan{color:#0ff}.text-gray{color:#aaa}.bg-white{background-color:#fff}.center{text-align:center}.left{float:left}.right{float:right}.spacing{padding:10px}.hidden{display:none}@media (max-width:767px){.hidden-small{display:none}}@media (min-width:768px){.hidden-large{display:none}}</style>
+  </head>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0" /></head>
-<body>
-  <nav>
-<div class="logo"><a href="http://alinex.github.io"
-  onmouseover="logo.src='https://alinex.github.io/images/Alinex-200.png'"
-  onmouseout="logo.src='https://alinex.github.io/images/Alinex-black-200.png'">
-  <img name="logo" src="https://alinex.github.io/images/Alinex-black-200.png"
-    width="150" title="Alinex Universe Homepage" />
-  </a>
-  <img src="http://alinex.github.io/images/Alinex-200.png"
-    style="display:none" alt="preloading" />
-</div>
-<div class="links">
-  <a href="http://alinex.github.io/blog"
-    class="btn btn-primary"><span class="glyphicon-pencil"></span> Blog</a>
-  <a href="http://alinex.github.io/develop"
-    class="btn btn-primary"><span class="glyphicon-book"></span> Develop</a>
-  <a href="http://alinex.github.io/code.html"
-    class="btn btn-warning"><span class="glyphicon-cog"></span> Code</a>
-</div>
-</nav><div id="sidebar_wrapper">
-    <div id="sidebar_switch">
-      <span class="tree">Files</span>
-      <span class="headings">Headings</span>
-    </div>
-    <div id="tree"></div>
-    <div id="headings">
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topnav" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://alinex.github.io/" onmouseover="logo.src='https://alinex.github.io/images/Alinex-200.png'" onmouseout="logo.src='https://alinex.github.io/images/Alinex-black-200.png'">
+  <img name="logo" src="https://alinex.github.io/images/Alinex-black-200.png" width="150" title="Alinex Homepage">
+</a>
+<img class="preload" src="https://alinex.github.io/images/Alinex-200.png" aria-hidden="true">
 
-      <div class="heading h1">
-        <a href="#package-alinex-sshtunnel">Package: alinex-sshtunnel</a>
+        </div>
+        <div id="topnav" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://alinex.github.io/blog" class="btn btn-primary">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Blog
+  </a></li>
+<li><a href="https://alinex.github.io/develop" class="btn btn-primary">
+    <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Develop
+  </a></li>
+<li><a href="https://alinex.github.io/code.html" class="btn btn-warning">
+    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Code
+  </a></li>
+
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input name="q" type="text" class="form-control" placeholder="Search...">
+          </form>
+          <ul class="nav sidebar-to-top">
+                <li class="active level0">
+                  <a href="README.md.html" title="Alinex SSH Tunnel: Readme (/README.md)" class="btn btn-warning">Readme <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="level1">
+                  <a href="src/configSchema.coffee.html" title="Configuration (/src/configSchema.coffee)" class="btn btn-primary">Configuration</a>
+                </li>
+                <li class="level0">
+                  <a href="Changelog.md.html" title="Version changes (/Changelog.md)" class="btn btn-primary">Version changes</a>
+                </li>
+          </ul>
+        </div>
       </div>
+    </nav>
 
-      <div class="heading h2">
-        <a href="#install">Install</a>
-      </div>
+    <div class="navbar-spacer"></div>
 
-      <div class="heading h2">
-        <a href="#usage">Usage</a>
-      </div>
+    <div class="container-fluid">
+      <div class="row">
 
-      <div class="heading h3">
-        <a href="#simple-forward-tunnel">Simple forward tunnel</a>
-      </div>
+        <div class="col-sm-9 col-sm-push-3 main">
+          <script>
+  (function() {
+    var cx = '010539487162786288372:chxqbheanxc';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:searchresults-only></gcse:searchresults-only>
 
-      <div class="heading h3">
-        <a href="#dynamic-socksv5-proxy">Dynamic SOCKSv5 Proxy</a>
-      </div>
-
-      <div class="heading h3">
-        <a href="#debugging">Debugging</a>
-      </div>
-
-      <div class="heading h2">
-        <a href="#setup">Setup</a>
-      </div>
-
-      <div class="heading h2">
-        <a href="#license">License</a>
-      </div>
-
-    </div>
-  </div>
-  <div id="sidebar-toggle"></div>
-  <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-sshtunnel" title="Fork me on GitHub"></a>
-    <div class="docs markdown"><div class="pilwrap" id="package-alinex-sshtunnel">
-  <h1>
-    <a href="#package-alinex-sshtunnel" name="package-alinex-sshtunnel" class="pilcrow"></a>
-Package: alinex-sshtunnel
-  </h1>
-</div>
-<p><a href="https://gemnasium.com/alinex/node-sshtunnel"><img src="https://gemnasium.com/alinex/node-sshtunnel.png" alt="Dependency Status"></a></p>
+          <main><p><ul class="table-of-contents" aria-hidden="true"><header>Index</header>
+<li><a href="#install">Install</a></li>
+<li><a href="#usage">Usage</a>
+<ul>
+<li><a href="#simple-forward-tunnel">Simple forward tunnel</a></li>
+<li><a href="#dynamic-socksv5-proxy">Dynamic SOCKSv5 Proxy</a></li>
+<li><a href="#configuration-files">Configuration files</a></li>
+<li><a href="#debugging">Debugging</a></li>
+</ul>
+</li>
+<li><a href="#license">License</a></li>
+</ul>
+</p>
+<h1 id="alinex-ssh-tunnel-readme">Alinex SSH Tunnel: Readme</h1>
+<p class="right"><a href="https://github.com/alinex/node-sshtunnel/subscription"><img src="https://img.shields.io/github/watchers/alinex/node-sshtunnel.svg?style=social&amp;label=Watch&amp;maxAge=2592000" alt="GitHub watchers" class="hidden-small" /></a>
+<a href="https://github.com/alinex/node-sshtunnel"><img src="https://img.shields.io/github/stars/alinex/node-sshtunnel.svg?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a>
+<a href="https://github.com/alinex/node-sshtunnel"><img src="https://img.shields.io/github/forks/alinex/node-sshtunnel.svg?style=social&amp;label=Fork&amp;maxAge=2592000" alt="GitHub forks" class="hidden-small" /></a></p>
+<p><a href="https://www.npmjs.com/package/alinex-sshtunnel"><img src="https://img.shields.io/npm/v/alinex-sshtunnel.svg?maxAge=2592000&amp;label=latest%20version" alt="npm package" /></a>
+<a href="#license"><img src="https://img.shields.io/npm/l/alinex-sshtunnel.svg?maxAge=2592000" alt="latest version" class="hidden-small" /></a>
+<a href="https://travis-ci.org/alinex/node-sshtunnel"><img src="https://img.shields.io/travis/alinex/node-sshtunnel.svg?maxAge=2592000&amp;label=develop" alt="Travis status" /></a>
+<a href="https://coveralls.io/r/alinex/node-sshtunnel?branch=master"><img src="https://img.shields.io/coveralls/alinex/node-sshtunnel.svg?maxAge=2592000" alt="Coveralls status" /></a>
+<a href="https://gemnasium.com/alinex/node-sshtunnel"><img src="https://img.shields.io/gemnasium/alinex/node-sshtunnel.svg?maxAge=2592000" alt="Gemnasium status" /></a>
+<a href="https://github.com/alinex/node-sshtunnel/issues"><img src="https://img.shields.io/github/issues/alinex/node-sshtunnel.svg?maxAge=2592000" alt="GitHub issues" class="hidden-small" /></a></p>
 <p>Proxy ssh tunnel allows you to open tunnels through ssh connections which may be
 used for communication.</p>
 <p>A SSH tunnel consists of an encrypted tunnel created through a SSH protocol
@@ -95,200 +118,142 @@ forward a local port to a host and port reachable from the SSH server.</p>
 they may be used also from external programs.</p>
 <ul>
 <li>outgoing tunneling through SSH</li>
-<li>using pooled ssh connections</li>
-<li>pooling also for the tunnels</li>
-<li>auto reconnect</li>
+<li>pooling ssh connection for tunnels</li>
 <li>dynamic port forwarding using SOCKSv5 proxy</li>
+<li>configurable by file</li>
 </ul>
 <blockquote>
-<p>It is one of the modules of the <a href="http://alinex.github.io/code.html">Alinex Universe</a>
-following the code standards defined in the <a href="http://alinex.github.io/develop">General Docs</a>.</p>
+<p>It is one of the modules of the <a href="https://alinex.github.io/code.html">Alinex Namespace</a>
+following the code standards defined in the <a href="https://alinex.github.io/develop">General Docs</a>.</p>
 </blockquote>
-<div class="pilwrap" id="install">
-  <h2>
-    <a href="#install" name="install" class="pilcrow"></a>
-Install
-  </h2>
-</div>
-<p><a href="https://www.npmjs.com/package/alinex-sshtunnel"><img src="https://nodei.co/npm/alinex-sshtunnel.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM">
-<img src="https://nodei.co/npm-dl/alinex-sshtunnel.png?months=9&amp;height=3" alt="Downloads">
+<p class="hidden"><strong>Read the complete documentation under
+<a href="https://alinex.github.io/node-sshtunnel">https://alinex.github.io/node-sshtunnel</a>.</strong></p>
+<h2 id="install">Install</h2>
+<p><a href="https://www.npmjs.com/package/alinex-sshtunnel"><img src="https://nodei.co/npm/alinex-sshtunnel.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM" />
+<img src="https://nodei.co/npm-dl/alinex-sshtunnel.png?months=9&amp;height=3" alt="Downloads" />
 </a></p>
 <p>The easiest way is to let npm add the module directly to your modules
 (from within you node modules directory):</p>
-<pre><code class="sh">npm install alinex-sshtunnel --save
-</code></pre>
+<pre class="language bash"><header>Shell Script</header><code>npm install alinex-sshtunnel --save</code></pre>
 <p>And update it to the latest version later:</p>
-<pre><code class="sh">npm update alinex-sshtunnel --save
-</code></pre>
+<pre class="language bash"><header>Shell Script</header><code>npm update alinex-sshtunnel --save</code></pre>
 <p>Always have a look at the latest <a href="Changelog.md.html">changes</a>.</p>
-<div class="pilwrap" id="usage">
-  <h2>
-    <a href="#usage" name="usage" class="pilcrow"></a>
-Usage
-  </h2>
-</div>
+<h2 id="usage">Usage</h2>
 <p>This module has a very simple API, you can do two things:</p>
-<div class="pilwrap" id="simple-forward-tunnel">
-  <h3>
-    <a href="#simple-forward-tunnel" name="simple-forward-tunnel" class="pilcrow"></a>
-Simple forward tunnel
-  </h3>
-</div>
+<h3 id="simple-forward-tunnel">Simple forward tunnel</h3>
 <p>You can open a tunnel with:</p>
-<pre><code class="coffee">sshtunnel = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-sshtunnel'</span>
-sshtunnel
-  ssh:
-    host: <span class="hljs-string">'65.25.98.25'</span>
-    port:  <span class="hljs-number">22</span>
-    username: <span class="hljs-string">'root'</span>
-    <span class="hljs-comment">#passphrase: 'mypass'</span>
-    privateKey: <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>).readFileSync <span class="hljs-string">'/home/alex/.ssh/id_rsa'</span>
-    <span class="hljs-comment">#localHostname: "Localost"</span>
-    <span class="hljs-comment">#localUsername: "LocalUser"</span>
-    <span class="hljs-comment">#readyTimeout: 20000</span>
-    keepaliveInterval: <span class="hljs-number">1000</span>
-    <span class="hljs-comment">#debug: true</span>
-  tunnel:
-    host: <span class="hljs-string">'172.30.0.11'</span>
-    port: <span class="hljs-number">80</span>
-    <span class="hljs-comment">#localhost: '127.0.0.1'</span>
-    <span class="hljs-comment">#localPort: 8080</span>
-  retry:
-    times: <span class="hljs-number">3</span>
-    intervall: <span class="hljs-number">200</span>
-, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span>
-    <span class="hljs-built_in">console</span>.log <span class="hljs-string">"tunnel opened at <span class="hljs-subst">#{tunnel.setup.host}</span>:<span class="hljs-subst">#{tunnel.setup.port}</span>"</span>
-    <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span>
-    setTimeout -&gt;
-      tunnel.end()
-    , <span class="hljs-number">10000</span>
-</code></pre>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>sshtunnel = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-sshtunnel'</span></code>
+<code>sshtunnel.open</code>
+<code>  ssh:</code>
+<code>    host: <span class="hljs-string">'65.25.98.25'</span></code>
+<code>    port:  <span class="hljs-number">22</span></code>
+<code>    username: <span class="hljs-string">'root'</span></code>
+<code>    <span class="hljs-comment">#passphrase: 'mypass'</span></code>
+<code>    privateKey: <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>).readFileSync <span class="hljs-string">'/home/alex/.ssh/id_rsa'</span></code>
+<code>    <span class="hljs-comment">#localHostname: "Localost"</span></code>
+<code>    <span class="hljs-comment">#localUsername: "LocalUser"</span></code>
+<code>    <span class="hljs-comment">#readyTimeout: 20000</span></code>
+<code>    keepaliveInterval: <span class="hljs-number">1000</span></code>
+<code>    <span class="hljs-comment">#debug: true</span></code>
+<code>  tunnel:</code>
+<code>    host: <span class="hljs-string">'172.30.0.11'</span></code>
+<code>    port: <span class="hljs-number">80</span></code>
+<code>    <span class="hljs-comment">#localhost: '127.0.0.1'</span></code>
+<code>    <span class="hljs-comment">#localPort: 8080</span></code>
+<code>  retry:</code>
+<code>    times: <span class="hljs-number">3</span></code>
+<code>    intervall: <span class="hljs-number">200</span></code>
+<code>, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span></code>
+<code>    <span class="hljs-built_in">console</span>.log <span class="hljs-string">"tunnel opened at <span class="hljs-subst">#{tunnel.setup.host}</span>:<span class="hljs-subst">#{tunnel.setup.port}</span>"</span></code>
+<code>    <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>    setTimeout -&gt;</code>
+<code>      tunnel.end()</code>
+<code>    , <span class="hljs-number">10000</span></code></pre>
 <p>And afterwards you may close it like shown above using <code>tunnel.close()</code> or
 close all tunnels with:</p>
-<pre><code class="coffee">sshtunnel.close()
-</code></pre>
-<div class="pilwrap" id="dynamic-socksv5-proxy">
-  <h3>
-    <a href="#dynamic-socksv5-proxy" name="dynamic-socksv5-proxy" class="pilcrow"></a>
-Dynamic SOCKSv5 Proxy
-  </h3>
-</div>
-<p>The following script shows how to make a dynamic 1:1 proxy using SOCKSv5. It's
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>sshtunnel.close()</code></pre>
+<h3 id="dynamic-socksv5-proxy">Dynamic SOCKSv5 Proxy</h3>
+<p>The following script shows how to make a dynamic 1:1 proxy using SOCKSv5. It’s
 nearly the same, only the tunnel host and port are missing (the tunnel group
 may also be removed completely):</p>
-<pre><code class="coffee">sshtunnel = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-sshtunnel'</span>
-sshtunnel
-  ssh:
-    host: <span class="hljs-string">'65.25.98.25'</span>
-    port:  <span class="hljs-number">22</span>
-    username: <span class="hljs-string">'root'</span>
-    <span class="hljs-comment">#passphrase: 'mypass'</span>
-    privateKey: <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>).readFileSync <span class="hljs-string">'/home/alex/.ssh/id_rsa'</span>
-    <span class="hljs-comment">#localHostname: "Localost"</span>
-    <span class="hljs-comment">#localUsername: "LocalUser"</span>
-    <span class="hljs-comment">#readyTimeout: 20000</span>
-    keepaliveInterval: <span class="hljs-number">1000</span>
-    <span class="hljs-comment">#debug: true</span>
-, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span>
-    <span class="hljs-built_in">console</span>.log <span class="hljs-string">"tunnel opened at <span class="hljs-subst">#{tunnel.setup.host}</span>:<span class="hljs-subst">#{tunnel.setup.port}</span>"</span>
-    <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span>
-    setTimeout -&gt;
-      tunnel.end()
-    , <span class="hljs-number">10000</span>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>sshtunnel = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-sshtunnel'</span></code>
+<code>sshtunnel.open</code>
+<code>  ssh:</code>
+<code>    host: <span class="hljs-string">'65.25.98.25'</span></code>
+<code>    port:  <span class="hljs-number">22</span></code>
+<code>    username: <span class="hljs-string">'root'</span></code>
+<code>    <span class="hljs-comment">#passphrase: 'mypass'</span></code>
+<code>    privateKey: <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>).readFileSync <span class="hljs-string">'/home/alex/.ssh/id_rsa'</span></code>
+<code>    <span class="hljs-comment">#localHostname: "Localost"</span></code>
+<code>    <span class="hljs-comment">#localUsername: "LocalUser"</span></code>
+<code>    <span class="hljs-comment">#readyTimeout: 20000</span></code>
+<code>    keepaliveInterval: <span class="hljs-number">1000</span></code>
+<code>    <span class="hljs-comment">#debug: true</span></code>
+<code>, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span></code>
+<code>    <span class="hljs-built_in">console</span>.log <span class="hljs-string">"tunnel opened at <span class="hljs-subst">#{tunnel.setup.host}</span>:<span class="hljs-subst">#{tunnel.setup.port}</span>"</span></code>
+<code>    <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>    setTimeout -&gt;</code>
+<code>      tunnel.end()</code>
+<code>    , <span class="hljs-number">10000</span></code></pre>
+<h3 id="configuration-files">Configuration files</h3>
+<p>To use configuration files you also need to setup and initialize this before using it:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>sshtunnel = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-sshtunnel'</span></code>
+<code>sshtunnel.setup (err) -&gt;</code>
+<code>  sshtunnel.init (err) -&gt;</code>
+<code>    <span class="hljs-comment"># do your work</span></code></pre>
+<p>See the <a href="src/configSchema.coffee.html" title="File: src/configSchema.coffee">Configuration</a> for a detailed information about it’s possibilities.
+And then put your own settings in external files like described at <a href="https://alinex.github.io/node-config">alinex-config</a>:</p>
+<pre><code>/ssh.yaml - contains named setup of ssh connections
+/tunnel.yaml - set the tunnel configuration with name
 </code></pre>
-<div class="pilwrap" id="debugging">
-  <h3>
-    <a href="#debugging" name="debugging" class="pilcrow"></a>
-Debugging
-  </h3>
-</div>
+<p>But you may also directly give your setup to the methods above.</p>
+<h3 id="debugging">Debugging</h3>
 <p>If you have any problems with the tunnel you may always run it with debugging by
 only setting the <code>DEBUG</code> environment variable like:</p>
-<pre><code class="coffee">DEBUG=sshtunnel* myprog-usingsshtunnel
-</code></pre>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>DEBUG=sshtunnel* myprog-usingsshtunnel</code></pre>
 <p>To get even more information you may also set the <code>debug</code> flag to <code>true</code> in the
 setup of your ssh tunnel.</p>
-<div class="pilwrap" id="setup">
-  <h2>
-    <a href="#setup" name="setup" class="pilcrow"></a>
-Setup
-  </h2>
-</div>
-<p>Like shown above you may use several settings to specify your tunneling.</p>
-<p>The <code>ssh</code> connection setup:</p>
-<ul>
-<li><code>host</code> - define the host to bind the tunnel to as hostname or ip address</li>
-<li><code>port</code> - the ssh port on the above host (default: 22)</li>
-<li><code>forceIPv4</code> - set to <code>true</code> to only use resolved IPv4 address for host (default: false)</li>
-<li><code>forceIPv6</code> - set to <code>true</code> to only use resolved IPv6 address for host (default: false)</li>
-<li><code>username</code> - the user under which to connect (default: <your username>)</li>
-<li><code>passphrase</code> - password for the above user (or privateKey)</li>
-<li><code>privateKey</code> - private key, content to use (default: &lt;use keys from .ssh dir&gt;)</li>
-<li><code>localHostname</code> - along with localUsername and privateKey for hostbased user authentication</li>
-<li><code>localUsername</code> - along with localHostname and privateKey for hostbased user authentication</li>
-<li><code>keepaliveInterval</code> - how often (in milliseconds) to send SSH-level keepalive packets
-to the server (default: 0 to disable)</li>
-<li><code>keepaliveCountMax</code> - how many consecutive, unanswered SSH-level keepalive packets that can
-be sent to the server before disconnection (default: 3)</li>
-<li><code>readyTimeout</code> - how long (in milliseconds) to wait for the SSH handshake to complete
-(default: 20000)</li>
-<li><code>strictVendor</code> - performs a strict server vendor check before sending vendor-specific
-requests, etc. (default: true)</li>
-<li><code>algorithms</code> - this option allows you to explicitly override the default transport
-layer algorithms used for the connection. The order of the algorithms in the arrays
-are important, with the most favorable being first.
-<ul>
-<li><code>kex</code> - (array) Key exchange algorithms</li>
-<li><code>cipher</code> - (array) Ciphers</li>
-<li><code>serverHostKey</code> - (array) Server host key formats</li>
-<li><code>hmac</code> - (array) (H)MAC algorithms</li>
-<li><code>compress</code> - (array) Compression algorithms</li>
-</ul>
-</li>
-<li><code>compress</code> - set to <code>true</code> to enable compression if server supports it, <code>'force'</code> to
-force compression (disconnecting if server does not support it), or <code>false</code> to explicitly
-opt out of compression all of the time. (only possible if no algorithms defined)</li>
-<li><code>debug</code> - also log detailed debug messages if <code>DEBUG=sshtunnel:debug</code> is set as
-environment variable (default: false)</li>
-</ul>
-<blockquote>
-<p>You may also provide an Array for the <code>ssh</code> setting. The module will try each server
-setup in order to get a working connection and uses the first one succeding.</p>
-</blockquote>
-<p>For a simple tunnel you also have to define which connection you want to tunnel
-in setting <code>tunnel</code>:</p>
-<ul>
-<li><code>host</code> - hostname or ip address which to tunnel</li>
-<li><code>port</code> - port to tunnel</li>
-<li><code>localhost</code> - local ip where the tunnel will be setup (default: 127.0.0.1)</li>
-<li><code>localPort</code> - local port to bind to the tunnel (default: 8000)</li>
-</ul>
-<p>And finally to make connecting more robust you may add a retry setting which will
-lead to a retry on problems while connecting. Short network problems won't make a
-problem here (using <code>retry</code>):</p>
-<ul>
-<li><code>times</code> - number of times to try to connect</li>
-<li><code>intervall</code> - intervall to wait (in milliseconds) between tries</li>
-</ul>
-<div class="pilwrap" id="license">
-  <h2>
-    <a href="#license" name="license" class="pilcrow"></a>
-License
-  </h2>
-</div>
-<p>Copyright 2015-2016 Alexander Schilling</p>
-<p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<p>If you enable debugging of <code>sshtunnel</code> the given configuration will also be validated.</p>
+<h2 id="license">License</h2>
+<p>© Copyright 2015-2016 Alexander Schilling</p>
+<p>Licensed under the Apache License, Version 2.0 (the “License”);
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at</p>
 <blockquote>
 <p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
 </blockquote>
 <p>Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+distributed under the License is distributed on an “AS IS” BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.</p>
-</div>
-  </div>
-</body>
+</main>
+        </div>
+        <div class="col-sm-3 col-cm-pull-9 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="header">
+              <a href="README.md.html">Alinex SSH Tunnel</a>
+            </li>
+                <li class="active level0">
+                  <a href="README.md.html" title="Alinex SSH Tunnel: Readme (/README.md)">Readme <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="level1">
+                  <a href="src/configSchema.coffee.html" title="Configuration (/src/configSchema.coffee)">Configuration</a>
+                </li>
+                <li class="level0">
+                  <a href="Changelog.md.html" title="Version changes (/Changelog.md)">Version changes</a>
+                </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script type="text/javascript"><!--
+    $(".table-of-contents").bind("mouseleave", function(event) { $(".table-of-contents").scrollTop(0); });
+    //--></script>
+  </body>
 </html>
