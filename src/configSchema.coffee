@@ -15,7 +15,7 @@ SSH Connection
 
 exports.ssh = ssh =
   title: "SSH Connection List"
-  description: "the list of possible ssh connections"
+  description: "the list of possible ssh connections, the first working will be used"
   type: 'object'
   entries: [
     title: "SSH Connections"
