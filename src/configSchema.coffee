@@ -171,7 +171,7 @@ exports.tunnel =
           title: "Connection Reference"
           description: "the reference name for an defined ssh connection under config '/ssh/NAME'"
           type: 'string'
-          list: '<<<context:///ssh>>>'
+          list: '<<</ssh>>>'
         , ssh
         ]
       tunnel:
