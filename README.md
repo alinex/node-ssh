@@ -178,8 +178,8 @@ And then put your own settings in external files like described at {@link alinex
 But you may also directly give your setup to the methods above.
 
 
-### Debugging
-
+Debugging
+----------------------------------------------
 If you have any problems with the tunnel you may always run it with debugging by
 only setting the `DEBUG` environment variable like:
 
