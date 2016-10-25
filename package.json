@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "alinex-builder": "^2.3.9",
-    "alinex-validator": "^2.0.4",
+    "alinex-validator": "^2.0.6",
     "chai": "^3.5.0"
   },
   "optionalDependencies": {},
