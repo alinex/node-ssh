@@ -4,6 +4,15 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.3.1 (2016-10-25)
+-------------------------------------------------
+- Fixed data referencing in schema.
+- Fixed reference to ssh config.
+- Better explain use of alternative ssh settings.
+- Undo last changes.
+- Change html comment style.
+- Change github readme markdown.
+
 Version 1.3.0 (2016-10-19)
 -------------------------------------------------
 - Remove alinex-exec as dev-dependency.
