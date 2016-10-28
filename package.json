@@ -1,22 +1,23 @@
 {
-  "name": "alinex-sshtunnel",
+  "name": "alinex-ssh",
   "version": "1.3.2",
-  "description": "Port tunneling through ssh.",
+  "description": "Remote execution and tunneling through ssh.",
   "copyright": "Alexander Schilling 2015-2016",
   "private": false,
   "keywords": [
     "ssh",
+    "exec",
     "tunnel",
     "forwarding",
     "socksv5",
     "proxy"
   ],
-  "homepage": "http://alinex.github.io/node-sshtunnel/",
+  "homepage": "http://alinex.github.io/node-ssh/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alinex/node-sshtunnel"
+    "url": "https://github.com/alinex/node-ssh"
   },
-  "bugs": "https://github.com/alinex/node-sshtunnel/issues",
+  "bugs": "https://github.com/alinex/node-ssh/issues",
   "author": {
     "name": "Alexander Schilling",
     "email": "info@alinex.de",

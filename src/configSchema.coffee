@@ -170,11 +170,11 @@ tunnel =
         description: "the ssh connection to use"
         type: 'or'
         or: [
-          title: "Connection Reference"
+          title: "SSH Connection Reference"
           description: "the reference name for an defined ssh connection under config '/ssh/NAME'"
           type: 'string'
           list: '<<<data:///ssh>>>'
-        , ssh
+        , conn
         ]
       tunnel:
         title: "Tunnel"
@@ -233,6 +233,8 @@ tunnel =
 
 
 exports.ssh =
+  title: "SSH Settings"
+  description: "the SSH connection settings"
   type: 'object'
   keys:
     connection: conn
