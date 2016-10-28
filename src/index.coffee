@@ -1,4 +1,3 @@
-
 # SSH Tunneling class
 # =================================================
 # This is an object oriented implementation around the core `process.spawn`
@@ -114,6 +113,43 @@ exports.open = (setup, cb) ->
               return cb err if err
               cb null, tunnel
 
+# Open ssh connection.
+#
+# @param {Object} setup like described in {@link configSchema.coffee}
+# @param {Function(Error, Connection)} cb callback with `Error` if something went wrong
+# or the Connection with:
+# - `name` - `String` with host/ip and port
+# - `tunnel` - `Object<Server>` with the opened tunnels
+exports.connect = connect = util.function.onceTime (setup, cb) ->
+  name = "#{setup.host}:#{setup.port}"
+  return cb null, connections[name] if connections[name]?._sock?._handle
+  # open new ssh
+  debug chalk.grey "establish new ssh connection to #{name}" if debug.enabled
+  conn = new ssh.Client()
+  conn.name = name
+  conn.on 'ready', ->
+    debug chalk.grey "#{conn.name}: ssh client ready" if debug.enabled
+    # store connection
+    conn.tunnel ?= {}
+    connections[name] = conn
+    cb null, conn
+  if debug.enabled
+    conn.on 'banner', (msg) ->
+      debug chalk.yellow msg
+  conn.on 'error', (err) ->
+    debug chalk.magenta "#{conn.name}: got error: #{err.message}" if debug.enabled
+    conn.end()
+    cb err
+  conn.on 'end', ->
+    debug chalk.grey "#{conn.name}: ssh client closing" if debug.enabled
+    for tunnel of conn.tunnel
+      tunnel.end?()
+    delete connections[name]
+  # start connection
+  conn.connect util.extend util.clone(setup),
+    debug: unless setup.debug then null else (msg) ->
+      debugDebug chalk.grey msg if debugDebug.enabled
+
 
 # Helper methods
 # -------------------------------------------------
@@ -167,43 +203,6 @@ optimize = (setup, cb) ->
     ], cb
   , (err) ->
     cb err, setup
-
-# Open ssh connection.
-#
-# @param {Object} setup like described in {@link configSchema.coffee}
-# @param {Function(Error, Connection)} cb callback with `Error` if something went wrong
-# or the Connection with:
-# - `name` - `String` with host/ip and port
-# - `tunnel` - `Object<Server>` with the opened tunnels
-connect = util.function.onceTime (setup, cb) ->
-  name = "#{setup.host}:#{setup.port}"
-  return cb null, connections[name] if connections[name]?._sock?._handle
-  # open new ssh
-  debug chalk.grey "establish new ssh connection to #{name}" if debug.enabled
-  conn = new ssh.Client()
-  conn.name = name
-  conn.on 'ready', ->
-    debug chalk.grey "#{conn.name}: ssh client ready" if debug.enabled
-    # store connection
-    conn.tunnel ?= {}
-    connections[name] = conn
-    cb null, conn
-  if debug.enabled
-    conn.on 'banner', (msg) ->
-      debug chalk.yellow msg
-  conn.on 'error', (err) ->
-    debug chalk.magenta "#{conn.name}: got error: #{err.message}" if debug.enabled
-    conn.end()
-    cb err
-  conn.on 'end', ->
-    debug chalk.grey "#{conn.name}: ssh client closing" if debug.enabled
-    for tunnel of conn.tunnel
-      tunnel.end?()
-    delete connections[name]
-  # start connection
-  conn.connect util.extend util.clone(setup),
-    debug: unless setup.debug then null else (msg) ->
-      debugDebug chalk.grey msg if debugDebug.enabled
 
 # Snip communication strings for debugging.
 #

@@ -13,7 +13,7 @@ SSH Connection
 {@schema #ssh}
 ###
 
-exports.ssh = ssh =
+conn =
   title: "SSH Connection List"
   description: "the list of possible ssh connections, the first working will be used"
   type: 'object'
@@ -153,7 +153,8 @@ Tunnel Settings
 {@schema #tunnel}
 ###
 
-exports.tunnel =
+
+tunnel =
   title: "Tunnel Setup List"
   description: "the setup of ssh tunnels"
   type: 'object'
@@ -229,3 +230,10 @@ exports.tunnel =
             optional: true
         optional: true
   ]
+
+
+exports.ssh =
+  type: 'object'
+  keys:
+    connection: conn
+    tunnel: tunnel
