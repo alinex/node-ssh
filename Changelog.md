@@ -4,6 +4,12 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.3.2 (2016-10-28)
+-------------------------------------------------
+- Shuffle connection list before use.
+- Removed validator as dev-dependency.
+- Update modules.
+
 Version 1.3.1 (2016-10-25)
 -------------------------------------------------
 - Fixed data referencing in schema.
