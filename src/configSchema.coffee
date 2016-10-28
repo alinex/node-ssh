@@ -22,6 +22,7 @@ exports.ssh = ssh =
     description: "a ssh connection list"
     type: 'array'
     toArray: true
+    shuffle: true
     entries:
       title: "SSH Connection"
       description: "a ssh connection setting"

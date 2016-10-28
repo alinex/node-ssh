@@ -34,8 +34,8 @@
   },
   "dependencies": {
     "alinex-config": "^1.4.0",
-    "alinex-util": "^2.4.2",
-    "alinex-validator": "^2.0.6",
+    "alinex-util": "^2.5.0",
+    "alinex-validator": "^2.1.0",
     "async": "^2.1.2",
     "chalk": "^1.1.3",
     "debug": "^2.2.0",
