@@ -6,9 +6,10 @@
 
 # Node Modules
 # -------------------------------------------------
-debug = require('debug')('sshtunnel')
-debugData = require('debug')('sshtunnel:data')
-debugDebug = require('debug')('sshtunnel:debug')
+debug = require('debug')('ssh')
+debugTunnel = require('debug')('ssh:tunnel')
+debugData = require('debug')('ssh:data')
+debugDebug = require('debug')('ssh:debug')
 chalk = require 'chalk'
 async = require 'async'
 net = require 'net'
@@ -33,9 +34,7 @@ schema = require './configSchema'
 # @param {Function(Error)} cb callback with `Error` if something went wrong
 exports.setup = setup = util.function.once this, (cb) ->
   # add schema for module's configuration
-  config.setSchema '/ssh', schema.ssh, (err) ->
-    return cb err if err
-    config.setSchema '/tunnel', schema.tunnel, cb
+  config.setSchema '/ssh', schema.ssh, cb
 
 # Set the modules config paths, validation schema and initialize the configuration
 #
@@ -53,25 +52,20 @@ exports.init = init = util.function.once this, (cb) ->
 connections = {}
 
 
-# Control tunnel creation
+# Open Remote Connections
 # -------------------------------------------------
 
-# Open new tunnel.
-#
-# @param {Object} setup like described in {@link configSchema.coffee}
-# @param {Function(Error, Object)} cb callback with `Error` if something went wrong
-# or with the tunnel specification if it was opened
-exports.open = (setup, cb) ->
+exports.connect = (setup, cb) ->
   if debug.enabled
     validator ?= require 'alinex-validator'
     validator.checkSync
-      name: 'sshTunnelSetup'
+      name: 'sshExecSetup'
       title: "SSH Tunnel to Open"
       value: setup
-      schema: schema.tunnel
+      schema: schema.ssh.connection
   init (err) ->
     return cb err if err
-    debug chalk.grey "open tunnel..." if debug.enabled
+    debug chalk.grey "open connection..." if debug.enabled
     # add setup defaults
     optimize setup, (err, setup) ->
       return cb err if err
@@ -92,26 +86,94 @@ exports.open = (setup, cb) ->
           conn = result.pop()
           return cb new Error "Connecting to server impossible!\n" + problems.join '\n' unless conn
           cb null, conn
-      , (err, conn) ->
-        return cb err if err
-        # reopen already setup tunnels
-        async.each Object.keys(conn.tunnel), (tk, cb) ->
-          spec = util.extend 'MODE CLONE', setup.tunnel,
-            localHost: conn.tunnel[tk].setup.host
-            localPort: conn.tunnel[tk].setup.port
-          forward conn, spec, cb
-        , (err) ->
+      , cb
+
+
+# Control tunnel creation
+# -------------------------------------------------
+
+# Open new tunnel.
+#
+# @param {Object} setup like described in {@link configSchema.coffee}
+# @param {Function(Error, Object)} cb callback with `Error` if something went wrong
+# or with the tunnel specification if it was opened
+exports.tunnel = (setup, cb) ->
+  exports.connect setup, (err, conn) ->
+    return cb err if err
+    # reopen already setup tunnels
+    async.each Object.keys(conn.tunnel), (tk, cb) ->
+      spec = util.extend 'MODE CLONE', setup.tunnel,
+        localHost: conn.tunnel[tk].setup.host
+        localPort: conn.tunnel[tk].setup.port
+      forward conn, spec, cb
+    , (err) ->
+      return cb err if err
+      if setup.tunnel?.host and setup.tunnel?.port
+        # open new tunnel
+        forward conn, setup.tunnel, (err, tunnel) ->
           return cb err if err
-          if setup.tunnel?.host and setup.tunnel?.port
-            # open new tunnel
-            forward conn, setup.tunnel, (err, tunnel) ->
-              return cb err if err
-              cb null, tunnel
-          else
-            # open SOCKSv5 proxy
-            proxy conn, setup.tunnel, (err, tunnel) ->
-              return cb err if err
-              cb null, tunnel
+          cb null, tunnel
+      else
+        # open SOCKSv5 proxy
+        proxy conn, setup.tunnel, (err, tunnel) ->
+          return cb err if err
+          cb null, tunnel
+
+
+# Helper methods
+# -------------------------------------------------
+
+# Optimize settings and add defaults. If only a reference name is given, this will
+# be replaced with the configured settings. And the user's name and his private keys
+# will be auto detected if stored in the default place. In case of multiple private
+# keys the list will get multiple copies of the origin entry with each key.
+#
+# @param {Object|String} setup like described in {@link configSchema.coffee} or
+# reference to configured connection
+# @param {Function(Error, Object)} cb callback with `Error` if something went wrong
+# or the optimized setup
+optimize = (setup, cb) ->
+  # use configuration
+  if typeof setup is 'string'
+    setup.server = config.get "/ssh/server/#{setup}"
+  if typeof setup.server is 'string'
+    setup.server = config.get "/ssh/server/#{setup.server}"
+  # optimize settings with defaults
+  setup.server = [setup.server] unless Array.isArray setup.server
+  async.each setup.server, (entry, cb) ->
+    async.parallel [
+      (cb) ->
+        return cb() if entry.username
+        # auto detect user name from system
+        if process.env.USERPROFILE
+          entry.username = process.env.USERPROFILE.split(path.sep)[2]
+          return cb()
+        entry.username = process.env.USER ? process.env.USERNAME
+        return cb() if entry.username
+        exec 'whoami',
+          encoding: 'utf8'
+        , (err, name) ->
+          entry.username = name?.trim()
+          cb err
+      (cb) ->
+        return cb() if entry.password or entry.privateKey
+        # auto read the private keys and make a setting for each one found
+        home = if process.platform is 'win32' then 'USERPROFILE' else 'HOME'
+        dir = "#{process.env[home]}/.ssh"
+        # search for ssh keys
+        fs.readdir dir, (err, files) ->
+          return cb() if err or not files.length
+          async.each files, (file, cb) ->
+            fs.readFile "#{dir}/#{file}", 'utf8', (err, content) ->
+              return cb() if err
+              return cb() unless content.match /-----BEGIN .*? PRIVATE KEY-----/
+              setup.server.push util.extend util.clone(entry),
+                privateKey: content
+              cb()
+          , cb
+    ], cb
+  , (err) ->
+    cb err, setup
 
 # Open ssh connection.
 #
@@ -120,7 +182,7 @@ exports.open = (setup, cb) ->
 # or the Connection with:
 # - `name` - `String` with host/ip and port
 # - `tunnel` - `Object<Server>` with the opened tunnels
-exports.connect = connect = util.function.onceTime (setup, cb) ->
+connect = util.function.onceTime (setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
   return cb null, connections[name] if connections[name]?._sock?._handle
   # open new ssh
@@ -149,60 +211,6 @@ exports.connect = connect = util.function.onceTime (setup, cb) ->
   conn.connect util.extend util.clone(setup),
     debug: unless setup.debug then null else (msg) ->
       debugDebug chalk.grey msg if debugDebug.enabled
-
-
-# Helper methods
-# -------------------------------------------------
-
-# Optimize settings and add defaults. This includes the detection of the user's name
-# and his private keys if stored in the default place. In case of multiple private
-# keys the list will get multiple copies of the origin entry with each key.
-#
-# @param {Object} setup like described in {@link configSchema.coffee}
-# @param {Function(Error, Object)} cb callback with `Error` if something went wrong
-# or the optimized setup
-optimize = (setup, cb) ->
-  # use configuration
-  if typeof setup is 'string'
-    setup.ssh = config.get "/tunnel/#{setup}"
-  if typeof setup.ssh is 'string'
-    setup.ssh = config.get "/ssh/#{setup.ssh}"
-  # optimize settings with defaults
-  setup.ssh = [setup.ssh] unless Array.isArray setup.ssh
-  async.each setup.ssh, (entry, cb) ->
-    async.parallel [
-      (cb) ->
-        return cb() if entry.username
-        # auto detect user name from system
-        if process.env.USERPROFILE
-          entry.username = process.env.USERPROFILE.split(path.sep)[2]
-          return cb()
-        entry.username = process.env.USER ? process.env.USERNAME
-        return cb() if entry.username
-        exec 'whoami',
-          encoding: 'utf8'
-        , (err, name) ->
-          entry.username = name?.trim()
-          cb err
-      (cb) ->
-        return cb() if entry.password or entry.privateKey
-        # auto read the private keys and make a setting for each one found
-        home = if process.platform is 'win32' then 'USERPROFILE' else 'HOME'
-        dir = "#{process.env[home]}/.ssh"
-        # search for ssh keys
-        fs.readdir dir, (err, files) ->
-          return cb() if err or not files.length
-          async.each files, (file, cb) ->
-            fs.readFile "#{dir}/#{file}", 'utf8', (err, content) ->
-              return cb() if err
-              return cb() unless content.match /-----BEGIN .*? PRIVATE KEY-----/
-              setup.ssh.push util.extend util.clone(entry),
-                privateKey: content
-              cb()
-          , cb
-    ], cb
-  , (err) ->
-    cb err, setup
 
 # Snip communication strings for debugging.
 #

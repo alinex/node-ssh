@@ -1,17 +1,9 @@
 ###
 Configuration
 ===================================================
-The configuration consists of two parts:
-- SSH Connection
-- Tunneling (referencing a SSH connection)
+The configuration is the same for tunneling and remote execution.
 ###
 
-
-###
-SSH Connection
-------------------------------------------------------
-{@schema #ssh}
-###
 
 conn =
   title: "SSH Connection List"
@@ -146,14 +138,6 @@ conn =
           optional: true
   ]
 
-
-###
-Tunnel Settings
-------------------------------------------------------
-{@schema #tunnel}
-###
-
-
 tunnel =
   title: "Tunnel Setup List"
   description: "the setup of ssh tunnels"
@@ -165,7 +149,7 @@ tunnel =
     allowedKeys: true
     mandatoryKeys: ['ssh']
     keys:
-      ssh:
+      remote:
         title: "SSH Connection"
         description: "the ssh connection to use"
         type: 'or'
@@ -232,10 +216,20 @@ tunnel =
   ]
 
 
+###
+SSH Connections
+------------------------------------------------------
+{@schema #ssh}
+###
+
 exports.ssh =
   title: "SSH Settings"
   description: "the SSH connection settings"
   type: 'object'
   keys:
-    connection: conn
+    server: conn
     tunnel: tunnel
+
+/ssh/server/<name>/0/host
+/ssh/tunnel/<obj>/remote ->
+                 /tunnel/host

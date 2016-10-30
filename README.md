@@ -36,8 +36,8 @@ Alinex SSH Connections: Readme
 <!-- {.hidden-small} -->
 
 
-Proxy ssh tunnel allows you to open tunnels through ssh connections which may be
-used for communication.
+SSH connection handling with the ability to open tunnels for further communications
+and remote execution.
 
 A SSH tunnel consists of an encrypted tunnel created through a SSH protocol
 connection. A SSH tunnel can be used to transfer unencrypted traffic over a
@@ -46,13 +46,14 @@ that prohibits or filter certain internet services.
 If users can connect to an external SSH server, they can create a SSH tunnel to
 forward a local port to a host and port reachable from the SSH server.
 
-This module enables you to open and control such tunnels from your script while
-they may be used also from external programs.
+This module enables you to open and control such remote connections from your script
+and use them for execution or tunneling. The tunnels may also be used from external
+commands.
 
+- configurable ssh connections
 - outgoing tunneling through SSH
-- pooling ssh connection for tunnels
+- pooling ssh connection
 - dynamic port forwarding using SOCKSv5 proxy
-- configurable by file
 
 > It is one of the modules of the [Alinex Namespace](https://alinex.github.io/code.html)
 > following the code standards defined in the [General Docs](https://alinex.github.io/develop).
@@ -87,7 +88,38 @@ Always have a look at the latest [changes](Changelog.md).
 
 Usage
 -------------------------------------------------
-This module has a very simple API, you can do two things:
+This module has a very simple API, you can do three things:
+
+### Remote Connection
+
+This is only a simple remote execution of a command line. To get more possibilities
+use the {@link alinex-exec} module which internaly calls this method with the correct
+commandline.
+
+``` coffee
+ssh = require 'alinex-ssh'
+ssh.connect
+  server:
+    host: '65.25.98.25'
+    port:  22
+    username: 'root'
+    #passphrase: 'mypass'
+    privateKey: require('fs').readFileSync '/home/alex/.ssh/id_rsa'
+    #localHostname: "Localost"
+    #localUsername: "LocalUser"
+    #readyTimeout: 20000
+    keepaliveInterval: 1000
+    #debug: true
+  retry:
+    times: 3
+    intervall: 200
+, (err, conn) ->
+  console.log "ssh connection #{conn.name} opened"
+  # wait 10 seconds, then close the tunnel
+  setTimeout ->
+    tunnel.end()
+  , 10000
+```
 
 ### Simple forward tunnel
 
@@ -95,8 +127,8 @@ You can open a tunnel with:
 
 ``` coffee
 ssh = require 'alinex-ssh'
-ssh.open
-  ssh:
+ssh.tunnel
+  server:
     host: '65.25.98.25'
     port:  22
     username: 'root'
@@ -116,11 +148,11 @@ ssh.open
     times: 3
     intervall: 200
 , (err, tunnel) ->
-    console.log "tunnel opened at #{tunnel.setup.host}:#{tunnel.setup.port}"
-    # wait 10 seconds, then close the tunnel
-    setTimeout ->
-      tunnel.end()
-    , 10000
+  console.log "tunnel opened at #{tunnel.setup.host}:#{tunnel.setup.port}"
+  # wait 10 seconds, then close the tunnel
+  setTimeout ->
+    tunnel.end()
+  , 10000
 ```
 
 And afterwards you may close it like shown above using `tunnel.close()` or
@@ -138,8 +170,8 @@ may also be removed completely):
 
 ``` coffee
 ssh = require 'alinex-ssh'
-ssh.open
-  ssh:
+ssh.tunnel
+  server:
     host: '65.25.98.25'
     port:  22
     username: 'root'
@@ -151,11 +183,11 @@ ssh.open
     keepaliveInterval: 1000
     #debug: true
 , (err, tunnel) ->
-    console.log "tunnel opened at #{tunnel.setup.host}:#{tunnel.setup.port}"
-    # wait 10 seconds, then close the tunnel
-    setTimeout ->
-      tunnel.end()
-    , 10000
+  console.log "tunnel opened at #{tunnel.setup.host}:#{tunnel.setup.port}"
+  # wait 10 seconds, then close the tunnel
+  setTimeout ->
+    tunnel.end()
+  , 10000
 ```
 
 ### Configuration files
