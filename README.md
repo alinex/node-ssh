@@ -51,8 +51,8 @@ and use them for execution or tunneling. The tunnels may also be used from exter
 commands.
 
 - configurable ssh connections
-- outgoing tunneling through SSH
 - pooling ssh connection
+- outgoing tunneling through SSH
 - dynamic port forwarding using SOCKSv5 proxy
 
 > It is one of the modules of the [Alinex Namespace](https://alinex.github.io/code.html)
@@ -117,7 +117,7 @@ ssh.connect
   console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    tunnel.end()
+    conn.end()
   , 10000
 ```
 
@@ -134,7 +134,7 @@ ssh.connect
   console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    tunnel.end()
+    conn.end()
   , 10000
 ```
 
@@ -144,7 +144,7 @@ ssh.connect 'db', (err, conn) ->
   console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    tunnel.end()
+    conn.end()
   , 10000
 ```
 

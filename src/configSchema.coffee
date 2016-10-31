@@ -9,8 +9,9 @@ in three parts:
 ###
 /ssh/server
 ------------------------------------------------------
-The setting `server` contains all information to access and authenticate the ssh
-server.
+This defines the preconfigured server connections which are used as connection
+or for tunneling, too. All information like access and authenticate are contained
+as an object.
 
 {@schema #keys/server}
 ###
@@ -150,9 +151,8 @@ conn =
 ###
 /ssh/tunnel
 ------------------------------------------------------
-The `tunnel` configuration contains all information to establish a tunnel through
-the remote server which is given here or the name of it as reference to the abov
-server settings.
+This defines the tunnel which has to be established on a ssh connection.The remote
+server may be given here or a reference name to the previous `server` section.
 
 {@schema #keys/tunnel}
 ###
@@ -217,7 +217,6 @@ configure an automatic retry loop while connecting to the remote machine with a 
 
 {@schema #keys/retry}
 ###
-
 retry =
   title: "Retry"
   description: "the handling of retries on connecting"
@@ -250,7 +249,3 @@ module.exports =
     server: conn
     tunnel: tunnel
     retry: retry
-
-#/ssh/server/<name>/0/host
-#/ssh/tunnel/<obj>/remote ->
-#                 /tunnel/host

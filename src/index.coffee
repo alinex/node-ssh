@@ -1,7 +1,9 @@
-# SSH Tunneling class
-# =================================================
-# This is an object oriented implementation around the core `process.spawn`
-# command and alternatively ssh connections.
+###
+SSH Connection class - API USage
+=================================================
+This is an object oriented implementation arround the core `process.spawn`
+command and alternatively ssh connections.
+###
 
 
 # Node Modules
@@ -26,19 +28,25 @@ validator = null # loaded on demand
 schema = require './configSchema'
 
 
-# Setup
-# -------------------------------------------------
+###
+Setup
+-------------------------------------------------
+###
 
-# Set the modules config paths and validation schema.
-#
-# @param {Function(Error)} cb callback with `Error` if something went wrong
+###
+Set the modules config paths and validation schema.
+
+@param {Function(Error)} cb callback with `Error` if something went wrong
+###
 exports.setup = setup = util.function.once this, (cb) ->
   # add schema for module's configuration
   config.setSchema '/ssh', schema, cb
 
-# Set the modules config paths, validation schema and initialize the configuration
-#
-# @param {Function(Error)} cb callback with `Error` if something went wrong
+###
+Set the modules config paths, validation schema and initialize the configuration
+
+@param {Function(Error)} cb callback with `Error` if something went wrong
+###
 exports.init = init = util.function.once this, (cb) ->
   debug "initialize"
   # set module search path
@@ -52,9 +60,24 @@ exports.init = init = util.function.once this, (cb) ->
 connections = {}
 
 
-# Open Remote Connections
-# -------------------------------------------------
+###
+Open Remote Connections
+-------------------------------------------------
+###
 
+###
+Open anew connection to run remote commands.
+To close it again you have to call `conn.end()` but keep
+in mind that this will close the connection for all runing commands and tunnels
+because they are shared. So better only close it if you know you no longer need
+it or at the end of your script using `ssh.end()`.
+
+@param {Object} setup the server settings
+- `server` {@schema configSchema.coffee#keys/server/entries/0}
+- `retry` {@schema configSchema.coffee#keys/retry}
+@param {Function(Error, Connection)} cb callback with error if something went wrong
+and the ssh connection on success
+###
 exports.connect = (setup, cb) ->
   # get setup values corrected
   setup = config.get "/ssh/server/#{setup}" if typeof setup is 'string'
@@ -91,23 +114,34 @@ exports.connect = (setup, cb) ->
             cb 'STOP', conn
         , (_, result) ->
           # the last entry should be a connection
-          conn = result[0]
+          conn = result.pop() # the last result
           return cb new Error "Connecting to server impossible!\n" + problems.join "\n" unless conn
           cb null, conn
       , cb
 
 
-# Control tunnel creation
-# -------------------------------------------------
+###
+Control tunnel creation
+-------------------------------------------------
+###
 
-# Open new tunnel.
-#
-# @param {Object} setup like described in {@link configSchema.coffee}
-# @param {Function(Error, Object)} cb callback with `Error` if something went wrong
-# or with the tunnel specification if it was opened
+###
+Open new tunnel. It may be closed by calling `tunnel.end()`. This will close
+the tunnel but keeps the connection opened.
+
+@param {Object} setup the server settings
+- `server` {@schema configSchema.coffee#keys/server/entries/0}
+- `tunnel` {@schema configSchema.coffee#keys/tunnel/entries/0}
+But the `remote` server may be missing then the given `server` setting is used.
+If the `host` and `port` setting is not given a socks5 proxy tunnel will be opened.
+- `retry` {@schema configSchema.coffee#keys/retry}
+@param {Function(Error, Object)} cb callback with error if something went wrong
+or the tunnel information on success
+###
 exports.tunnel = (setup, cb) ->
+  setup.server = setup.tunnel.remote if setup.tunnel.remote
   exports.connect setup, (err, conn) ->
-    setup.tunnel.remote = setup.server
+    setup.tunnel.remote ?= setup.server
     if debug.enabled
       validator ?= require 'alinex-validator'
       console.log setup.tunnel
@@ -117,24 +151,24 @@ exports.tunnel = (setup, cb) ->
         value: setup.tunnel
         schema: schema.keys.tunnel.entries[0]
     return cb err if err
-    # reopen already setup tunnels
-    async.each Object.keys(conn.tunnel), (tk, cb) ->
-      spec = util.extend 'MODE CLONE', setup.tunnel,
-        localHost: conn.tunnel[tk].setup.host
-        localPort: conn.tunnel[tk].setup.port
-      forward conn, spec, cb
-    , (err) ->
-      return cb err if err
-      if setup.tunnel?.host and setup.tunnel?.port
-        # open new tunnel
-        forward conn, setup.tunnel, (err, tunnel) ->
-          return cb err if err
-          cb null, tunnel
-      else
-        # open SOCKSv5 proxy
-        proxy conn, setup.tunnel, (err, tunnel) ->
-          return cb err if err
-          cb null, tunnel
+    if setup.tunnel?.host and setup.tunnel?.port
+      # open new tunnel
+      forward conn, setup.tunnel, (err, tunnel) ->
+        return cb err if err
+        cb null, tunnel
+    else
+      # open SOCKSv5 proxy
+      proxy conn, setup.tunnel, (err, tunnel) ->
+        return cb err if err
+        cb null, tunnel
+
+###
+Close all tunnels and ssh connections.
+
+This will end all operations and should be called on shutdown.
+###
+exports.end = ->
+  conn.end() for conn in connections
 
 
 # Helper methods
@@ -229,6 +263,7 @@ open = util.function.onceTime (setup, cb) ->
     debug: unless setup.debug then null else (msg) ->
       debugDebug chalk.grey msg if debugDebug.enabled
 
+
 # Snip communication strings for debugging.
 #
 # @param {String} data communication string from ssh connection
@@ -238,7 +273,7 @@ snip = (data) ->
   text = text[0..30] + '...\'' if text.length > 30
   text
 
-# Open Outgoing Tunnel
+# Open Outgoing Tunnel.
 #
 # @param {Connection} conn the ssh connection
 # @param {Object} setup for tunnel like described in {@link configSchema.coffee#tunnel-settings}
@@ -340,9 +375,3 @@ findPort = (setup, cb) ->
       debug chalk.magenta "given port #{setup.localPort} is blocked using #{port}"
     setup.localPort = port
     return cb null, setup
-
-# Close all tunnels and ssh connections.
-#
-# This will end all operations and should be called on shutdown.
-exports.close = ->
-  conn.end() for conn in connections
