@@ -7,7 +7,7 @@ in three parts:
 
 
 ###
-ssh.server
+/ssh/server
 ------------------------------------------------------
 The setting `server` contains all information to access and authenticate the ssh
 server.
@@ -148,7 +148,7 @@ conn =
   ]
 
 ###
-ssh.tunnel
+/ssh/tunnel
 ------------------------------------------------------
 The `tunnel` configuration contains all information to establish a tunnel through
 the remote server which is given here or the name of it as reference to the abov
@@ -210,7 +210,7 @@ tunnel =
 
 
 ###
-ssh.retry
+/ssh/retry
 ------------------------------------------------------
 The last part `retry` is used to make the connection more stable and allows you to
 configure an automatic retry loop while connecting to the remote machine with a short break.

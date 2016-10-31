@@ -22,7 +22,7 @@ ssh.setup ->
       host: '85.25.98.25'
       port: 22
       username: 'root'
-      privateKey: fs.readFileSync '/home/alex/.ssh/id_rsa'
+      privateKey: fs.readFileSync('/home/alex/.ssh/id_rsa').toString()
       keepaliveInterval: 1000
       readyTimeout: 1000
       debug: true
@@ -97,7 +97,7 @@ ssh.setup ->
             host: 'localhost'
             port: 22
             username: 'root'
-            privateKey: fs.readFileSync '/home/alex/.ssh/id_rsa'
+            privateKey: fs.readFileSync('/home/alex/.ssh/id_rsa').toString()
           tunnel:
             host: '127.0.0.1'
             port: 80
@@ -109,7 +109,7 @@ ssh.setup ->
     describe "forward tunneling", ->
 
       it "should open/close tunnel", (cb) ->
-        ssh.connect
+        ssh.tunnel
           server: server
           tunnel:
             host: '172.30.22.241'
@@ -118,11 +118,12 @@ ssh.setup ->
         , (err, tunnel) ->
           expect(err, 'tunnel error').to.not.exist
           expect(tunnel, 'tunnel').to.exist
+          console.log tunnel
           tunnel.close()
           setTimeout cb, 100
 
       it "should open/close tunnel (multiple tries)", (cb) ->
-        ssh.connect
+        ssh.tunnel
           server: [
             host: 'localhost'
             port: 22

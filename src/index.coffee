@@ -56,13 +56,21 @@ connections = {}
 # -------------------------------------------------
 
 exports.connect = (setup, cb) ->
+  # get setup values corrected
+  setup = config.get "/ssh/server/#{setup}" if typeof setup is 'string'
+  setup.server = [setup.server] unless Array.isArray setup.server
   if debug.enabled
     validator ?= require 'alinex-validator'
     validator.checkSync
-      name: 'sshExecSetup'
-      title: "SSH Tunnel to Open"
-      value: setup
-      schema: schema.ssh.connection
+      name: 'sshServerSetup'
+      title: "SSH Connection to Open"
+      value: setup.server
+      schema: schema.keys.server.entries[0]
+    validator.checkSync
+      name: 'sshRetrySetup'
+      title: "SSH Retry Settings"
+      value: setup.retry
+      schema: schema.keys.retry
   init (err) ->
     return cb err if err
     debug chalk.grey "open connection..." if debug.enabled
@@ -75,16 +83,16 @@ exports.connect = (setup, cb) ->
         interval: setup.retry?.interval ? 200
       , (cb) ->
         problems = []
-        async.mapSeries setup.ssh, (entry, cb) ->
+        async.mapSeries setup.server, (entry, cb) ->
           # try each connection setting till one works
-          connect entry, (err, conn) ->
+          open entry, (err, conn) ->
             problems.push err.message if err
             return cb() unless conn
             cb 'STOP', conn
         , (_, result) ->
           # the last entry should be a connection
-          conn = result.pop()
-          return cb new Error "Connecting to server impossible!\n" + problems.join '\n' unless conn
+          conn = result[0]
+          return cb new Error "Connecting to server impossible!\n" + problems.join "\n" unless conn
           cb null, conn
       , cb
 
@@ -99,6 +107,15 @@ exports.connect = (setup, cb) ->
 # or with the tunnel specification if it was opened
 exports.tunnel = (setup, cb) ->
   exports.connect setup, (err, conn) ->
+    setup.tunnel.remote = setup.server
+    if debug.enabled
+      validator ?= require 'alinex-validator'
+      console.log setup.tunnel
+      validator.checkSync
+        name: 'sshTunnelSetup'
+        title: "SSH Tunnel to Open"
+        value: setup.tunnel
+        schema: schema.keys.tunnel.entries[0]
     return cb err if err
     # reopen already setup tunnels
     async.each Object.keys(conn.tunnel), (tk, cb) ->
@@ -182,7 +199,7 @@ optimize = (setup, cb) ->
 # or the Connection with:
 # - `name` - `String` with host/ip and port
 # - `tunnel` - `Object<Server>` with the opened tunnels
-connect = util.function.onceTime (setup, cb) ->
+open = util.function.onceTime (setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
   return cb null, connections[name] if connections[name]?._sock?._handle
   # open new ssh

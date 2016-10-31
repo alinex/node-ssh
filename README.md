@@ -121,6 +121,33 @@ ssh.connect
   , 10000
 ```
 
+Or the really short versions if configured in the configuration files:
+
+``` coffee
+ssh = require 'alinex-ssh'
+ssh.connect
+  server: 'db'
+  retry:
+    times: 3
+    intervall: 200
+, (err, conn) ->
+  console.log "ssh connection #{conn.name} opened"
+  # wait 10 seconds, then close the tunnel
+  setTimeout ->
+    tunnel.end()
+  , 10000
+```
+
+``` coffee
+ssh = require 'alinex-ssh'
+ssh.connect 'db', (err, conn) ->
+  console.log "ssh connection #{conn.name} opened"
+  # wait 10 seconds, then close the tunnel
+  setTimeout ->
+    tunnel.end()
+  , 10000
+```
+
 ### Simple forward tunnel
 
 You can open a tunnel with:
@@ -162,15 +189,41 @@ close all tunnels with:
 ssh.close()
 ```
 
-### Dynamic SOCKSv5 Proxy
-
-The following script shows how to make a dynamic 1:1 proxy using SOCKSv5. It's
-nearly the same, only the tunnel host and port are missing (the tunnel group
-may also be removed completely):
+Or the really short versions if configured in the configuration files:
 
 ``` coffee
 ssh = require 'alinex-ssh'
 ssh.tunnel
+  tunnel: 'intranet'
+  retry:
+    times: 3
+    intervall: 200
+, (err, conn) ->
+  console.log "ssh connection #{conn.name} opened"
+  # wait 10 seconds, then close the tunnel
+  setTimeout ->
+    tunnel.end()
+  , 10000
+```
+
+``` coffee
+ssh = require 'alinex-ssh'
+ssh.tunnel 'intranet', (err, conn) ->
+  console.log "ssh connection #{conn.name} opened"
+  # wait 10 seconds, then close the tunnel
+  setTimeout ->
+    tunnel.end()
+  , 10000
+```
+
+### Dynamic SOCKSv5 Proxy
+
+The following script shows how to make a dynamic 1:1 proxy using SOCKSv5. It's
+nearly the same, only the tunnel host and port are missing:
+
+``` coffee
+ssh = require 'alinex-ssh'
+ssh.proxy
   server:
     host: '65.25.98.25'
     port:  22
@@ -184,6 +237,18 @@ ssh.tunnel
     #debug: true
 , (err, tunnel) ->
   console.log "tunnel opened at #{tunnel.setup.host}:#{tunnel.setup.port}"
+  # wait 10 seconds, then close the tunnel
+  setTimeout ->
+    tunnel.end()
+  , 10000
+```
+
+Or the really short versions if configured in the configuration files:
+
+``` coffee
+ssh = require 'alinex-ssh'
+ssh.proxy 'db', (err, conn) ->
+  console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
     tunnel.end()
