@@ -2,23 +2,23 @@ chai = require 'chai'
 expect = chai.expect
 ### eslint-env node, mocha ###
 
-sshtunnel = require '../../src/index'
+ssh = require '../../src/index'
 exec = require('child_process').exec
 fs = require 'fs'
 debug = require('debug') 'test'
 
 config = require 'alinex-config'
-sshtunnel.setup ->
+ssh.setup ->
   config.pushOrigin
     uri: "#{__dirname}/../data/config/*"
 
   # skip all tests if no correct ssl environment set
   return unless fs.existsSync '/home/alex/.ssh/id_rsa'
 
-  describe "sshtunnel", ->
+  describe "ssh", ->
     @timeout 30000
 
-    ssh =
+    server =
       host: '85.25.98.25'
       port: 22
       username: 'root'
@@ -32,26 +32,24 @@ sshtunnel.setup ->
       it "should run the selfcheck on the schema", (cb) ->
         validator = require 'alinex-validator'
         schema = require '../../src/configSchema'
-        validator.selfcheck schema.ssh, (err) ->
-          return cb err if err
-          validator.selfcheck schema.tunnel, cb
+        validator.selfcheck schema, cb
 
       it "should initialize config", (cb) ->
         @timeout 4000
-        sshtunnel.init (err) ->
+        ssh.init (err) ->
           expect(err, 'init error').to.not.exist
           config = require 'alinex-config'
           config.init (err) ->
             expect(err, 'load error').to.not.exist
             expect(config.get '/ssh', 'ssh config').to.exist
-            expect(config.get '/tunnel', 'tunnel config').to.exist
+            expect(config.get '/ssh/tunnel', 'tunnel config').to.exist
             cb()
 
     describe "problems", ->
 
       it "should fail on unknown host", (cb) ->
-        sshtunnel.open
-          ssh:
+        ssh.connect
+          server:
             host: 'a-nonexistent-host.anywhere'
             port: 22
           tunnel:
@@ -65,8 +63,8 @@ sshtunnel.setup ->
           cb()
 
       it "should fail on wrong port", (cb) ->
-        sshtunnel.open
-          ssh:
+        ssh.connect
+          server:
             host: 'localhost'
             port: 60022
             username: 'root'
@@ -79,8 +77,8 @@ sshtunnel.setup ->
           cb()
 
       it "should fail on wrong password", (cb) ->
-        sshtunnel.open
-          ssh:
+        ssh.connect
+          server:
             host: 'localhost'
             port: 22
             username: 'alex'
@@ -94,8 +92,8 @@ sshtunnel.setup ->
           cb()
 
       it "should fail on wrong privateKey", (cb) ->
-        sshtunnel.open
-          ssh:
+        ssh.connect
+          server:
             host: 'localhost'
             port: 22
             username: 'root'
@@ -111,8 +109,8 @@ sshtunnel.setup ->
     describe "forward tunneling", ->
 
       it "should open/close tunnel", (cb) ->
-        sshtunnel.open
-          ssh: ssh
+        ssh.connect
+          server: server
           tunnel:
             host: '172.30.22.241'
             port: 80
@@ -124,14 +122,14 @@ sshtunnel.setup ->
           setTimeout cb, 100
 
       it "should open/close tunnel (multiple tries)", (cb) ->
-        sshtunnel.open
-          ssh: [
+        ssh.connect
+          server: [
             host: 'localhost'
             port: 22
             username: 'alex'
             password: 'thisiswroong'
           ,
-            ssh
+            server
           ]
           tunnel:
             host: '172.30.22.241'
@@ -144,8 +142,8 @@ sshtunnel.setup ->
           setTimeout cb, 100
 
       it "should open/close tunnel (with autodetect key)", (cb) ->
-        sshtunnel.open
-          ssh:
+        ssh.connect
+          server:
             host: '85.25.98.25'
             port: 22
             username: 'root'
@@ -160,8 +158,8 @@ sshtunnel.setup ->
           setTimeout cb, 100
 
       it  "should connect socket through tunnel", (cb) ->
-        sshtunnel.open
-          ssh: ssh
+        ssh.connect
+          server: server
           tunnel:
             host: '172.30.22.241'
             port: 80
@@ -178,8 +176,8 @@ sshtunnel.setup ->
     describe "socksv5 proxy", ->
 
       it "should open/close tunnel", (cb) ->
-        sshtunnel.open
-          ssh: ssh
+        ssh.connect
+          server: server
         , (err, tunnel) ->
           expect(err, 'tunnel error').to.not.exist
           expect(tunnel, 'tunnel').to.exist
@@ -189,8 +187,8 @@ sshtunnel.setup ->
             setTimeout cb, 100
 
       it "should get webpage through tunnel", (cb) ->
-        sshtunnel.open
-          ssh: ssh
+        ssh.connect
+          server: server
         , (err, tunnel) ->
           expect(err, 'tunnel error').to.not.exist
           expect(tunnel, 'tunnel').to.exist

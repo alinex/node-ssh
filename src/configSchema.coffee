@@ -1,17 +1,26 @@
 ###
 Configuration
 ===================================================
-The configuration is the same for tunneling and remote execution.
+The configuration is the same for tunneling and remote executions and is defined
+in three parts:
 ###
 
 
+###
+ssh.server
+------------------------------------------------------
+The setting `server` contains all information to access and authenticate the ssh
+server.
+
+{@schema #keys/server}
+###
 conn =
   title: "SSH Connection List"
   description: "the list of possible ssh connections, the first working will be used"
   type: 'object'
   entries: [
     title: "SSH Connections"
-    description: "a ssh connection list"
+    description: "a list of ssh connection alternatives"
     type: 'array'
     toArray: true
     shuffle: true
@@ -138,6 +147,15 @@ conn =
           optional: true
   ]
 
+###
+ssh.tunnel
+------------------------------------------------------
+The `tunnel` configuration contains all information to establish a tunnel through
+the remote server which is given here or the name of it as reference to the abov
+server settings.
+
+{@schema #keys/tunnel}
+###
 tunnel =
   title: "Tunnel Setup List"
   description: "the setup of ssh tunnels"
@@ -147,7 +165,8 @@ tunnel =
     description: "the setup of a ssh tunnel"
     type: 'object'
     allowedKeys: true
-    mandatoryKeys: ['ssh']
+    mandatoryKeys: ['remote']
+    optional: true
     keys:
       remote:
         title: "SSH Connection"
@@ -157,79 +176,81 @@ tunnel =
           title: "SSH Connection Reference"
           description: "the reference name for an defined ssh connection under config '/ssh/NAME'"
           type: 'string'
-          list: '<<<data:///ssh>>>'
+          list: '<<<data:///ssh/server>>>'
         , conn
         ]
-      tunnel:
-        title: "Tunnel"
-        description: "the connection to tunnel"
-        type: 'object'
-        allowedKeys: true
-        keys:
-          host:
-            title: "Host"
-            description: "the hostname or ip address which to tunnel"
-            type: 'or'
-            or: [
-              title: "Hostname"
-              description: "the hostname which is tunneled"
-              type: 'hostname'
-            ,
-              title: "IP Address"
-              description: "the IP address which is tunneled"
-              type: 'ipaddr'
-            ]
-          port:
-            title: "Port"
-            description: "port to tunnel"
-            type: 'port'
-          localHost:
-            title: "Local IP"
-            description: "the local ip where the tunnel will be setup"
-            type: 'ipaddr'
-            default: '127.0.0.1'
-          localPort:
-            title: "Local Port"
-            description: "the local port to bind to the tunnel"
-            type: 'port'
-            default: 8000
-        optional: true
-      retry:
-        title: "Retry"
-        description: "the handling of retries on connecting"
-        type: 'object'
-        allowedKeys: true
-        keys:
-          times:
-            title: "Number of Tries"
-            description: "the number of times to try to connect"
-            type: 'integer'
-            min: 0
-            optional: true
-          interval:
-            title: "Wait between Tries"
-            description: "the interval to wait (in milliseconds) between tries"
-            type: 'interval'
-            min: 0
-            optional: true
-        optional: true
+      host:
+        title: "Host"
+        description: "the hostname or ip address which to tunnel"
+        type: 'or'
+        or: [
+          title: "Hostname"
+          description: "the hostname which is tunneled"
+          type: 'hostname'
+        ,
+          title: "IP Address"
+          description: "the IP address which is tunneled"
+          type: 'ipaddr'
+        ]
+      port:
+        title: "Port"
+        description: "port to tunnel"
+        type: 'port'
+      localHost:
+        title: "Local IP"
+        description: "the local ip where the tunnel will be setup"
+        type: 'ipaddr'
+        default: '127.0.0.1'
+      localPort:
+        title: "Local Port"
+        description: "the local port to bind to the tunnel"
+        type: 'port'
+        default: 8000
   ]
 
 
 ###
-SSH Connections
+ssh.retry
 ------------------------------------------------------
-{@schema #ssh}
+The last part `retry` is used to make the connection more stable and allows you to
+configure an automatic retry loop while connecting to the remote machine with a short break.
+
+{@schema #keys/retry}
 ###
 
-exports.ssh =
+retry =
+  title: "Retry"
+  description: "the handling of retries on connecting"
+  type: 'object'
+  allowedKeys: true
+  keys:
+    times:
+      title: "Number of Tries"
+      description: "the number of times to try to connect"
+      type: 'integer'
+      min: 0
+      optional: true
+    interval:
+      title: "Wait between Tries"
+      description: "the interval to wait (in milliseconds) between tries"
+      type: 'interval'
+      min: 0
+      optional: true
+  optional: true
+
+
+# Complete config
+# -----------------------------------------------------------
+# All three parts together are exported as the complete configuration structure.
+module.exports =
   title: "SSH Settings"
   description: "the SSH connection settings"
   type: 'object'
   keys:
     server: conn
     tunnel: tunnel
+    retry: retry
 
-/ssh/server/<name>/0/host
-/ssh/tunnel/<obj>/remote ->
-                 /tunnel/host
+#/ssh/server/<name>/0/host
+#/ssh/tunnel/<obj>/remote ->
+#                 /tunnel/host

@@ -2,7 +2,6 @@
 # ===============================================================
 
 localhostHttp:
-  ssh: localhost
-  tunnel:
-    host: '127.0.0.1'
-    port: 80
+  remote: localhost
+  host: '127.0.0.1'
+  port: 80

@@ -34,7 +34,7 @@ schema = require './configSchema'
 # @param {Function(Error)} cb callback with `Error` if something went wrong
 exports.setup = setup = util.function.once this, (cb) ->
   # add schema for module's configuration
-  config.setSchema '/ssh', schema.ssh, cb
+  config.setSchema '/ssh', schema, cb
 
 # Set the modules config paths, validation schema and initialize the configuration
 #
