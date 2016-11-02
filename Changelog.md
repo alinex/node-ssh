@@ -4,6 +4,19 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 2.0.0 (2016-11-02)
+-------------------------------------------------
+Renamed to ssh and made the module more generally usable with some API changes.
+
+- Updated socks proxy to work, too.
+- Name all close methods close and not end.
+- Update documentation and optimize tunneling code.
+- SSH connections working, now.
+- Finish schema definition.
+- Further change to make usable for alinex-exec.
+- Renamed to ssh for the next major version.
+- Start changing structure for general ssh.
+
 Version 1.3.2 (2016-10-28)
 -------------------------------------------------
 - Shuffle connection list before use.
