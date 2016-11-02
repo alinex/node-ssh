@@ -280,12 +280,16 @@ Debugging
 If you have any problems with the tunnel you may always run it with debugging by
 only setting the `DEBUG` environment variable like:
 
-``` coffee
-DEBUG=ssh* myprog-usingssh
+``` bash
+DEBUG=ssh myprog-usingssh         # general ssh info
+DEBUG=ssh:tunnel myprog-usingssh  # tunnel information
+DEBUG=ssh:data myprog-usingssh    # output data send connection
+DEBUG=ssh:debug myprog-usingssh   # output debug level (needs debug: true in server settings)
+DEBUG=ssh* myprog-usingssh        # output alltogether
 ```
 
 To get even more information you may also set the `debug` flag to `true` in the
-setup of your ssh tunnel.
+setup of your ssh tunnel and enable `DEBUG=ssh:debug`.
 
 If you enable debugging of `ssh` the given configuration will also be validated.
 
