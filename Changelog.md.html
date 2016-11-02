@@ -51,7 +51,10 @@
           </form>
           <ul class="nav sidebar-to-top">
                 <li class="level0">
-                  <a href="README.md.html" title="Alinex SSH Tunnel: Readme (/README.md)" class="btn btn-primary">Readme</a>
+                  <a href="README.md.html" title="Alinex SSH Connections: Readme (/README.md)" class="btn btn-primary">Readme</a>
+                </li>
+                <li class="level0">
+                  <a href="src/index.coffee.html" title="SSH Connection class - API Usage (/src/index.coffee)" class="btn btn-primary">API Usage</a>
                 </li>
                 <li class="level1">
                   <a href="src/configSchema.coffee.html" title="Configuration (/src/configSchema.coffee)" class="btn btn-primary">Configuration</a>
@@ -84,6 +87,7 @@
 <gcse:searchresults-only></gcse:searchresults-only>
 
           <main><p><ul class="table-of-contents" aria-hidden="true"><header>Index</header>
+<li><a href="#version-200-2016-11-02">Version 2.0.0 (2016-11-02)</a></li>
 <li><a href="#version-132-2016-10-28">Version 1.3.2 (2016-10-28)</a></li>
 <li><a href="#version-131-2016-10-25">Version 1.3.1 (2016-10-25)</a></li>
 <li><a href="#version-130-2016-10-19">Version 1.3.0 (2016-10-19)</a></li>
@@ -98,6 +102,18 @@
 <h1 id="version-changes">Version changes</h1>
 <p>The following list gives a short overview about what is changed between
 individual versions:</p>
+<h2 id="version-200-2016-11-02">Version 2.0.0 (2016-11-02)</h2>
+<p>Renamed to ssh and made the module more generally usable with some API changes.</p>
+<ul>
+<li>Updated socks proxy to work, too.</li>
+<li>Name all close methods close and not end.</li>
+<li>Update documentation and optimize tunneling code.</li>
+<li>SSH connections working, now.</li>
+<li>Finish schema definition.</li>
+<li>Further change to make usable for alinex-exec.</li>
+<li>Renamed to ssh for the next major version.</li>
+<li>Start changing structure for general ssh.</li>
+</ul>
 <h2 id="version-132-2016-10-28">Version 1.3.2 (2016-10-28)</h2>
 <ul>
 <li>Shuffle connection list before use.</li>
@@ -186,10 +202,13 @@ individual versions:</p>
         <div class="col-sm-3 col-cm-pull-9 sidebar">
           <ul class="nav nav-sidebar">
             <li class="header">
-              <a href="README.md.html">Alinex SSH Tunnel</a>
+              <a href="README.md.html">Alinex SSH Connections</a>
             </li>
                 <li class="level0">
-                  <a href="README.md.html" title="Alinex SSH Tunnel: Readme (/README.md)">Readme</a>
+                  <a href="README.md.html" title="Alinex SSH Connections: Readme (/README.md)">Readme</a>
+                </li>
+                <li class="level0">
+                  <a href="src/index.coffee.html" title="SSH Connection class - API Usage (/src/index.coffee)">API Usage</a>
                 </li>
                 <li class="level1">
                   <a href="src/configSchema.coffee.html" title="Configuration (/src/configSchema.coffee)">Configuration</a>

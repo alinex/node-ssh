@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Alinex SSH Tunnel: Readme</title>
+    <title>Alinex SSH Connections: Readme</title>
     <meta name="HandheldFriendly" content="true" />
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -51,7 +51,10 @@
           </form>
           <ul class="nav sidebar-to-top">
                 <li class="active level0">
-                  <a href="README.md.html" title="Alinex SSH Tunnel: Readme (/README.md)" class="btn btn-warning">Readme <span class="sr-only">(current)</span></a>
+                  <a href="README.md.html" title="Alinex SSH Connections: Readme (/README.md)" class="btn btn-warning">Readme <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="level0">
+                  <a href="src/index.coffee.html" title="SSH Connection class - API Usage (/src/index.coffee)" class="btn btn-primary">API Usage</a>
                 </li>
                 <li class="level1">
                   <a href="src/configSchema.coffee.html" title="Configuration (/src/configSchema.coffee)" class="btn btn-primary">Configuration</a>
@@ -87,6 +90,7 @@
 <li><a href="#install">Install</a></li>
 <li><a href="#usage">Usage</a>
 <ul>
+<li><a href="#remote-connection">Remote Connection</a></li>
 <li><a href="#simple-forward-tunnel">Simple forward tunnel</a></li>
 <li><a href="#dynamic-socksv5-proxy">Dynamic SOCKSv5 Proxy</a></li>
 <li><a href="#configuration-files">Configuration files</a></li>
@@ -96,55 +100,102 @@
 <li><a href="#license">License</a></li>
 </ul>
 </p>
-<h1 id="alinex-ssh-tunnel-readme">Alinex SSH Tunnel: Readme</h1>
-<p class="right"><a href="https://github.com/alinex/node-sshtunnel/subscription"><img src="https://img.shields.io/github/watchers/alinex/node-sshtunnel.svg?style=social&amp;label=Watch&amp;maxAge=2592000" alt="GitHub watchers" class="hidden-small" /></a>
-<a href="https://github.com/alinex/node-sshtunnel"><img src="https://img.shields.io/github/stars/alinex/node-sshtunnel.svg?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a>
-<a href="https://github.com/alinex/node-sshtunnel"><img src="https://img.shields.io/github/forks/alinex/node-sshtunnel.svg?style=social&amp;label=Fork&amp;maxAge=2592000" alt="GitHub forks" class="hidden-small" /></a></p>
-<p><a href="https://www.npmjs.com/package/alinex-sshtunnel"><img src="https://img.shields.io/npm/v/alinex-sshtunnel.svg?maxAge=2592000&amp;label=latest%20version" alt="npm package" /></a>
-<a href="#license"><img src="https://img.shields.io/npm/l/alinex-sshtunnel.svg?maxAge=2592000" alt="latest version" class="hidden-small" /></a>
-<a href="https://travis-ci.org/alinex/node-sshtunnel"><img src="https://img.shields.io/travis/alinex/node-sshtunnel.svg?maxAge=2592000&amp;label=develop" alt="Travis status" /></a>
-<a href="https://coveralls.io/r/alinex/node-sshtunnel?branch=master"><img src="https://img.shields.io/coveralls/alinex/node-sshtunnel.svg?maxAge=2592000" alt="Coveralls status" /></a>
-<a href="https://gemnasium.com/alinex/node-sshtunnel"><img src="https://img.shields.io/gemnasium/alinex/node-sshtunnel.svg?maxAge=2592000" alt="Gemnasium status" /></a>
-<a href="https://github.com/alinex/node-sshtunnel/issues"><img src="https://img.shields.io/github/issues/alinex/node-sshtunnel.svg?maxAge=2592000" alt="GitHub issues" class="hidden-small" /></a></p>
-<p>Proxy ssh tunnel allows you to open tunnels through ssh connections which may be
-used for communication.</p>
+<h1 id="alinex-ssh-connections-readme">Alinex SSH Connections: Readme</h1>
+<p class="right"><a href="https://github.com/alinex/node-ssh/subscription"><img src="https://img.shields.io/github/watchers/alinex/node-ssh.svg?style=social&amp;label=Watch&amp;maxAge=2592000" alt="GitHub watchers" class="hidden-small" /></a>
+<a href="https://github.com/alinex/node-ssh"><img src="https://img.shields.io/github/stars/alinex/node-ssh.svg?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a>
+<a href="https://github.com/alinex/node-ssh"><img src="https://img.shields.io/github/forks/alinex/node-ssh.svg?style=social&amp;label=Fork&amp;maxAge=2592000" alt="GitHub forks" class="hidden-small" /></a></p>
+<p><a href="https://www.npmjs.com/package/alinex-ssh"><img src="https://img.shields.io/npm/v/alinex-ssh.svg?maxAge=2592000&amp;label=latest%20version" alt="npm package" /></a>
+<a href="#license"><img src="https://img.shields.io/npm/l/alinex-ssh.svg?maxAge=2592000" alt="latest version" class="hidden-small" /></a>
+<a href="https://travis-ci.org/alinex/node-ssh"><img src="https://img.shields.io/travis/alinex/node-ssh.svg?maxAge=2592000&amp;label=develop" alt="Travis status" /></a>
+<a href="https://coveralls.io/r/alinex/node-ssh?branch=master"><img src="https://img.shields.io/coveralls/alinex/node-ssh.svg?maxAge=2592000" alt="Coveralls status" /></a>
+<a href="https://gemnasium.com/alinex/node-ssh"><img src="https://img.shields.io/gemnasium/alinex/node-ssh.svg?maxAge=2592000" alt="Gemnasium status" /></a>
+<a href="https://github.com/alinex/node-ssh/issues"><img src="https://img.shields.io/github/issues/alinex/node-ssh.svg?maxAge=2592000" alt="GitHub issues" class="hidden-small" /></a></p>
+<p>SSH connection handling with the ability to open tunnels for further communications
+and remote execution.</p>
 <p>A SSH tunnel consists of an encrypted tunnel created through a SSH protocol
 connection. A SSH tunnel can be used to transfer unencrypted traffic over a
 network through an encrypted channel. This may also be used to bypass firewalls
 that prohibits or filter certain internet services.
 If users can connect to an external SSH server, they can create a SSH tunnel to
 forward a local port to a host and port reachable from the SSH server.</p>
-<p>This module enables you to open and control such tunnels from your script while
-they may be used also from external programs.</p>
+<p>This module enables you to open and control such remote connections from your script
+and use them for execution or tunneling. The tunnels may also be used from external
+commands.</p>
 <ul>
+<li>configurable ssh connections</li>
+<li>pooling ssh connection</li>
 <li>outgoing tunneling through SSH</li>
-<li>pooling ssh connection for tunnels</li>
 <li>dynamic port forwarding using SOCKSv5 proxy</li>
-<li>configurable by file</li>
 </ul>
 <blockquote>
 <p>It is one of the modules of the <a href="https://alinex.github.io/code.html">Alinex Namespace</a>
 following the code standards defined in the <a href="https://alinex.github.io/develop">General Docs</a>.</p>
 </blockquote>
 <p class="hidden"><strong>Read the complete documentation under
-<a href="https://alinex.github.io/node-sshtunnel">https://alinex.github.io/node-sshtunnel</a>.</strong></p>
+<a href="https://alinex.github.io/node-ssh">https://alinex.github.io/node-ssh</a>.</strong></p>
 <h2 id="install">Install</h2>
-<p><a href="https://www.npmjs.com/package/alinex-sshtunnel"><img src="https://nodei.co/npm/alinex-sshtunnel.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM" />
-<img src="https://nodei.co/npm-dl/alinex-sshtunnel.png?months=9&amp;height=3" alt="Downloads" />
+<p><a href="https://www.npmjs.com/package/alinex-ssh"><img src="https://nodei.co/npm/alinex-ssh.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM" />
+<img src="https://nodei.co/npm-dl/alinex-ssh.png?months=9&amp;height=3" alt="Downloads" />
 </a></p>
 <p>The easiest way is to let npm add the module directly to your modules
 (from within you node modules directory):</p>
-<pre class="language bash"><header>Shell Script</header><code>npm install alinex-sshtunnel --save</code></pre>
+<pre class="language bash"><header>Shell Script</header><code>npm install alinex-ssh --save</code></pre>
 <p>And update it to the latest version later:</p>
-<pre class="language bash"><header>Shell Script</header><code>npm update alinex-sshtunnel --save</code></pre>
+<pre class="language bash"><header>Shell Script</header><code>npm update alinex-ssh --save</code></pre>
 <p>Always have a look at the latest <a href="Changelog.md.html">changes</a>.</p>
 <h2 id="usage">Usage</h2>
-<p>This module has a very simple API, you can do two things:</p>
+<p>This module has a very simple API, you can do three things:</p>
+<h3 id="remote-connection">Remote Connection</h3>
+<p>This is only a simple remote execution of a command line. To get more possibilities
+use the <a href="https://alinex.github.io/node-exec">alinex-exec</a> module which internaly calls this method with the correct
+commandline.</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.connect</code>
+<code>  server:</code>
+<code>    host: <span class="hljs-string">'65.25.98.25'</span></code>
+<code>    port:  <span class="hljs-number">22</span></code>
+<code>    username: <span class="hljs-string">'root'</span></code>
+<code>    <span class="hljs-comment">#passphrase: 'mypass'</span></code>
+<code>    privateKey: <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>).readFileSync <span class="hljs-string">'/home/alex/.ssh/id_rsa'</span></code>
+<code>    <span class="hljs-comment">#localHostname: "Localost"</span></code>
+<code>    <span class="hljs-comment">#localUsername: "LocalUser"</span></code>
+<code>    <span class="hljs-comment">#readyTimeout: 20000</span></code>
+<code>    keepaliveInterval: <span class="hljs-number">1000</span></code>
+<code>    <span class="hljs-comment">#debug: true</span></code>
+<code>  retry:</code>
+<code>    times: <span class="hljs-number">3</span></code>
+<code>    intervall: <span class="hljs-number">200</span></code>
+<code>, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span></code>
+<code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
+<code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>  setTimeout -&gt;</code>
+<code>    conn.close()</code>
+<code>  , <span class="hljs-number">10000</span></code></pre>
+<p>Or the really short versions if configured in the configuration files:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.connect</code>
+<code>  server: <span class="hljs-string">'db'</span></code>
+<code>  retry:</code>
+<code>    times: <span class="hljs-number">3</span></code>
+<code>    intervall: <span class="hljs-number">200</span></code>
+<code>, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span></code>
+<code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
+<code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>  setTimeout -&gt;</code>
+<code>    conn.close()</code>
+<code>  , <span class="hljs-number">10000</span></code></pre>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.connect <span class="hljs-string">'db'</span>, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span></code>
+<code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
+<code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>  setTimeout -&gt;</code>
+<code>    conn.close()</code>
+<code>  , <span class="hljs-number">10000</span></code></pre>
 <h3 id="simple-forward-tunnel">Simple forward tunnel</h3>
 <p>You can open a tunnel with:</p>
-<pre class="language coffeescript"><header>CoffeeScript Code</header><code>sshtunnel = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-sshtunnel'</span></code>
-<code>sshtunnel.open</code>
-<code>  ssh:</code>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.tunnel</code>
+<code>  server:</code>
 <code>    host: <span class="hljs-string">'65.25.98.25'</span></code>
 <code>    port:  <span class="hljs-number">22</span></code>
 <code>    username: <span class="hljs-string">'root'</span></code>
@@ -164,21 +215,40 @@ following the code standards defined in the <a href="https://alinex.github.io/de
 <code>    times: <span class="hljs-number">3</span></code>
 <code>    intervall: <span class="hljs-number">200</span></code>
 <code>, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span></code>
-<code>    <span class="hljs-built_in">console</span>.log <span class="hljs-string">"tunnel opened at <span class="hljs-subst">#{tunnel.setup.host}</span>:<span class="hljs-subst">#{tunnel.setup.port}</span>"</span></code>
-<code>    <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
-<code>    setTimeout -&gt;</code>
-<code>      tunnel.end()</code>
-<code>    , <span class="hljs-number">10000</span></code></pre>
+<code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"tunnel opened at <span class="hljs-subst">#{tunnel.setup.host}</span>:<span class="hljs-subst">#{tunnel.setup.port}</span>"</span></code>
+<code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>  setTimeout -&gt;</code>
+<code>    tunnel.close()</code>
+<code>  , <span class="hljs-number">10000</span></code></pre>
 <p>And afterwards you may close it like shown above using <code>tunnel.close()</code> or
 close all tunnels with:</p>
-<pre class="language coffeescript"><header>CoffeeScript Code</header><code>sshtunnel.close()</code></pre>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh.close()</code></pre>
+<p>Or the really short versions if configured in the configuration files:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.tunnel</code>
+<code>  tunnel: <span class="hljs-string">'intranet'</span></code>
+<code>  retry:</code>
+<code>    times: <span class="hljs-number">3</span></code>
+<code>    intervall: <span class="hljs-number">200</span></code>
+<code>, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span></code>
+<code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
+<code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>  setTimeout -&gt;</code>
+<code>    tunnel.close()</code>
+<code>  , <span class="hljs-number">10000</span></code></pre>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.tunnel <span class="hljs-string">'intranet'</span>, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span></code>
+<code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
+<code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>  setTimeout -&gt;</code>
+<code>    tunnel.close()</code>
+<code>  , <span class="hljs-number">10000</span></code></pre>
 <h3 id="dynamic-socksv5-proxy">Dynamic SOCKSv5 Proxy</h3>
 <p>The following script shows how to make a dynamic 1:1 proxy using SOCKSv5. It’s
-nearly the same, only the tunnel host and port are missing (the tunnel group
-may also be removed completely):</p>
-<pre class="language coffeescript"><header>CoffeeScript Code</header><code>sshtunnel = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-sshtunnel'</span></code>
-<code>sshtunnel.open</code>
-<code>  ssh:</code>
+nearly the same, only the tunnel host and port are missing:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.tunnel</code>
+<code>  server:</code>
 <code>    host: <span class="hljs-string">'65.25.98.25'</span></code>
 <code>    port:  <span class="hljs-number">22</span></code>
 <code>    username: <span class="hljs-string">'root'</span></code>
@@ -190,16 +260,24 @@ may also be removed completely):</p>
 <code>    keepaliveInterval: <span class="hljs-number">1000</span></code>
 <code>    <span class="hljs-comment">#debug: true</span></code>
 <code>, <span class="hljs-function"><span class="hljs-params">(err, tunnel)</span> -&gt;</span></code>
-<code>    <span class="hljs-built_in">console</span>.log <span class="hljs-string">"tunnel opened at <span class="hljs-subst">#{tunnel.setup.host}</span>:<span class="hljs-subst">#{tunnel.setup.port}</span>"</span></code>
-<code>    <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
-<code>    setTimeout -&gt;</code>
-<code>      tunnel.end()</code>
-<code>    , <span class="hljs-number">10000</span></code></pre>
+<code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"tunnel opened at <span class="hljs-subst">#{tunnel.setup.host}</span>:<span class="hljs-subst">#{tunnel.setup.port}</span>"</span></code>
+<code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>  setTimeout -&gt;</code>
+<code>    tunnel.close()</code>
+<code>  , <span class="hljs-number">10000</span></code></pre>
+<p>Or the really short versions if configured in the configuration files:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.tunnel <span class="hljs-string">'db'</span>, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span></code>
+<code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
+<code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>  setTimeout -&gt;</code>
+<code>    tunnel.close()</code>
+<code>  , <span class="hljs-number">10000</span></code></pre>
 <h3 id="configuration-files">Configuration files</h3>
 <p>To use configuration files you also need to setup and initialize this before using it:</p>
-<pre class="language coffeescript"><header>CoffeeScript Code</header><code>sshtunnel = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-sshtunnel'</span></code>
-<code>sshtunnel.setup (err) -&gt;</code>
-<code>  sshtunnel.init (err) -&gt;</code>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.setup (err) -&gt;</code>
+<code>  ssh.init (err) -&gt;</code>
 <code>    <span class="hljs-comment"># do your work</span></code></pre>
 <p>See the <a href="src/configSchema.coffee.html" title="File: src/configSchema.coffee">Configuration</a> for a detailed information about it’s possibilities.
 And then put your own settings in external files like described at <a href="https://alinex.github.io/node-config">alinex-config</a>:</p>
@@ -210,10 +288,10 @@ And then put your own settings in external files like described at <a href="http
 <h2 id="debugging">Debugging</h2>
 <p>If you have any problems with the tunnel you may always run it with debugging by
 only setting the <code>DEBUG</code> environment variable like:</p>
-<pre class="language coffeescript"><header>CoffeeScript Code</header><code>DEBUG=sshtunnel* myprog-usingsshtunnel</code></pre>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>DEBUG=ssh* myprog-usingssh</code></pre>
 <p>To get even more information you may also set the <code>debug</code> flag to <code>true</code> in the
 setup of your ssh tunnel.</p>
-<p>If you enable debugging of <code>sshtunnel</code> the given configuration will also be validated.</p>
+<p>If you enable debugging of <code>ssh</code> the given configuration will also be validated.</p>
 <h2 id="license">License</h2>
 <p>© Copyright 2015-2016 Alexander Schilling</p>
 <p>Licensed under the Apache License, Version 2.0 (the “License”);
@@ -232,10 +310,13 @@ limitations under the License.</p>
         <div class="col-sm-3 col-cm-pull-9 sidebar">
           <ul class="nav nav-sidebar">
             <li class="header">
-              <a href="README.md.html">Alinex SSH Tunnel</a>
+              <a href="README.md.html">Alinex SSH Connections</a>
             </li>
                 <li class="active level0">
-                  <a href="README.md.html" title="Alinex SSH Tunnel: Readme (/README.md)">Readme <span class="sr-only">(current)</span></a>
+                  <a href="README.md.html" title="Alinex SSH Connections: Readme (/README.md)">Readme <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="level0">
+                  <a href="src/index.coffee.html" title="SSH Connection class - API Usage (/src/index.coffee)">API Usage</a>
                 </li>
                 <li class="level1">
                   <a href="src/configSchema.coffee.html" title="Configuration (/src/configSchema.coffee)">Configuration</a>

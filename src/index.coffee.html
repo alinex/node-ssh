@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Configuration</title>
+    <title>SSH Connection class - API Usage</title>
     <meta name="HandheldFriendly" content="true" />
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -53,11 +53,11 @@
                 <li class="level0">
                   <a href="../README.md.html" title="Alinex SSH Connections: Readme (/README.md)" class="btn btn-primary">Readme</a>
                 </li>
-                <li class="level0">
-                  <a href="index.coffee.html" title="SSH Connection class - API Usage (/src/index.coffee)" class="btn btn-primary">API Usage</a>
+                <li class="active level0">
+                  <a href="index.coffee.html" title="SSH Connection class - API Usage (/src/index.coffee)" class="btn btn-warning">API Usage <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="active level1">
-                  <a href="configSchema.coffee.html" title="Configuration (/src/configSchema.coffee)" class="btn btn-warning">Configuration <span class="sr-only">(current)</span></a>
+                <li class="level1">
+                  <a href="configSchema.coffee.html" title="Configuration (/src/configSchema.coffee)" class="btn btn-primary">Configuration</a>
                 </li>
                 <li class="level0">
                   <a href="../Changelog.md.html" title="Version changes (/Changelog.md)" class="btn btn-primary">Version changes</a>
@@ -87,30 +87,118 @@
 <gcse:searchresults-only></gcse:searchresults-only>
 
           <main><p><ul class="table-of-contents" aria-hidden="true"><header>Index</header>
-<li><a href="#sshserver">/ssh/server</a></li>
-<li><a href="#sshtunnel">/ssh/tunnel</a></li>
-<li><a href="#sshretry">/ssh/retry</a></li>
+<li><a href="#setup">Setup</a>
+<ul>
+<li><a href="#setup-2">setup()</a></li>
+<li><a href="#init">init()</a></li>
+</ul>
+</li>
+<li><a href="#open-remote-connections">Open Remote Connections</a>
+<ul>
+<li><a href="#connect">connect()</a></li>
+</ul>
+</li>
+<li><a href="#control-tunnel-creation">Control tunnel creation</a>
+<ul>
+<li><a href="#tunnel">tunnel()</a></li>
+<li><a href="#close">close()</a></li>
+</ul>
+</li>
 </ul>
 </p>
-<h1 id="configuration">Configuration</h1>
+<h1 id="ssh-connection-class-api-usage">SSH Connection class - API Usage</h1>
 <blockquote>
-<p>Path: <code>/src/configSchema.coffee</code> compiled to <code>/lib/configSchema.js</code></p>
+<p>Path: <code>/src/index.coffee</code> compiled to <code>/lib/index.js</code></p>
 </blockquote>
-<p>The configuration is the same for tunneling and remote executions and is defined
-in three parts:</p>
-<h2 id="sshserver">/ssh/server</h2>
-<p>This defines the preconfigured server connections which are used as connection
-or for tunneling, too. All information like access and authenticate are contained
-as an object.</p>
-<p @schema="" id="keys/server"></p>
-<h2 id="sshtunnel">/ssh/tunnel</h2>
-<p>This defines the tunnel which has to be established on a ssh connection.The remote
-server may be given here or a reference name to the previous <code>server</code> section.</p>
-<p @schema="" id="keys/tunnel"></p>
-<h2 id="sshretry">/ssh/retry</h2>
-<p>The last part <code>retry</code> is used to make the connection more stable and allows you to
-configure an automatic retry loop while connecting to the remote machine with a short break.</p>
-<p @schema="" id="keys/retry"></p>
+<p>This is an object oriented implementation arround the core <code>process.spawn</code>
+command and alternatively ssh connections.</p>
+<h2 id="setup">Setup</h2>
+<h3 id="setup-2">setup()</h3>
+<p>Set the modules config paths and validation schema.</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>setup(cb)</code></p>
+</blockquote>
+<dl>
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>cb</code> - <code>Function(Error)</code> callback with <code>Error</code> if something went wrong</li>
+</ul>
+  <!-- {dl:.api-spec} -->
+</dd>
+</dl>
+<h3 id="init">init()</h3>
+<p>Set the modules config paths, validation schema and initialize the configuration</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>init(cb)</code></p>
+</blockquote>
+<dl>
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>cb</code> - <code>Function(Error)</code> callback with <code>Error</code> if something went wrong</li>
+</ul>
+  <!-- {dl:.api-spec} -->
+</dd>
+</dl>
+<h2 id="open-remote-connections">Open Remote Connections</h2>
+<h3 id="connect">connect()</h3>
+<p>Open anew connection to run remote commands.
+To close it again you have to call <code>conn.close()</code> but keep
+in mind that this will close the connection for all runing commands and tunnels
+because they are shared. So better only close it if you know you no longer need
+it or at the end of your script using <code>ssh.close()</code>.</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>connect(setup, cb)</code></p>
+</blockquote>
+<dl>
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>setup</code> - <code>Object</code> the server settings
+<ul>
+<li @schema="" configSchema.coffee#keysserverentries0=""><code>server</code></li>
+<li @schema="" configSchema.coffee#keysretry=""><code>retry</code></li>
+</ul>
+</li>
+<li><code>cb</code> - <code>Function(Error, Connection)</code> callback with error if something went wrong
+and the ssh connection on success</li>
+</ul>
+  <!-- {dl:.api-spec} -->
+</dd>
+</dl>
+<h2 id="control-tunnel-creation">Control tunnel creation</h2>
+<h3 id="tunnel">tunnel()</h3>
+<p>Open new tunnel. It may be closed by calling <code>tunnel.close()</code>. This will close
+the tunnel but keeps the connection opened.</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>tunnel(setup, cb)</code></p>
+</blockquote>
+<dl>
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>setup</code> - <code>Object</code> the server settings
+<ul>
+<li @schema="" configSchema.coffee#keysserverentries0=""><code>server</code></li>
+<li><code>tunnel</code> {@schema configSchema.coffee#keys/tunnel/entries/0}
+But the <code>remote</code> server may be missing then the given <code>server</code> setting is used.
+If the <code>host</code> and <code>port</code> setting is not given a socks5 proxy tunnel will be opened.</li>
+<li @schema="" configSchema.coffee#keysretry=""><code>retry</code></li>
+</ul>
+</li>
+<li><code>cb</code> - <code>Function(Error, Object)</code> callback with error if something went wrong
+or the tunnel information on success</li>
+</ul>
+  <!-- {dl:.api-spec} -->
+</dd>
+</dl>
+<h3 id="close">close()</h3>
+<p>Close all tunnels and ssh connections.</p>
+<p>This will end all operations and should be called on shutdown.</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong><code>close()</code></p>
+</blockquote>
 </main>
         </div>
         <div class="col-sm-3 col-cm-pull-9 sidebar">
@@ -121,11 +209,11 @@ configure an automatic retry loop while connecting to the remote machine with a 
                 <li class="level0">
                   <a href="../README.md.html" title="Alinex SSH Connections: Readme (/README.md)">Readme</a>
                 </li>
-                <li class="level0">
-                  <a href="index.coffee.html" title="SSH Connection class - API Usage (/src/index.coffee)">API Usage</a>
+                <li class="active level0">
+                  <a href="index.coffee.html" title="SSH Connection class - API Usage (/src/index.coffee)">API Usage <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="active level1">
-                  <a href="configSchema.coffee.html" title="Configuration (/src/configSchema.coffee)">Configuration <span class="sr-only">(current)</span></a>
+                <li class="level1">
+                  <a href="configSchema.coffee.html" title="Configuration (/src/configSchema.coffee)">Configuration</a>
                 </li>
                 <li class="level0">
                   <a href="../Changelog.md.html" title="Version changes (/Changelog.md)">Version changes</a>
