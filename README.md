@@ -117,7 +117,7 @@ ssh.connect
   console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    conn.end()
+    conn.close()
   , 10000
 ```
 
@@ -134,7 +134,7 @@ ssh.connect
   console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    conn.end()
+    conn.close()
   , 10000
 ```
 
@@ -144,7 +144,7 @@ ssh.connect 'db', (err, conn) ->
   console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    conn.end()
+    conn.close()
   , 10000
 ```
 
@@ -178,7 +178,7 @@ ssh.tunnel
   console.log "tunnel opened at #{tunnel.setup.host}:#{tunnel.setup.port}"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    tunnel.end()
+    tunnel.close()
   , 10000
 ```
 
@@ -202,7 +202,7 @@ ssh.tunnel
   console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    tunnel.end()
+    tunnel.close()
   , 10000
 ```
 
@@ -212,7 +212,7 @@ ssh.tunnel 'intranet', (err, conn) ->
   console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    tunnel.end()
+    tunnel.close()
   , 10000
 ```
 
@@ -239,7 +239,7 @@ ssh.proxy
   console.log "tunnel opened at #{tunnel.setup.host}:#{tunnel.setup.port}"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    tunnel.end()
+    tunnel.close()
   , 10000
 ```
 
@@ -251,7 +251,7 @@ ssh.proxy 'db', (err, conn) ->
   console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    tunnel.end()
+    tunnel.close()
   , 10000
 ```
 

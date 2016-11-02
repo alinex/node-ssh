@@ -45,6 +45,17 @@ ssh.setup ->
             expect(config.get '/ssh/tunnel', 'tunnel config').to.exist
             cb()
 
+    describe "connect", ->
+
+      it "should connect to localhost", (cb) ->
+        ssh.connect
+          server: server
+        , (err, conn) ->
+          expect(err, 'error').to.not.exist
+          expect(conn, 'conn').to.exist
+          conn.close()
+          cb()
+
     describe "problems", ->
 
       it "should fail on unknown host", (cb) ->
@@ -118,7 +129,6 @@ ssh.setup ->
         , (err, tunnel) ->
           expect(err, 'tunnel error').to.not.exist
           expect(tunnel, 'tunnel').to.exist
-          console.log tunnel
           tunnel.close()
           setTimeout cb, 100
 
@@ -143,7 +153,7 @@ ssh.setup ->
           setTimeout cb, 100
 
       it "should open/close tunnel (with autodetect key)", (cb) ->
-        ssh.connect
+        ssh.tunnel
           server:
             host: '85.25.98.25'
             port: 22
@@ -155,11 +165,12 @@ ssh.setup ->
         , (err, tunnel) ->
           expect(err, 'tunnel error').to.not.exist
           expect(tunnel, 'tunnel').to.exist
+          console.log tunnel
           tunnel.close()
           setTimeout cb, 100
 
       it  "should connect socket through tunnel", (cb) ->
-        ssh.connect
+        ssh.tunnel
           server: server
           tunnel:
             host: '172.30.22.241'
@@ -174,10 +185,10 @@ ssh.setup ->
             expect(out.length, 'output size').to.be.above 300
             setTimeout cb, 300
 
-    describe "socksv5 proxy", ->
+    describe.skip "socksv5 proxy", ->
 
       it "should open/close tunnel", (cb) ->
-        ssh.connect
+        ssh.tunnel
           server: server
         , (err, tunnel) ->
           expect(err, 'tunnel error').to.not.exist
@@ -188,7 +199,7 @@ ssh.setup ->
             setTimeout cb, 100
 
       it "should get webpage through tunnel", (cb) ->
-        ssh.connect
+        ssh.tunnel
           server: server
         , (err, tunnel) ->
           expect(err, 'tunnel error').to.not.exist

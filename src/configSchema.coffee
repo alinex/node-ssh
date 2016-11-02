@@ -177,7 +177,7 @@ tunnel =
           description: "the reference name for an defined ssh connection under config '/ssh/NAME'"
           type: 'string'
           list: '<<<data:///ssh/server>>>'
-        , conn
+        , conn.entries[0]
         ]
       host:
         title: "Host"

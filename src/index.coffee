@@ -67,10 +67,10 @@ Open Remote Connections
 
 ###
 Open anew connection to run remote commands.
-To close it again you have to call `conn.end()` but keep
+To close it again you have to call `conn.close()` but keep
 in mind that this will close the connection for all runing commands and tunnels
 because they are shared. So better only close it if you know you no longer need
-it or at the end of your script using `ssh.end()`.
+it or at the end of your script using `ssh.close()`.
 
 @param {Object} setup the server settings
 - `server` {@schema configSchema.coffee#keys/server/entries/0}
@@ -126,7 +126,7 @@ Control tunnel creation
 ###
 
 ###
-Open new tunnel. It may be closed by calling `tunnel.end()`. This will close
+Open new tunnel. It may be closed by calling `tunnel.close()`. This will close
 the tunnel but keeps the connection opened.
 
 @param {Object} setup the server settings
@@ -145,6 +145,7 @@ exports.tunnel = (setup, cb) ->
     if debug.enabled
       validator ?= require 'alinex-validator'
       console.log setup.tunnel
+      console.log schema.keys.tunnel.entries[0].keys.remote
       validator.checkSync
         name: 'sshTunnelSetup'
         title: "SSH Tunnel to Open"
@@ -167,8 +168,8 @@ Close all tunnels and ssh connections.
 
 This will end all operations and should be called on shutdown.
 ###
-exports.end = ->
-  conn.end() for conn in connections
+exports.close = ->
+  conn.close() for conn in connections
 
 
 # Helper methods
@@ -240,6 +241,7 @@ open = util.function.onceTime (setup, cb) ->
   debug chalk.grey "establish new ssh connection to #{name}" if debug.enabled
   conn = new ssh.Client()
   conn.name = name
+  conn.close = conn.end
   conn.on 'ready', ->
     debug chalk.grey "#{conn.name}: ssh client ready" if debug.enabled
     # store connection
@@ -251,7 +253,7 @@ open = util.function.onceTime (setup, cb) ->
       debug chalk.yellow msg
   conn.on 'error', (err) ->
     debug chalk.magenta "#{conn.name}: got error: #{err.message}" if debug.enabled
-    conn.end()
+    conn.close()
     cb err
   conn.on 'end', ->
     debug chalk.grey "#{conn.name}: ssh client closing" if debug.enabled
@@ -306,7 +308,7 @@ forward = (conn, setup, cb) ->
       debug "#{conn.name}: closing tunnel to #{name}" if debug.enabled
       delete conn.tunnel[name]
       unless Object.keys(conn.tunnel).length
-        conn.end()
+        conn.close()
     tunnel.setup =
       host: setup.localHost
       port: setup.localPort
@@ -352,7 +354,7 @@ proxy = (conn, setup = {}, cb) ->
       debug "#{conn.name}: closing tunnel to #{name}" if debug.enabled
       delete conn.tunnel[name]
       unless Object.keys(conn.tunnel).length
-        conn.end()
+        conn.close()
     tunnel.setup =
       host: setup.localHost
       port: setup.localPort
