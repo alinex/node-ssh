@@ -8,7 +8,7 @@ node_js:
 
 # coveralls integration
 after_success:
-  - COVERALLS_SERVICE_NAME=travis-ci COVERALLS_REPO_TOKEN=RDQJZYBESg3FZ51P0sWqGdMSjpPBgOV09 node_modules/.bin/builder test --coveralls
+  - COVERALLS_SERVICE_NAME=travis-ci COVERALLS_REPO_TOKEN=3YPppbK3x9IlXbAhci2o44NhFOZuTfYpS node_modules/.bin/builder test --coveralls
 
 # Fix the c++ compiler on Ubuntu 14.04
 env:
