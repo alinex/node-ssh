@@ -223,7 +223,7 @@ nearly the same, only the tunnel host and port are missing:
 
 ``` coffee
 ssh = require 'alinex-ssh'
-ssh.proxy
+ssh.tunnel
   server:
     host: '65.25.98.25'
     port:  22
@@ -247,7 +247,7 @@ Or the really short versions if configured in the configuration files:
 
 ``` coffee
 ssh = require 'alinex-ssh'
-ssh.proxy 'db', (err, conn) ->
+ssh.tunnel 'db', (err, conn) ->
   console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->

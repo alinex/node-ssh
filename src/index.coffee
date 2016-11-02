@@ -1,5 +1,5 @@
 ###
-SSH Connection class - API USage
+SSH Connection class - API Usage
 =================================================
 This is an object oriented implementation arround the core `process.spawn`
 command and alternatively ssh connections.
@@ -80,7 +80,9 @@ and the ssh connection on success
 ###
 exports.connect = (setup, cb) ->
   # get setup values corrected
-  setup = config.get "/ssh/server/#{setup}" if typeof setup is 'string'
+  if typeof setup is 'string'
+    setup =
+      server: config.get "/ssh/server/#{setup}"
   setup.server = [setup.server] unless Array.isArray setup.server
   if debug.enabled
     validator ?= require 'alinex-validator'
@@ -139,13 +141,18 @@ If the `host` and `port` setting is not given a socks5 proxy tunnel will be open
 or the tunnel information on success
 ###
 exports.tunnel = (setup, cb) ->
-  setup.server = setup.tunnel.remote if setup.tunnel.remote
+  if typeof setup is 'string'
+    setup =
+      if config.get "/ssh/tunnel/#{setup}"
+        tunnel: config.get "/ssh/tunnel/#{setup}"
+      else
+        server: config.get "/ssh/server/#{setup}"
+  setup.server = setup.tunnel.remote if setup.tunnel?.remote
   exports.connect setup, (err, conn) ->
+    setup.tunnel ?= {}
     setup.tunnel.remote ?= setup.server
-    if debug.enabled
+    if debugTunnel.enabled
       validator ?= require 'alinex-validator'
-      console.log setup.tunnel
-      console.log schema.keys.tunnel.entries[0].keys.remote
       validator.checkSync
         name: 'sshTunnelSetup'
         title: "SSH Tunnel to Open"
@@ -285,12 +292,12 @@ forward = (conn, setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
   return cb null, conn.tunnel[name] if conn.tunnel[name]
   # make new tunnel
-  debug "#{conn.name}: open new tunnel to #{name}" if debug.enabled
+  debugTunnel "#{conn.name}: open new tunnel to #{name}" if debugTunnel.enabled
   findPort setup, (err, setup) ->
     return cb err if err
     setup.localHost ?= '127.0.0.1'
-    if debug.enabled
-      debug chalk.grey "#{conn.name}: opening tunnel on local port
+    if debugTunnel.enabled
+      debugTunnel chalk.grey "#{conn.name}: opening tunnel on local port
       #{setup.localHost}:#{setup.localPort}"
     tunnel = net.createServer (sock) ->
       conn.forwardOut sock.remoteAddress, sock.remotePort, setup.host, setup.port, (err, stream) ->
@@ -305,7 +312,7 @@ forward = (conn, setup, cb) ->
       try
         tunnel.close()
     tunnel.on 'close', ->
-      debug "#{conn.name}: closing tunnel to #{name}" if debug.enabled
+      debugTunnel "#{conn.name}: closing tunnel to #{name}" if debugTunnel.enabled
       delete conn.tunnel[name]
       unless Object.keys(conn.tunnel).length
         conn.close()
@@ -328,12 +335,12 @@ proxy = (conn, setup = {}, cb) ->
   name = "socksv5 proxy"
   return cb null, conn.tunnel[name] if conn.tunnel[name]
   # make new tunnel
-  debug "#{conn.name}: open new tunnel to #{name}" if debug.enabled
+  debugTunnel "#{conn.name}: open new tunnel to #{name}" if debugTunnel.enabled
   findPort setup, (err, setup) ->
     return cb err if err
     setup.localHost ?= '127.0.0.1'
-    if debug.enabled
-      debug chalk.grey "#{conn.name}: opening tunnel on local port
+    if debugTunnel.enabled
+      debugTunnel chalk.grey "#{conn.name}: opening tunnel on local port
       #{setup.localHost}:#{setup.localPort}"
     tunnel = socks.createServer (info, accept) ->
       conn.forwardOut info.srcAddr, info.srcPort, info.dstAddr, info.dstPort, (err, stream) ->
@@ -351,7 +358,7 @@ proxy = (conn, setup = {}, cb) ->
       try
         tunnel.close()
     tunnel.on 'close', ->
-      debug "#{conn.name}: closing tunnel to #{name}" if debug.enabled
+      debugTunnel "#{conn.name}: closing tunnel to #{name}" if debugTunnel.enabled
       delete conn.tunnel[name]
       unless Object.keys(conn.tunnel).length
         conn.close()

@@ -47,10 +47,17 @@ ssh.setup ->
 
     describe "connect", ->
 
-      it "should connect to localhost", (cb) ->
+      it "should work with object", (cb) ->
         ssh.connect
           server: server
         , (err, conn) ->
+          expect(err, 'error').to.not.exist
+          expect(conn, 'conn').to.exist
+          conn.close()
+          cb()
+
+      it "should work with config reference", (cb) ->
+        ssh.connect 'testWithKey', (err, conn) ->
           expect(err, 'error').to.not.exist
           expect(conn, 'conn').to.exist
           conn.close()
@@ -165,7 +172,6 @@ ssh.setup ->
         , (err, tunnel) ->
           expect(err, 'tunnel error').to.not.exist
           expect(tunnel, 'tunnel').to.exist
-          console.log tunnel
           tunnel.close()
           setTimeout cb, 100
 
@@ -185,7 +191,7 @@ ssh.setup ->
             expect(out.length, 'output size').to.be.above 300
             setTimeout cb, 300
 
-    describe.skip "socksv5 proxy", ->
+    describe "socksv5 proxy", ->
 
       it "should open/close tunnel", (cb) ->
         ssh.tunnel
