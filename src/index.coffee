@@ -200,7 +200,10 @@ optimize = (setup, cb) ->
   if typeof setup is 'string'
     setup.server = config.get "/ssh/server/#{setup}"
   if typeof setup.server is 'string'
-    setup.server = config.get "/ssh/server/#{setup.server}"
+    server = config.get "/ssh/server/#{setup.server}"
+    unless server
+      return cb new Error "No server configured under /ssh/server/#{setup.server}"
+    setup.server = server
   # optimize settings with defaults
   setup.server = [setup.server] unless Array.isArray setup.server
   async.each setup.server, (entry, cb) ->
