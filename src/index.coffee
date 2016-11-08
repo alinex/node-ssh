@@ -83,19 +83,23 @@ exports.connect = (setup, cb) ->
   if typeof setup is 'string'
     setup =
       server: config.get "/ssh/server/#{setup}"
-  setup.server = [setup.server] unless Array.isArray setup.server
+  setup.server = [setup.server] unless typeof setup.server is 'string' or Array.isArray setup.server
   if debug.enabled
     validator ?= require 'alinex-validator'
-    validator.checkSync
-      name: 'sshServerSetup'
-      title: "SSH Connection to Open"
-      value: setup.server
-      schema: schema.keys.server.entries[0]
-    validator.checkSync
-      name: 'sshRetrySetup'
-      title: "SSH Retry Settings"
-      value: setup.retry
-      schema: schema.keys.retry
+    try
+      validator.checkSync
+        name: 'sshServerSetup'
+        title: "SSH Connection to Open"
+        value: setup.server
+        schema: schema.keys.tunnel.entries[0].keys.remote
+      validator.checkSync
+        name: 'sshRetrySetup'
+        title: "SSH Retry Settings"
+        value: setup.retry
+        schema: schema.keys.retry
+    catch error
+      debug "@Exec.connect called with " + util.inspect setup, {depth: null}
+      throw error
   init (err) ->
     return cb err if err
     debug chalk.grey "open connection..." if debug.enabled
