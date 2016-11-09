@@ -121,6 +121,8 @@ ssh.connect
   , 10000
 ```
 
+This may also be called with a list of alternative `server` connections.
+
 Or the really short versions if configured in the configuration files:
 
 ``` coffee
