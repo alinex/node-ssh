@@ -5,6 +5,29 @@ The configuration is the same for tunneling and remote executions and is defined
 in three parts:
 ###
 
+# # 3Retry Reference
+#
+# Rules which set handling for connection problems.
+retry =
+  title: "Retry"
+  description: "the handling of retries on connecting"
+  type: 'object'
+  allowedKeys: true
+  keys:
+    times:
+      title: "Number of Tries"
+      description: "the number of times to try to connect"
+      type: 'integer'
+      min: 0
+      optional: true
+    interval:
+      title: "Wait between Tries"
+      description: "the interval to wait (in milliseconds) between tries"
+      type: 'interval'
+      min: 0
+      optional: true
+  optional: true
+
 
 ###
 /ssh/server
@@ -141,12 +164,53 @@ conn =
             type: 'boolean'
           ]
           optional: true
+        retry: retry
         debug:
           title: "Extended Debug"
           description: "the DEBUG=exec.ssh messages are extended with server communication"
           type: 'boolean'
           optional: true
   ]
+
+# #3 Connection Reference
+#
+# Rules which allows a connection or reference to one.
+connRef =
+  title: "SSH Connection"
+  description: "the ssh connection to use"
+  type: 'or'
+  or: [
+    title: "SSH Connection Reference"
+    description: "the reference name for an defined ssh connection under config '/ssh/NAME'"
+    type: 'string'
+    list: '<<<data:///ssh/server>>>'
+  , conn.entries[0]
+  ]
+
+
+###
+/ssh/group
+------------------------------------------------------
+Groups will build alternative hosts to be used for a special task. While multiple
+connections are alternative ways to the same host here you group different ones
+together. They can be used to select the best (the one with the best free load)
+one to use or you may step over all of them to do something on all occurrences
+of a cluster.
+
+{@schema #keys/group}
+###
+group =
+  title: "Groups"
+  description: "the setup of alternative server groups"
+  type: 'object'
+  entries: [
+    title: "Group"
+    description: "the setup of an alternative server group"
+    type: 'array'
+    minLength: 1
+    entries: connRef
+  ]
+
 
 ###
 /ssh/tunnel
@@ -168,17 +232,7 @@ tunnel =
     mandatoryKeys: ['remote']
     optional: true
     keys:
-      remote:
-        title: "SSH Connection"
-        description: "the ssh connection to use"
-        type: 'or'
-        or: [
-          title: "SSH Connection Reference"
-          description: "the reference name for an defined ssh connection under config '/ssh/NAME'"
-          type: 'string'
-          list: '<<<data:///ssh/server>>>'
-        , conn.entries[0]
-        ]
+      remote: connRef
       host:
         title: "Host"
         description: "the hostname or ip address which to tunnel"
@@ -212,30 +266,12 @@ tunnel =
 ###
 /ssh/retry
 ------------------------------------------------------
-The last part `retry` is used to make the connection more stable and allows you to
-configure an automatic retry loop while connecting to the remote machine with a short break.
+The last part are the `retry` defaults used to make the connection more stable
+and allows you to configure an automatic retry loop while connecting to the
+remote machine with a short break.
 
 {@schema #keys/retry}
 ###
-retry =
-  title: "Retry"
-  description: "the handling of retries on connecting"
-  type: 'object'
-  allowedKeys: true
-  keys:
-    times:
-      title: "Number of Tries"
-      description: "the number of times to try to connect"
-      type: 'integer'
-      min: 0
-      optional: true
-    interval:
-      title: "Wait between Tries"
-      description: "the interval to wait (in milliseconds) between tries"
-      type: 'interval'
-      min: 0
-      optional: true
-  optional: true
 
 
 # Complete config
@@ -247,5 +283,6 @@ module.exports =
   type: 'object'
   keys:
     server: conn
+    group: group
     tunnel: tunnel
     retry: retry
