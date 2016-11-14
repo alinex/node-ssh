@@ -268,7 +268,8 @@ tunnel =
 ------------------------------------------------------
 The last part are the `retry` defaults used to make the connection more stable
 and allows you to configure an automatic retry loop while connecting to the
-remote machine with a short break.
+remote machine with a short break. They are the defaults if nothing set within
+the connection.
 
 {@schema #keys/retry}
 ###

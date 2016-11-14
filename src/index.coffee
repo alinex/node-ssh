@@ -76,7 +76,9 @@ it or at the end of your script using `ssh.close()`.
 - `server` {@schema configSchema.coffee#keys/server/entries/0}
 - `retry` {@schema configSchema.coffee#keys/retry}
 @param {Function(Error, Connection)} cb callback with error if something went wrong
-and the ssh connection on success
+and the ssh connection on success containing
+- `tunnel` - `Object` map of opened tunnels
+- `exec` - `Object` map of running executions on this connection
 ###
 exports.connect = (setup, cb) ->
   # get setup values corrected
@@ -122,6 +124,8 @@ exports.connect = (setup, cb) ->
           # the last entry should be a connection
           conn = result.pop() # the last result
           return cb new Error "Connecting to server impossible!\n" + problems.join "\n" unless conn
+          conn.tunnel = {}
+          conn.exec = {}
           cb null, conn
       , cb
 
@@ -259,7 +263,6 @@ open = util.function.onceTime (setup, cb) ->
   conn.on 'ready', ->
     debug chalk.grey "#{conn.name}: ssh client ready" if debug.enabled
     # store connection
-    conn.tunnel ?= {}
     connections[name] = conn
     cb null, conn
   if debug.enabled
@@ -322,7 +325,8 @@ forward = (conn, setup, cb) ->
       debugTunnel "#{conn.name}: closing tunnel to #{name}" if debugTunnel.enabled
       delete conn.tunnel[name]
       unless Object.keys(conn.tunnel).length
-        conn.close()
+        unless Object.keys(conn.exec).length
+          conn.close()
     tunnel.setup =
       host: setup.localHost
       port: setup.localPort
