@@ -67,9 +67,9 @@ connections = {}
 
 # Vital data of some hosts
 #
-# @type {Object<Array>} vital data of host with
-# - 0 - minute of measurement
-# - 1 - free sources
+# @type {Object<Object>} vital data of host with
+# - `date` - minute of measurement
+# - `free` - free sources
 vital = {}
 
 
@@ -87,6 +87,7 @@ it or at the end of your script using `ssh.close()`.
 
 @param {Object} setup the server settings
 - `server` {@schema configSchema.coffee#keys/server/entries/0}
+- `group` {@schema configSchema.coffee#keys/group/entries/0}
 - `retry` {@schema configSchema.coffee#keys/retry}
 @param {Function(Error, Connection)} cb callback with error if something went wrong
 and the ssh connection on success containing
@@ -157,9 +158,66 @@ exports.connect = (setup, cb) ->
             cb null, conn
         , cb
 
+# Resolve the group setting into the best fitting entry.
+#
+# @param {Object} setup the server settings
+# - `server` {@schema configSchema.coffee#keys/server/entries/0}
+# - `group` {@schema configSchema.coffee#keys/group/entries/0}
+# - `retry` {@schema configSchema.coffee#keys/retry}
+# @param {Function(Error, Connection)} cb callback with error if something went wrong
+# and the ssh connection on success containing
 groupResolve = (setup, cb) ->
   return cb null, setup unless setup.group
   debug chalk.grey "check group for best value..." if debug.enabled
+  now = new Date().getTime()
+  check = now - 60000
+  async.map setup.group, (server, cb) ->
+    if typeof setup.server is 'string'
+      setup.server = config.get "/ssh/server/#{setup}"
+    # get already measured value
+    name = "#{setup.host}:#{setup.port}"
+    if vital[name]?.date > check
+      return cb null,
+        server: server
+        vital: vital[name].free
+    # get vital data
+    exports.connect
+      server: server
+      retry:
+        times: 0
+    , (err, conn) ->
+      if err
+        debug chalk.magenta err.message
+        return cb null,
+          server: server
+          vital: -10
+      conn.exec 'nproc && cat /proc/loadavg', (err, stream) ->
+        buffer = ""
+        if err
+          debug chalk.magenta err.message
+          return cb null,
+            server: server
+            vital: -10
+        stream.on 'data', (data) -> buffer += data.toString()
+        stream.on 'end', ->
+          data = buffer.split /\s*/
+          free = data[0] - data[1]
+          console.log conn.name, data, free
+          debug chalk.grey "vital data of #{name} free: #{free}"
+          vital[name] =
+            date: now
+            free: free
+          cb null,
+            server: server
+            free: free
+            conn: conn
+  , (err, result) ->
+    return cb err if err
+    result = util.sortBy result, 'free'
+    cb null,
+      server: result[0].server
+      retry: setup.retry
+    entry.conn.close() for entry of result[1..]
 
 
 ###

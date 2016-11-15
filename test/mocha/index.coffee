@@ -45,7 +45,7 @@ ssh.setup ->
             expect(config.get '/ssh/tunnel', 'tunnel config').to.exist
             cb()
 
-    describe.only "connect", ->
+    describe "connect", ->
 
       it "should work with object", (cb) ->
         ssh.connect
