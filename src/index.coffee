@@ -1,3 +1,4 @@
+
 ###
 SSH Connection class - API Usage
 =================================================
@@ -56,8 +57,20 @@ exports.init = init = util.function.once this, (cb) ->
 
 # Map of ssh connections.
 #
-# @type {Object}
+# @type {Client} SSH client connection
+# - `config` - `Object` with all settings of the connection (ssh2 format)
+# - `name` - `String` name identifying the server
+# - `tunnel` - `Object` map of opened tunnels
+# - `exec` - `Object` map of running executions on this connection
+# - `close` -  `Function` to close the connection and everything build upon it
 connections = {}
+
+# Vital data of some hosts
+#
+# @type {Object<Array>} vital data of host with
+# - 0 - minute of measurement
+# - 1 - free sources
+vital = {}
 
 
 ###
@@ -77,15 +90,22 @@ it or at the end of your script using `ssh.close()`.
 - `retry` {@schema configSchema.coffee#keys/retry}
 @param {Function(Error, Connection)} cb callback with error if something went wrong
 and the ssh connection on success containing
-- `tunnel` - `Object` map of opened tunnels
-- `exec` - `Object` map of running executions on this connection
 ###
 exports.connect = (setup, cb) ->
   # get setup values corrected
   if typeof setup is 'string'
-    setup =
-      server: config.get "/ssh/server/#{setup}"
-  setup.server = [setup.server] unless typeof setup.server is 'string' or Array.isArray setup.server
+    # short references used
+    if group = config.get "/ssh/group/#{setup}"
+      setup =
+        group: group
+    else if server = config.get "/ssh/server/#{setup}"
+      setup =
+        server: server
+    else
+      return cb new Error "Could not find group or server in ssh configuration with name '#{setup}'"
+  # server object to array
+  setup.server = [setup.server] if typeof setup.server is 'object' and not Array.isArray setup.server
+  # check the setup
   if debug.enabled
     validator ?= require 'alinex-validator'
     try
@@ -93,41 +113,53 @@ exports.connect = (setup, cb) ->
         name: 'sshServerSetup'
         title: "SSH Connection to Open"
         value: setup.server
-        schema: schema.keys.tunnel.entries[0].keys.remote
+        schema: schema.keys.group.entries[0].entries
+      validator.checkSync
+        name: 'sshGroupSetup'
+        title: "SSH Group to Connect"
+        value: setup.server
+        schema: schema.keys.group.entries[0]
       validator.checkSync
         name: 'sshRetrySetup'
         title: "SSH Retry Settings"
         value: setup.retry
         schema: schema.keys.retry
     catch error
-      debug "@Exec.connect called with " + util.inspect setup, {depth: null}
+      debug "called with " + util.inspect setup, {depth: null}
       throw error
   init (err) ->
     return cb err if err
-    debug chalk.grey "open connection..." if debug.enabled
-    # add setup defaults
-    optimize setup, (err, setup) ->
+    # get best server of group
+    groupResolve setup, (err, setup) ->
       return cb err if err
-      # open ssh connection
-      async.retry
-        times: setup.retry?.times ? 1
-        interval: setup.retry?.interval ? 200
-      , (cb) ->
-        problems = []
-        async.mapSeries setup.server, (entry, cb) ->
-          # try each connection setting till one works
-          open entry, (err, conn) ->
-            problems.push err.message if err
-            return cb() unless conn
-            cb 'STOP', conn
-        , (_, result) ->
-          # the last entry should be a connection
-          conn = result.pop() # the last result
-          return cb new Error "Connecting to server impossible!\n" + problems.join "\n" unless conn
-          conn.tunnel = {}
-          conn.exec = {}
-          cb null, conn
-      , cb
+      debug chalk.grey "open connection..." if debug.enabled
+      # add setup defaults
+      optimize setup, (err, setup) ->
+        return cb err if err
+        # open ssh connection
+        async.retry
+          times: setup.server.retry?.times ? setup.retry?.times ? 1
+          interval: setup.server.retry?.interval ? setup.retry?.interval ? 200
+        , (cb) ->
+          problems = []
+          async.mapSeries setup.server, (entry, cb) ->
+            # try each connection setting till one works
+            open entry, (err, conn) ->
+              problems.push err.message if err
+              return cb() unless conn
+              cb 'STOP', conn
+          , (_, result) ->
+            # the last entry should be a connection
+            conn = result.pop() # the last result
+            return cb new Error "Connecting to server impossible!\n" + problems.join "\n" unless conn
+            conn.tunnel = {}
+            conn.exec = {}
+            cb null, conn
+        , cb
+
+groupResolve = (setup, cb) ->
+  return cb null, setup unless setup.group
+  debug chalk.grey "check group for best value..." if debug.enabled
 
 
 ###

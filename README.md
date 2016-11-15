@@ -123,7 +123,10 @@ ssh.connect
 
 This may also be called with a list of alternative `server` connections.
 
-Or the really short versions if configured in the configuration files:
+#### Configured
+
+Or the short versions if configured in the configuration files needs only a name
+to reference the correct entry:
 
 ``` coffee
 ssh = require 'alinex-ssh'
@@ -140,6 +143,8 @@ ssh.connect
   , 10000
 ```
 
+The following is a short form if no special retry times are used:
+
 ``` coffee
 ssh = require 'alinex-ssh'
 ssh.connect 'db', (err, conn) ->
@@ -150,7 +155,52 @@ ssh.connect 'db', (err, conn) ->
   , 10000
 ```
 
-### Simple forward tunnel
+#### Groups
+
+Another possibility is to use a group to connect to the best server of it:
+
+``` coffee
+ssh = require 'alinex-ssh'
+ssh.connect
+  group: 'appcluster'
+, (err, conn) ->
+  console.log "ssh connection #{conn.name} opened"
+  # wait 10 seconds, then close the tunnel
+  setTimeout ->
+    conn.close()
+  , 10000
+```
+
+Alternatively you can give the group as an array of server names or configurations:
+
+``` coffee
+ssh = require 'alinex-ssh'
+ssh.connect
+  group: ['node1', 'node2', 'node3']
+, (err, conn) ->
+  console.log "ssh connection #{conn.name} opened"
+  # wait 10 seconds, then close the tunnel
+  setTimeout ->
+    conn.close()
+  , 10000
+```
+
+And also the short version is possible which will first try to use the given name
+as group else as server:
+
+``` coffee
+ssh = require 'alinex-ssh'
+ssh.connect 'appcluster', (err, conn) ->
+  console.log "ssh connection #{conn.name} opened"
+  # wait 10 seconds, then close the tunnel
+  setTimeout ->
+    conn.close()
+  , 10000
+```
+
+### Tunneling
+
+#### Simple forward tunnel
 
 You can open a tunnel with:
 
@@ -218,7 +268,7 @@ ssh.tunnel 'intranet', (err, conn) ->
   , 10000
 ```
 
-### Dynamic SOCKSv5 Proxy
+#### Dynamic SOCKSv5 Proxy
 
 The following script shows how to make a dynamic 1:1 proxy using SOCKSv5. It's
 nearly the same, only the tunnel host and port are missing:
@@ -257,7 +307,7 @@ ssh.tunnel 'db', (err, conn) ->
   , 10000
 ```
 
-### Configuration files
+#### Configuration files
 
 To use configuration files you also need to setup and initialize this before using it:
 
@@ -275,6 +325,30 @@ And then put your own settings in external files like described at {@link alinex
     /tunnel.yaml - set the tunnel configuration with name
 
 But you may also directly give your setup to the methods above.
+
+
+### Remote Execution
+
+To do this you have to use the {@link alinex-exec} module which internally connects
+using this and also uses the same configuration files.
+
+
+Tips and Tricks
+----------------------------------------------
+
+### Execute on whole Group
+
+This may be done easily if you step over the configured list of servers of a group.
+Mostly you have a cluster there and want to take the action on each of them but
+seriously to don't disturb your app users.
+
+``` coffee
+config = require 'alinex-config'
+async.eachSeries config.get('/ssh/group/appcluster'), (server, cb) ->
+  # do something with this server like remote execution
+, (err) ->
+  # check for problems
+```
 
 
 Debugging
