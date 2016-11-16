@@ -61,7 +61,7 @@ exports.init = init = util.function.once this, (cb) ->
 # - `config` - `Object` with all settings of the connection (ssh2 format)
 # - `name` - `String` name identifying the server
 # - `tunnel` - `Object` map of opened tunnels
-# - `exec` - `Object` map of running executions on this connection
+# - `process` - `Object` map of running executions on this connection
 # - `close` -  `Function` to close the connection and everything build upon it
 connections = {}
 
@@ -107,25 +107,32 @@ exports.connect = (setup, cb) ->
   # server object to array
   if typeof setup.server is 'object' and not Array.isArray setup.server
     setup.server = [setup.server]
+  if typeof setup.group is 'string'
+    unless group = config.get "/ssh/group/#{setup.group}"
+      return cb new Error "Could not find group in ssh configuration with name '#{setup.group}'"
+    setup.group = group
   # check the setup
   if debug.enabled
     validator ?= require 'alinex-validator'
     try
-      validator.checkSync
-        name: 'sshServerSetup'
-        title: "SSH Connection to Open"
-        value: setup.server
-        schema: schema.keys.group.entries[0].entries
-      validator.checkSync
-        name: 'sshGroupSetup'
-        title: "SSH Group to Connect"
-        value: setup.server
-        schema: schema.keys.group.entries[0]
-      validator.checkSync
-        name: 'sshRetrySetup'
-        title: "SSH Retry Settings"
-        value: setup.retry
-        schema: schema.keys.retry
+      if setup.server
+        validator.checkSync
+          name: 'sshServerSetup'
+          title: "SSH Connection to Open"
+          value: setup.server
+          schema: schema.keys.group.entries[0].entries
+      if setup.group
+        validator.checkSync
+          name: 'sshGroupSetup'
+          title: "SSH Group to Connect"
+          value: setup.group
+          schema: schema.keys.group.entries[0]
+      if setup.retry
+        validator.checkSync
+          name: 'sshRetrySetup'
+          title: "SSH Retry Settings"
+          value: setup.retry
+          schema: schema.keys.retry
     catch error
       debug "called with " + util.inspect setup, {depth: null}
       throw error
@@ -134,7 +141,6 @@ exports.connect = (setup, cb) ->
     # get best server of group
     groupResolve setup, (err, setup) ->
       return cb err if err
-      debug chalk.grey "open connection..." if debug.enabled
       # add setup defaults
       optimize setup, (err, setup) ->
         return cb err if err
@@ -156,7 +162,7 @@ exports.connect = (setup, cb) ->
             unless conn
               return cb new Error "Connecting to server impossible!\n" + problems.join "\n"
             conn.tunnel = {}
-            conn.exec = {}
+            conn.process = {}
             cb null, conn
         , cb
 
@@ -192,20 +198,19 @@ groupResolve = (setup, cb) ->
         debug chalk.magenta err.message
         return cb null,
           server: server
-          vital: -10
+          free: -10
       conn.exec 'nproc && cat /proc/loadavg', (err, stream) ->
         buffer = ""
         if err
           debug chalk.magenta err.message
           return cb null,
             server: server
-            vital: -10
+            free: -10
         stream.on 'data', (data) -> buffer += data.toString()
         stream.on 'end', ->
-          data = buffer.split /\s*/
+          data = buffer.split /\s+/
           free = data[0] - data[1]
-          console.log conn.name, data, free
-          debug chalk.grey "vital data of #{name} free: #{free}"
+          debug chalk.grey "#{conn.name}: vital data free: #{free}" if debug.enabled
           vital[name] =
             date: now
             free: free
@@ -215,11 +220,13 @@ groupResolve = (setup, cb) ->
             conn: conn
   , (err, result) ->
     return cb err if err
-    result = util.sortBy result, 'free'
+    result = util.array.sortBy result, '-free'
+    debug "#{result[0].conn.name}: selected from cluster/group"
     cb null,
       server: result[0].server
       retry: setup.retry
-    entry.conn.close() for entry of result[1..]
+    for entry of result[1..]
+      entry.conn?.close()
 
 
 ###
@@ -346,7 +353,9 @@ optimize = (setup, cb) ->
 # - `tunnel` - `Object<Server>` with the opened tunnels
 open = util.function.onceTime (setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
-  return cb null, connections[name] if connections[name]?._sock?._handle
+  if connections[name]?._sock?._handle
+    debug "#{name}: use existing connection" if debug.enabled
+    return cb null, connections[name]
   # open new ssh
   debug chalk.grey "#{name}: establish new ssh connection" if debug.enabled
   conn = new ssh.Client()
@@ -419,7 +428,7 @@ forward = (conn, setup, cb) ->
       debugTunnel "#{conn.name}: closing tunnel to #{name}" if debugTunnel.enabled
       delete conn.tunnel[name]
       unless Object.keys(conn.tunnel).length
-        unless Object.keys(conn.exec).length
+        unless Object.keys(conn.process).length
           conn.close()
     tunnel.setup =
       host: setup.localHost

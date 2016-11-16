@@ -45,7 +45,7 @@ ssh.setup ->
             expect(config.get '/ssh/tunnel', 'tunnel config').to.exist
             cb()
 
-    describe.only "connect", ->
+    describe "connect", ->
 
       it "should work with object", (cb) ->
         ssh.connect
@@ -57,11 +57,30 @@ ssh.setup ->
           cb()
 
       it "should work with config reference", (cb) ->
+        ssh.connect
+          server: 'testWithKey'
+        , (err, conn) ->
+          expect(err, 'error').to.not.exist
+          expect(conn, 'conn').to.exist
+          conn.close()
+          cb()
+
+      it "should work with config reference (short form)", (cb) ->
         ssh.connect 'testWithKey', (err, conn) ->
           expect(err, 'error').to.not.exist
           expect(conn, 'conn').to.exist
           conn.close()
           cb()
+
+      it "should work with group reference", (cb) ->
+        ssh.connect
+          group: 'cluster'
+        , (err, conn) ->
+          expect(err, 'error').to.not.exist
+          expect(conn, 'conn').to.exist
+          conn.close()
+          cb()
+
 
     describe "problems", ->
 
