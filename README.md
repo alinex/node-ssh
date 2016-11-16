@@ -156,9 +156,10 @@ ssh.connect 'db', (err, conn) ->
   , 10000
 ```
 
-#### Groups
+#### Cluster/Groups
 
-Another possibility is to use a group to connect to the best server of it:
+Another possibility is to use a cluster or group to connect to the best server of
+it:
 
 ``` coffee
 ssh = require 'alinex-ssh'
