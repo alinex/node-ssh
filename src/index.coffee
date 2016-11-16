@@ -105,7 +105,8 @@ exports.connect = (setup, cb) ->
     else
       return cb new Error "Could not find group or server in ssh configuration with name '#{setup}'"
   # server object to array
-  setup.server = [setup.server] if typeof setup.server is 'object' and not Array.isArray setup.server
+  if typeof setup.server is 'object' and not Array.isArray setup.server
+    setup.server = [setup.server]
   # check the setup
   if debug.enabled
     validator ?= require 'alinex-validator'
@@ -152,7 +153,8 @@ exports.connect = (setup, cb) ->
           , (_, result) ->
             # the last entry should be a connection
             conn = result.pop() # the last result
-            return cb new Error "Connecting to server impossible!\n" + problems.join "\n" unless conn
+            unless conn
+              return cb new Error "Connecting to server impossible!\n" + problems.join "\n"
             conn.tunnel = {}
             conn.exec = {}
             cb null, conn
@@ -346,10 +348,12 @@ open = util.function.onceTime (setup, cb) ->
   name = "#{setup.host}:#{setup.port}"
   return cb null, connections[name] if connections[name]?._sock?._handle
   # open new ssh
-  debug chalk.grey "establish new ssh connection to #{name}" if debug.enabled
+  debug chalk.grey "#{name}: establish new ssh connection" if debug.enabled
   conn = new ssh.Client()
   conn.name = name
-  conn.close = conn.end
+  conn.close = ->
+    conn.end()
+    conn.emit 'end'
   conn.on 'ready', ->
     debug chalk.grey "#{conn.name}: ssh client ready" if debug.enabled
     # store connection
@@ -363,15 +367,15 @@ open = util.function.onceTime (setup, cb) ->
     conn.close()
     cb err
   conn.on 'end', ->
-    debug chalk.grey "#{conn.name}: ssh client closing" if debug.enabled
+    debug chalk.grey "#{conn.name}: ssh client closed" if debug.enabled
     for tunnel of conn.tunnel
       tunnel.end?()
     delete connections[name]
   # start connection
   conn.connect util.extend util.clone(setup),
     debug: unless setup.debug then null else (msg) ->
-      debugDebug chalk.grey msg if debugDebug.enabled
-
+      if debugDebug.enabled
+        debugDebug chalk.grey msg.replace /DEBUG/, conn.name
 
 # Snip communication strings for debugging.
 #

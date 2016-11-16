@@ -45,13 +45,12 @@ ssh.setup ->
             expect(config.get '/ssh/tunnel', 'tunnel config').to.exist
             cb()
 
-    describe "connect", ->
+    describe.only "connect", ->
 
       it "should work with object", (cb) ->
         ssh.connect
           server: server
         , (err, conn) ->
-          console.log conn
           expect(err, 'error').to.not.exist
           expect(conn, 'conn').to.exist
           conn.close()

@@ -1,0 +1,6 @@
+# Cluster Groups
+# ===============================================================
+
+cluster:
+  - localhost
+  - testWithKey

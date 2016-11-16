@@ -54,6 +54,7 @@ commands.
 - pooling ssh connection
 - outgoing tunneling through SSH
 - dynamic port forwarding using SOCKSv5 proxy
+- cluster/group support
 
 > It is one of the modules of the [Alinex Namespace](https://alinex.github.io/code.html)
 > following the code standards defined in the [General Docs](https://alinex.github.io/develop).
