@@ -309,6 +309,32 @@ ssh.tunnel 'db', (err, conn) ->
   , 10000
 ```
 
+#### Cluster/Group
+
+Like in the use of connections you may use cluster or group names within the tunneling,
+too. This means that the tunnel will be made through the best working host.
+
+``` coffee
+ssh = require 'alinex-ssh'
+ssh.tunnel
+  group: 'dmz'
+  tunnel:
+    host: '172.30.0.11'
+    port: 80
+  retry:
+    times: 3
+    intervall: 200
+, (err, conn) ->
+  console.log "ssh connection #{conn.name} opened"
+  # wait 10 seconds, then close the tunnel
+  setTimeout ->
+    tunnel.close()
+  , 10000
+```
+
+And if you use a preconfigured tunnel you may use the group reference name within
+the tunnel's remote setting like the server name.
+
 #### Configuration files
 
 To use configuration files you also need to setup and initialize this before using it:
@@ -323,8 +349,9 @@ ssh.setup (err) ->
 See the {@link src/configSchema.coffee} for a detailed information about it's possibilities.
 And then put your own settings in external files like described at {@link alinex-config}:
 
-    /ssh.yaml - contains named setup of ssh connections
-    /tunnel.yaml - set the tunnel configuration with name
+    /ssh/server.yaml - contains named setup of ssh connections
+    /ssh/group.yaml - cluster/group definition
+    /ssh/tunnel.yaml - set the tunnel configuration with name
 
 But you may also directly give your setup to the methods above.
 

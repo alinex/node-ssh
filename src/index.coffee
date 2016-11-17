@@ -251,13 +251,36 @@ If the `host` and `port` setting is not given a socks5 proxy tunnel will be open
 or the tunnel information on success
 ###
 exports.tunnel = (setup, cb) ->
+  # resolve string only value
   if typeof setup is 'string'
-    setup =
-      if config.get "/ssh/tunnel/#{setup}"
-        tunnel: config.get "/ssh/tunnel/#{setup}"
-      else
-        server: config.get "/ssh/server/#{setup}"
-  setup.server = setup.tunnel.remote if setup.tunnel?.remote
+    if conf = config.get "/ssh/tunnel/#{setup}"
+      setup =
+        tunnel: conf
+    else if conf = config.get "/ssh/group/#{setup}"
+      setup =
+        group: conf
+    else if conf = config.get "/ssh/server/#{setup}"
+      setup =
+        server: conf
+    else
+      return cb new Error "Could not find tunnel, group or server in ssh configuration
+      with name '#{setup}'"
+  # resolve tunnel setting
+  if setup.tunnel? and typeof setup.tunnel is 'string'
+    if conf = config.get "/ssh/tunnel/#{setup}"
+      setup.tunnel = conf
+    else
+      return cb new Error "Could not find tunnel in ssh configuration with name '#{setup}'"
+  # resolve remote setting in tunnel
+  if setup.tunnel?.remote
+    if conf = config.get "/ssh/group/#{setup.tunnel.remote}"
+      setup.group = conf
+    else if conf = config.get "/ssh/server/#{setup.tunnel.remote}"
+      setup.server = conf
+    else
+      return cb new Error "Could not find group or server in ssh configuration
+      with name '#{setup.tunnel.remote}'"
+  # connect
   exports.connect setup, (err, conn) ->
     setup.tunnel ?= {}
     setup.tunnel.remote ?= setup.server
