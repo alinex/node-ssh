@@ -226,7 +226,9 @@ groupResolve = (setup, cb) ->
       server: result[0].server
       retry: setup.retry
     for entry of result[1..]
-      entry.conn?.close()
+      continue unless entry.conn?
+      continue if Object.keys(entry.conn.tunnel) or Object.keys(entry.conn.process)
+      entry.conn.close()
 
 
 ###
