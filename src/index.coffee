@@ -185,6 +185,7 @@ groupResolve = (setup, cb) ->
     # get already measured value
     name = "#{setup.host}:#{setup.port}"
     if vital[name]?.date > check
+      exports.connect
       return cb null,
         server: server
         vital: vital[name].free
@@ -221,7 +222,7 @@ groupResolve = (setup, cb) ->
   , (err, result) ->
     return cb err if err
     result = util.array.sortBy result, '-free'
-    debug "#{result[0].conn.name}: selected from cluster/group"
+    debug "#{result[0].conn?.name ? result[0].server}: selected from cluster/group"
     cb null,
       server: result[0].server
       retry: setup.retry

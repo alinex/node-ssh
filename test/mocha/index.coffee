@@ -81,6 +81,13 @@ ssh.setup ->
           conn.close()
           cb()
 
+      it "should work with group reference (short form)", (cb) ->
+        ssh.connect 'cluster', (err, conn) ->
+          expect(err, 'error').to.not.exist
+          expect(conn, 'conn').to.exist
+          conn.close()
+          cb()
+
 
     describe "problems", ->
 
