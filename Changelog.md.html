@@ -87,6 +87,7 @@
 <gcse:searchresults-only></gcse:searchresults-only>
 
           <main><p><ul class="table-of-contents" aria-hidden="true"><header>Index</header>
+<li><a href="#version-210-2016-11-18">Version 2.1.0 (2016-11-18)</a></li>
 <li><a href="#version-200-2016-11-02">Version 2.0.0 (2016-11-02)</a></li>
 <li><a href="#version-132-2016-10-28">Version 1.3.2 (2016-10-28)</a></li>
 <li><a href="#version-131-2016-10-25">Version 1.3.1 (2016-10-25)</a></li>
@@ -102,6 +103,24 @@
 <h1 id="version-changes">Version changes</h1>
 <p>The following list gives a short overview about what is changed between
 individual versions:</p>
+<h2 id="version-210-2016-11-18">Version 2.1.0 (2016-11-18)</h2>
+<ul>
+<li>Add group support for tunneling.</li>
+<li>Fix bug in retry for already vital analyzed connection.</li>
+<li>Only close connection if not currently used.</li>
+<li>Update documentation to use the word cluster, too.</li>
+<li>Made cluster/group selection working.</li>
+<li>Better debugging of connection handling.</li>
+<li>Add group resolution on connection handling.</li>
+<li>Add connection setting for retry and add funtion for further group resolving.</li>
+<li>Add execution list to connections.</li>
+<li>Change schema to allow groups and retry definition in connection.</li>
+<li>Update documentation.</li>
+<li>Throw error if server reference not configured.</li>
+<li>Fix call of connect with reference name.</li>
+<li>Update debug information.</li>
+<li>Update coveralls token.</li>
+</ul>
 <h2 id="version-200-2016-11-02">Version 2.0.0 (2016-11-02)</h2>
 <p>Renamed to ssh and made the module more generally usable with some API changes.</p>
 <ul>

@@ -90,10 +90,26 @@
 <li><a href="#install">Install</a></li>
 <li><a href="#usage">Usage</a>
 <ul>
-<li><a href="#remote-connection">Remote Connection</a></li>
+<li><a href="#remote-connection">Remote Connection</a>
+<ul>
+<li><a href="#configured">Configured</a></li>
+<li><a href="#clustergroups">Cluster/Groups</a></li>
+</ul>
+</li>
+<li><a href="#tunneling">Tunneling</a>
+<ul>
 <li><a href="#simple-forward-tunnel">Simple forward tunnel</a></li>
 <li><a href="#dynamic-socksv5-proxy">Dynamic SOCKSv5 Proxy</a></li>
+<li><a href="#clustergroup">Cluster/Group</a></li>
 <li><a href="#configuration-files">Configuration files</a></li>
+</ul>
+</li>
+<li><a href="#remote-execution">Remote Execution</a></li>
+</ul>
+</li>
+<li><a href="#tips-and-tricks">Tips and Tricks</a>
+<ul>
+<li><a href="#execute-on-whole-group">Execute on whole Group</a></li>
 </ul>
 </li>
 <li><a href="#debugging">Debugging</a></li>
@@ -126,6 +142,7 @@ commands.</p>
 <li>pooling ssh connection</li>
 <li>outgoing tunneling through SSH</li>
 <li>dynamic port forwarding using SOCKSv5 proxy</li>
+<li>cluster/group support</li>
 </ul>
 <blockquote>
 <p>It is one of the modules of the <a href="https://alinex.github.io/code.html">Alinex Namespace</a>
@@ -171,7 +188,10 @@ commandline.</p>
 <code>  setTimeout -&gt;</code>
 <code>    conn.close()</code>
 <code>  , <span class="hljs-number">10000</span></code></pre>
-<p>Or the really short versions if configured in the configuration files:</p>
+<p>This may also be called with a list of alternative <code>server</code> connections.</p>
+<h4 id="configured">Configured</h4>
+<p>Or the short versions if configured in the configuration files needs only a name
+to reference the correct entry:</p>
 <pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
 <code>ssh.connect</code>
 <code>  server: <span class="hljs-string">'db'</span></code>
@@ -184,6 +204,7 @@ commandline.</p>
 <code>  setTimeout -&gt;</code>
 <code>    conn.close()</code>
 <code>  , <span class="hljs-number">10000</span></code></pre>
+<p>The following is a short form if no special retry times are used:</p>
 <pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
 <code>ssh.connect <span class="hljs-string">'db'</span>, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span></code>
 <code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
@@ -191,7 +212,39 @@ commandline.</p>
 <code>  setTimeout -&gt;</code>
 <code>    conn.close()</code>
 <code>  , <span class="hljs-number">10000</span></code></pre>
-<h3 id="simple-forward-tunnel">Simple forward tunnel</h3>
+<h4 id="clustergroups">Cluster/Groups</h4>
+<p>Another possibility is to use a cluster or group to connect to the best server of
+it:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.connect</code>
+<code>  group: <span class="hljs-string">'appcluster'</span></code>
+<code>, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span></code>
+<code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
+<code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>  setTimeout -&gt;</code>
+<code>    conn.close()</code>
+<code>  , <span class="hljs-number">10000</span></code></pre>
+<p>Alternatively you can give the group as an array of server names or configurations:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.connect</code>
+<code>  group: [<span class="hljs-string">'node1'</span>, <span class="hljs-string">'node2'</span>, <span class="hljs-string">'node3'</span>]</code>
+<code>, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span></code>
+<code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
+<code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>  setTimeout -&gt;</code>
+<code>    conn.close()</code>
+<code>  , <span class="hljs-number">10000</span></code></pre>
+<p>And also the short version is possible which will first try to use the given name
+as group else as server:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.connect <span class="hljs-string">'appcluster'</span>, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span></code>
+<code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
+<code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>  setTimeout -&gt;</code>
+<code>    conn.close()</code>
+<code>  , <span class="hljs-number">10000</span></code></pre>
+<h3 id="tunneling">Tunneling</h3>
+<h4 id="simple-forward-tunnel">Simple forward tunnel</h4>
 <p>You can open a tunnel with:</p>
 <pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
 <code>ssh.tunnel</code>
@@ -243,7 +296,7 @@ close all tunnels with:</p>
 <code>  setTimeout -&gt;</code>
 <code>    tunnel.close()</code>
 <code>  , <span class="hljs-number">10000</span></code></pre>
-<h3 id="dynamic-socksv5-proxy">Dynamic SOCKSv5 Proxy</h3>
+<h4 id="dynamic-socksv5-proxy">Dynamic SOCKSv5 Proxy</h4>
 <p>The following script shows how to make a dynamic 1:1 proxy using SOCKSv5. It’s
 nearly the same, only the tunnel host and port are missing:</p>
 <pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
@@ -273,7 +326,27 @@ nearly the same, only the tunnel host and port are missing:</p>
 <code>  setTimeout -&gt;</code>
 <code>    tunnel.close()</code>
 <code>  , <span class="hljs-number">10000</span></code></pre>
-<h3 id="configuration-files">Configuration files</h3>
+<h4 id="clustergroup">Cluster/Group</h4>
+<p>Like in the use of connections you may use cluster or group names within the tunneling,
+too. This means that the tunnel will be made through the best working host.</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
+<code>ssh.tunnel</code>
+<code>  group: <span class="hljs-string">'dmz'</span></code>
+<code>  tunnel:</code>
+<code>    host: <span class="hljs-string">'172.30.0.11'</span></code>
+<code>    port: <span class="hljs-number">80</span></code>
+<code>  retry:</code>
+<code>    times: <span class="hljs-number">3</span></code>
+<code>    intervall: <span class="hljs-number">200</span></code>
+<code>, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span></code>
+<code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
+<code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
+<code>  setTimeout -&gt;</code>
+<code>    tunnel.close()</code>
+<code>  , <span class="hljs-number">10000</span></code></pre>
+<p>And if you use a preconfigured tunnel you may use the group reference name within
+the tunnel’s remote setting like the server name.</p>
+<h4 id="configuration-files">Configuration files</h4>
 <p>To use configuration files you also need to setup and initialize this before using it:</p>
 <pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
 <code>ssh.setup (err) -&gt;</code>
@@ -281,16 +354,34 @@ nearly the same, only the tunnel host and port are missing:</p>
 <code>    <span class="hljs-comment"># do your work</span></code></pre>
 <p>See the <a href="src/configSchema.coffee.html" title="File: src/configSchema.coffee">Configuration</a> for a detailed information about it’s possibilities.
 And then put your own settings in external files like described at <a href="https://alinex.github.io/node-config">alinex-config</a>:</p>
-<pre><code>/ssh.yaml - contains named setup of ssh connections
-/tunnel.yaml - set the tunnel configuration with name
+<pre><code>/ssh/server.yaml - contains named setup of ssh connections
+/ssh/group.yaml - cluster/group definition
+/ssh/tunnel.yaml - set the tunnel configuration with name
 </code></pre>
 <p>But you may also directly give your setup to the methods above.</p>
+<h3 id="remote-execution">Remote Execution</h3>
+<p>To do this you have to use the <a href="https://alinex.github.io/node-exec">alinex-exec</a> module which internally connects
+using this and also uses the same configuration files.</p>
+<h2 id="tips-and-tricks">Tips and Tricks</h2>
+<h3 id="execute-on-whole-group">Execute on whole Group</h3>
+<p>This may be done easily if you step over the configured list of servers of a group.
+Mostly you have a cluster there and want to take the action on each of them but
+seriously to don’t disturb your app users.</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>config = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-config'</span></code>
+<code>async.eachSeries config.get(<span class="hljs-string">'/ssh/group/appcluster'</span>), <span class="hljs-function"><span class="hljs-params">(server, cb)</span> -&gt;</span></code>
+<code>  <span class="hljs-comment"># do something with this server like remote execution</span></code>
+<code>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span></code>
+<code>  <span class="hljs-comment"># check for problems</span></code></pre>
 <h2 id="debugging">Debugging</h2>
 <p>If you have any problems with the tunnel you may always run it with debugging by
 only setting the <code>DEBUG</code> environment variable like:</p>
-<pre class="language coffeescript"><header>CoffeeScript Code</header><code>DEBUG=ssh* myprog-usingssh</code></pre>
+<pre class="language bash"><header>Shell Script</header><code>DEBUG=ssh myprog-usingssh         <span class="hljs-comment"># general ssh info</span></code>
+<code>DEBUG=ssh:tunnel myprog-usingssh  <span class="hljs-comment"># tunnel information</span></code>
+<code>DEBUG=ssh:data myprog-usingssh    <span class="hljs-comment"># output data send connection</span></code>
+<code>DEBUG=ssh:debug myprog-usingssh   <span class="hljs-comment"># output debug level (needs debug: true in server settings)</span></code>
+<code>DEBUG=ssh* myprog-usingssh        <span class="hljs-comment"># output alltogether</span></code></pre>
 <p>To get even more information you may also set the <code>debug</code> flag to <code>true</code> in the
-setup of your ssh tunnel.</p>
+setup of your ssh tunnel and enable <code>DEBUG=ssh:debug</code>.</p>
 <p>If you enable debugging of <code>ssh</code> the given configuration will also be validated.</p>
 <h2 id="license">License</h2>
 <p>© Copyright 2015-2016 Alexander Schilling</p>

@@ -88,6 +88,7 @@
 
           <main><p><ul class="table-of-contents" aria-hidden="true"><header>Index</header>
 <li><a href="#sshserver">/ssh/server</a></li>
+<li><a href="#sshgroup">/ssh/group</a></li>
 <li><a href="#sshtunnel">/ssh/tunnel</a></li>
 <li><a href="#sshretry">/ssh/retry</a></li>
 </ul>
@@ -102,15 +103,544 @@ in three parts:</p>
 <p>This defines the preconfigured server connections which are used as connection
 or for tunneling, too. All information like access and authenticate are contained
 as an object.</p>
-<p @schema="" id="keys/server"></p>
+<p><strong>SSH Connection List</strong> is the list of possible ssh connections, the first working will be used.</p>
+<p>An object. The entries are:</p>
+<ul>
+<li>
+<p>any key: <strong>SSH Connections</strong> are a list of ssh connection alternatives.</p>
+<p>A list. Each entry has to be of type object:</p>
+<blockquote>
+<p><strong>SSH Connection</strong> is a ssh connection setting.</p>
+<p>An  object with the following keys have to be present: <code>host</code>, <code>port</code>. The following keys are allowed: <code>forceIPv4</code>, <code>forceIPv6</code>, <code>username</code>, <code>password</code>, <code>privateKey</code>, <code>passphrase</code>, <code>localHostname</code>, <code>localUsername</code>, <code>keepaliveInterval</code>, <code>keepaliveCountMax</code>, <code>readyTimeout</code>, <code>strictVendor</code>, <code>algorithms</code>, <code>compress</code>, <code>retry</code>, <code>debug</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>host</code></dt>
+<dd>
+<p><strong>Hostname or IP Address</strong> is the hostname or IP address to connect to.</p>
+<p>It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>
+<p><strong>Hostname</strong> is the hostname to connect to.</p>
+<p>A valid hostname. This has to be a valid name according to <a href="http://tools.ietf.org/html/rfc1123">RFC 1123</a></p>
+</li>
+<li>
+<p><strong>IP Address</strong> is the IP address to connect to.</p>
+<p>A valid IP address as string.</p>
+</li>
+</ul>
+</dd>
+<dt><code>port</code></dt>
+<dd>
+<p><strong>Port Number</strong> is the port on which to connect using ssh protocol.</p>
+<p>A TCP/UDP port number or name which is optional and will be set to 22 if not specified. It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>An integer value. The value should be between 0 and 65535.</li>
+<li>A text entry in which all control characters will be removed. Only the values: ‘rtmp’, ‘acr-nema’, ‘afbackup’, ‘afmbackup’, ‘afpovertcp’, ‘afs3-bos’, ‘afs3-callback’, ‘afs3-errors’, ‘afs3-fileserver’, ‘afs3-kaserver’, ‘afs3-prserver’, ‘afs3-rmtsys’, ‘afs3-update’, ‘afs3-vlserver’, ‘afs3-volser’, ‘amanda’, ‘amandaidx’, ‘amidxtape’, ‘amqp’, ‘aol’, ‘asf-rmcp’, ‘asp’, ‘at-echo’, ‘at-nbp’, ‘at-rtmp’, ‘at-zis’, ‘auth’, ‘bacula-dir’, ‘bacula-fd’, ‘bacula-sd’, ‘bgp’, ‘bgpd’, ‘bgpsim’, ‘biff’, ‘binkp’, ‘bootpc’, ‘bootps’, ‘bpcd’, ‘bpdbm’, ‘bpjava-msvc’, ‘bprd’, ‘canna’, ‘cfengine’, ‘cfinger’, ‘chargen’, ‘cisco-sccp’, ‘clc-build-daemon’, ‘clearcase’, ‘cmip-agent’, ‘cmip-man’, ‘codaauth2’, ‘codasrv’, ‘codasrv-se’, ‘conference’, ‘courier’, ‘csnet-ns’, ‘csync2’, ‘customs’, ‘cvspserver’, ‘daap’, ‘datametrics’, ‘daytime’, ‘db-lsp’, ‘dcap’, ‘dhcpv6-client’, ‘dhcpv6-server’, ‘dicom’, ‘dict’, ‘dircproxy’, ‘discard’, ‘distcc’, ‘distmp3’, ‘domain’, ‘echo’, ‘eklogin’, ‘enbd-cstatd’, ‘enbd-sstatd’, ‘epmd’, ‘exec’, ‘f5-globalsite’, ‘f5-iquery’, ‘fatserv’, ‘fax’, ‘fido’, ‘finger’, ‘font-service’, ‘freeciv’, ‘frox’, ‘fsp’, ‘ftp’, ‘ftp-data’, ‘ftps’, ‘ftps-data’, ‘gdomap’, ‘gds-db’, ‘ggz’, ‘git’, ‘gnunet’, ‘gnutella-rtr’, ‘gnutella-svc’, ‘gopher’, ‘gpsd’, ‘gris’, ‘groupwise’, ‘gsidcap’, ‘gsiftp’, ‘gsigatekeeper’, ‘hkp’, ‘hmmp-ind’, ‘hostmon’, ‘hostnames’, ‘http’, ‘http-alt’, ‘https’, ‘hylafax’, ‘iax’, ‘icpv2’, ‘idfp’, ‘imap2’, ‘imap3’, ‘imaps’, ‘imsp’, ‘ingreslock’, ‘ipp’, ‘iprop’, ‘ipsec-nat-t’, ‘ipx’, ‘irc’, ‘ircd’, ‘ircs’, ‘isakmp’, ‘iscsi-target’, ‘isdnlog’, ‘isisd’, ‘iso-tsap’, ‘kamanda’, ‘kazaa’, ‘kerberos4’, ‘kerberos’, ‘kerberos-adm’, ‘kerberos-master’, ‘kermit’, ‘klogin’, ‘knetd’, ‘kpasswd’, ‘kpop’, ‘krb-prop’, ‘krbupdate’, ‘kshell’, ‘kx’, ‘l2f’, ‘ldap’, ‘ldaps’, ‘link’, ‘linuxconf’, ‘loc-srv’, ‘login’, ‘log-server’, ‘lotusnote’, ‘mailq’, ‘mandelspawn’, ‘mdns’, ‘microsoft-ds’, ‘mmcc’, ‘moira-db’, ‘moira-update’, ‘moira-ureg’, ‘mon’, ‘mrtd’, ‘msnp’, ‘msp’, ‘ms-sql-m’, ‘ms-sql-s’, ‘mtn’, ‘mtp’, ‘munin’, ‘mysql’, ‘mysql-proxy’, ‘nameserver’, ‘nbd’, ‘nbp’, ‘nessus’, ‘netbios-dgm’, ‘netbios-ns’, ‘netbios-ssn’, ‘netnews’, ‘netstat’, ‘netwall’, ‘nextstep’, ‘nfs’, ‘ninstall’, ‘nntp’, ‘nntps’, ‘noclog’, ‘npmp-gui’, ‘npmp-local’, ‘nqs’, ‘nrpe’, ‘nsca’, ‘ntalk’, ‘ntp’, ‘nut’, ‘omirr’, ‘omniorb’, ‘openvpn’, ‘ospf6d’, ‘ospfapi’, ‘ospfd’, ‘passwd-server’, ‘pawserv’, ‘pcrd’, ‘pipe-server’, ‘pop2’, ‘pop3’, ‘pop3s’, ‘poppassd’, ‘postgresql’, ‘predict’, ‘printer’, ‘proofd’, ‘prospero’, ‘prospero-np’, ‘pwdgen’, ‘qmqp’, ‘qmtp’, ‘qotd’, ‘radius’, ‘radius-acct’, ‘radmin-port’, ‘re-mail-ck’, ‘remctl’, ‘remotefs’, ‘remoteping’, ‘rfe’, ‘ripd’, ‘ripngd’, ‘rje’, ‘rlp’, ‘rmiregistry’, ‘rmtcfg’, ‘rootd’, ‘route’, ‘rpc2portmap’, ‘rplay’, ‘rsync’, ‘rtcm-sc104’, ‘rtelnet’, ‘rtsp’, ‘saft’, ‘sa-msg-port’, ‘sane-port’, ‘search’, ‘sftp’, ‘sge-execd’, ‘sge-qmaster’, ‘sgi-cad’, ‘sgi-cmsd’, ‘sgi-crsd’, ‘sgi-gcd’, ‘shell’, ‘sieve’, ‘silc’, ‘sip’, ‘sip-tls’, ‘skkserv’, ‘smsqp’, ‘smtp’, ‘smux’, ‘snmp’, ‘snmp-trap’, ‘snpp’, ‘socks’, ‘spamd’, ‘ssh’, ‘submission’, ‘sunrpc’, ‘supdup’, ‘supfiledbg’, ‘supfilesrv’, ‘support’, ‘suucp’, ‘svn’, ‘svrloc’, ‘swat’, ‘syslog’, ‘syslog-tls’, ‘sysrqd’, ‘systat’, ‘tacacs’, ‘tacacs-ds’, ‘talk’, ‘tcpmux’, ‘telnet’, ‘telnets’, ‘tempo’, ‘tfido’, ‘tftp’, ‘time’, ‘timed’, ‘tinc’, ‘tproxy’, ‘ulistserv’, ‘unix-status’, ‘urd’, ‘uucp’, ‘uucp-path’, ‘vboxd’, ‘venus’, ‘venus-se’, ‘vnetd’, ‘vopied’, ‘webmin’, ‘webster’, ‘who’, ‘whois’, ‘wipld’, ‘wnn6’, ‘x11-1’, ‘x11-2’, ‘x11-3’, ‘x11-4’, ‘x11-5’, ‘x11’, ‘x11-6’, ‘x11-7’, ‘xdmcp’, ‘xinetd’, ‘xmms2’, ‘xmpp-client’, ‘xmpp-server’, ‘xpilot’, ‘xtel’, ‘xtell’, ‘xtelw’, ‘z3950’, ‘zabbix-agent’, ‘zabbix-trapper’, ‘zebra’, ‘zebrasrv’, ‘zephyr-clt’, ‘zephyr-hm’, ‘zephyr-srv’, ‘zip’, ‘zope’, ‘zope-ftp’, ‘zserv’ are allowed.</li>
+</ul>
+</dd>
+<dt><code>forceIPv4</code></dt>
+<dd>
+<p><strong>Force to use IPv4</strong> is a flag to only use resolved IPv4 address for host.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>forceIPv6</code></dt>
+<dd>
+<p><strong>Force to use IPv6</strong> is a flag to only use resolved IPv6 address for host.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>username</code></dt>
+<dd>
+<p><strong>Username</strong> is the username to use for the connection.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>password</code></dt>
+<dd>
+<p><strong>Password</strong> is the password for user based authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>privateKey</code></dt>
+<dd>
+<p><strong>Private Key</strong> is the private key file to use for OpenSSH authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>passphrase</code></dt>
+<dd>
+<p><strong>Passphrase</strong> is the passphrase used to decrypt an encrypted private key.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>localHostname</code></dt>
+<dd>
+<p><strong>Local Hostname</strong> is the host used for hostbased user authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>localUsername</code></dt>
+<dd>
+<p><strong>Local User</strong> is the username used for hostbased user authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>keepaliveInterval</code></dt>
+<dd>
+<p><strong>Keepalive Interval</strong> is the interval for the keepalive packets to be send.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional and will be set to 1000 if not specified. The result will be given as the number of ms. A numeric floating point number.</p>
+</dd>
+<dt><code>keepaliveCountMax</code></dt>
+<dd>
+<p><strong>Keepalive Tries</strong> are the number of unanswered SSH-level keepalive packets that can be sent to the server before disconnection.</p>
+<p>An integer value which is optional. The value should be greater than 0.</p>
+</dd>
+<dt><code>readyTimeout</code></dt>
+<dd>
+<p><strong>Ready TImeout</strong> is the time to wait for the ssh handshake to succeed.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional and will be set to 20000 if not specified. The result will be given as the number of ms. A numeric floating point number.</p>
+</dd>
+<dt><code>strictVendor</code></dt>
+<dd>
+<p><strong>Strict Vendor Check</strong> is a flag to performs a strict server vendor check before sending vendor-specific requests, etc…</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>algorithms</code></dt>
+<dd>
+<p><strong>Algotithms</strong> are the transport layer algorithms to use.</p>
+<p>A list which is optional. Each entry has to be of type string:</p>
+<blockquote>
+<p><strong>Algorithm</strong> is an allowed transport layer algorithm.</p>
+<p>A text entry in which all control characters will be removed. Only the values: ‘kex’, ‘cipher’, ‘serverHostKey’, ‘hmac’, ‘compress’ are allowed.</p>
+</blockquote>
+</dd>
+<dt><code>compress</code></dt>
+<dd>
+<p><strong>Compression</strong> is a flag to enable compression if server supports it or force it.</p>
+<p>It has to be <strong>one of</strong> the following types (optional):</p>
+<ul>
+<li>
+<p><strong>Force Compression</strong> is a setting to force compression use.</p>
+<p>A text entry in which all control characters will be removed. Only the values: ‘force’ are allowed.</p>
+</li>
+<li>
+<p><strong>Compression Allowed</strong> is a flag to allow/disallow compression.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false.</p>
+</li>
+</ul>
+</dd>
+<dt><code>retry</code></dt>
+<dd>
+<p><strong>Retry</strong> is the handling of retries on connecting.</p>
+<p>An object which is optional. The following keys are allowed: <code>times</code>, <code>interval</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>times</code></dt>
+<dd>
+<p><strong>Number of Tries</strong> are the number of times to try to connect.</p>
+<p>An integer value which is optional. The value should be greater than 0.</p>
+</dd>
+<dt><code>interval</code></dt>
+<dd>
+<p><strong>Wait between Tries</strong> are the interval to wait (in milliseconds) between tries.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional. A numeric floating point number. The value should be greater than 0.</p>
+</dd>
+</dl>
+</dd>
+<dt><code>debug</code></dt>
+<dd>
+<p><strong>Extended Debug</strong> is the DEBUG=exec.ssh messages are extended with server communication.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional. The list will be shuffled to get a random order.</p>
+</dd>
+</dl>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong><code>conn</code></p>
+</blockquote>
+<h2 id="sshgroup">/ssh/group</h2>
+<p>Groups will build alternative hosts to be used for a special task. While multiple
+connections are alternative ways to the same host here you group different ones
+together. They can be used to select the best (the one with the best free load)
+one to use or you may step over all of them to do something on all occurrences
+of a cluster.</p>
+<p><strong>Groups</strong> are the setup of alternative server groups.</p>
+<p>An object. The entries are:</p>
+<ul>
+<li>
+<p>any key: <strong>Group</strong> is the setup of an alternative server group.</p>
+<p>A list. At least 1 elements should be given. Each entry has to be of type or:</p>
+<blockquote>
+<p><strong>SSH Connection</strong> is the ssh connection to use.</p>
+<p>It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>
+<p><strong>SSH Connection Reference</strong> is the reference name for an defined ssh connection under config ‘/ssh/NAME’.</p>
+<p>A text entry in which all control characters will be removed.</p>
+</li>
+<li>
+<p><strong>SSH Connections</strong> are a list of ssh connection alternatives.</p>
+<p>A list. Each entry has to be of type object:</p>
+<blockquote>
+<p><strong>SSH Connection</strong> is a ssh connection setting.</p>
+<p>An  object with the following keys have to be present: <code>host</code>, <code>port</code>. The following keys are allowed: <code>forceIPv4</code>, <code>forceIPv6</code>, <code>username</code>, <code>password</code>, <code>privateKey</code>, <code>passphrase</code>, <code>localHostname</code>, <code>localUsername</code>, <code>keepaliveInterval</code>, <code>keepaliveCountMax</code>, <code>readyTimeout</code>, <code>strictVendor</code>, <code>algorithms</code>, <code>compress</code>, <code>retry</code>, <code>debug</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>host</code></dt>
+<dd>
+<p><strong>Hostname or IP Address</strong> is the hostname or IP address to connect to.</p>
+<p>It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>
+<p><strong>Hostname</strong> is the hostname to connect to.</p>
+<p>A valid hostname. This has to be a valid name according to <a href="http://tools.ietf.org/html/rfc1123">RFC 1123</a></p>
+</li>
+<li>
+<p><strong>IP Address</strong> is the IP address to connect to.</p>
+<p>A valid IP address as string.</p>
+</li>
+</ul>
+</dd>
+<dt><code>port</code></dt>
+<dd>
+<p><strong>Port Number</strong> is the port on which to connect using ssh protocol.</p>
+<p>A TCP/UDP port number or name which is optional and will be set to 22 if not specified. It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>An integer value. The value should be between 0 and 65535.</li>
+<li>A text entry in which all control characters will be removed. Only the values: ‘rtmp’, ‘acr-nema’, ‘afbackup’, ‘afmbackup’, ‘afpovertcp’, ‘afs3-bos’, ‘afs3-callback’, ‘afs3-errors’, ‘afs3-fileserver’, ‘afs3-kaserver’, ‘afs3-prserver’, ‘afs3-rmtsys’, ‘afs3-update’, ‘afs3-vlserver’, ‘afs3-volser’, ‘amanda’, ‘amandaidx’, ‘amidxtape’, ‘amqp’, ‘aol’, ‘asf-rmcp’, ‘asp’, ‘at-echo’, ‘at-nbp’, ‘at-rtmp’, ‘at-zis’, ‘auth’, ‘bacula-dir’, ‘bacula-fd’, ‘bacula-sd’, ‘bgp’, ‘bgpd’, ‘bgpsim’, ‘biff’, ‘binkp’, ‘bootpc’, ‘bootps’, ‘bpcd’, ‘bpdbm’, ‘bpjava-msvc’, ‘bprd’, ‘canna’, ‘cfengine’, ‘cfinger’, ‘chargen’, ‘cisco-sccp’, ‘clc-build-daemon’, ‘clearcase’, ‘cmip-agent’, ‘cmip-man’, ‘codaauth2’, ‘codasrv’, ‘codasrv-se’, ‘conference’, ‘courier’, ‘csnet-ns’, ‘csync2’, ‘customs’, ‘cvspserver’, ‘daap’, ‘datametrics’, ‘daytime’, ‘db-lsp’, ‘dcap’, ‘dhcpv6-client’, ‘dhcpv6-server’, ‘dicom’, ‘dict’, ‘dircproxy’, ‘discard’, ‘distcc’, ‘distmp3’, ‘domain’, ‘echo’, ‘eklogin’, ‘enbd-cstatd’, ‘enbd-sstatd’, ‘epmd’, ‘exec’, ‘f5-globalsite’, ‘f5-iquery’, ‘fatserv’, ‘fax’, ‘fido’, ‘finger’, ‘font-service’, ‘freeciv’, ‘frox’, ‘fsp’, ‘ftp’, ‘ftp-data’, ‘ftps’, ‘ftps-data’, ‘gdomap’, ‘gds-db’, ‘ggz’, ‘git’, ‘gnunet’, ‘gnutella-rtr’, ‘gnutella-svc’, ‘gopher’, ‘gpsd’, ‘gris’, ‘groupwise’, ‘gsidcap’, ‘gsiftp’, ‘gsigatekeeper’, ‘hkp’, ‘hmmp-ind’, ‘hostmon’, ‘hostnames’, ‘http’, ‘http-alt’, ‘https’, ‘hylafax’, ‘iax’, ‘icpv2’, ‘idfp’, ‘imap2’, ‘imap3’, ‘imaps’, ‘imsp’, ‘ingreslock’, ‘ipp’, ‘iprop’, ‘ipsec-nat-t’, ‘ipx’, ‘irc’, ‘ircd’, ‘ircs’, ‘isakmp’, ‘iscsi-target’, ‘isdnlog’, ‘isisd’, ‘iso-tsap’, ‘kamanda’, ‘kazaa’, ‘kerberos4’, ‘kerberos’, ‘kerberos-adm’, ‘kerberos-master’, ‘kermit’, ‘klogin’, ‘knetd’, ‘kpasswd’, ‘kpop’, ‘krb-prop’, ‘krbupdate’, ‘kshell’, ‘kx’, ‘l2f’, ‘ldap’, ‘ldaps’, ‘link’, ‘linuxconf’, ‘loc-srv’, ‘login’, ‘log-server’, ‘lotusnote’, ‘mailq’, ‘mandelspawn’, ‘mdns’, ‘microsoft-ds’, ‘mmcc’, ‘moira-db’, ‘moira-update’, ‘moira-ureg’, ‘mon’, ‘mrtd’, ‘msnp’, ‘msp’, ‘ms-sql-m’, ‘ms-sql-s’, ‘mtn’, ‘mtp’, ‘munin’, ‘mysql’, ‘mysql-proxy’, ‘nameserver’, ‘nbd’, ‘nbp’, ‘nessus’, ‘netbios-dgm’, ‘netbios-ns’, ‘netbios-ssn’, ‘netnews’, ‘netstat’, ‘netwall’, ‘nextstep’, ‘nfs’, ‘ninstall’, ‘nntp’, ‘nntps’, ‘noclog’, ‘npmp-gui’, ‘npmp-local’, ‘nqs’, ‘nrpe’, ‘nsca’, ‘ntalk’, ‘ntp’, ‘nut’, ‘omirr’, ‘omniorb’, ‘openvpn’, ‘ospf6d’, ‘ospfapi’, ‘ospfd’, ‘passwd-server’, ‘pawserv’, ‘pcrd’, ‘pipe-server’, ‘pop2’, ‘pop3’, ‘pop3s’, ‘poppassd’, ‘postgresql’, ‘predict’, ‘printer’, ‘proofd’, ‘prospero’, ‘prospero-np’, ‘pwdgen’, ‘qmqp’, ‘qmtp’, ‘qotd’, ‘radius’, ‘radius-acct’, ‘radmin-port’, ‘re-mail-ck’, ‘remctl’, ‘remotefs’, ‘remoteping’, ‘rfe’, ‘ripd’, ‘ripngd’, ‘rje’, ‘rlp’, ‘rmiregistry’, ‘rmtcfg’, ‘rootd’, ‘route’, ‘rpc2portmap’, ‘rplay’, ‘rsync’, ‘rtcm-sc104’, ‘rtelnet’, ‘rtsp’, ‘saft’, ‘sa-msg-port’, ‘sane-port’, ‘search’, ‘sftp’, ‘sge-execd’, ‘sge-qmaster’, ‘sgi-cad’, ‘sgi-cmsd’, ‘sgi-crsd’, ‘sgi-gcd’, ‘shell’, ‘sieve’, ‘silc’, ‘sip’, ‘sip-tls’, ‘skkserv’, ‘smsqp’, ‘smtp’, ‘smux’, ‘snmp’, ‘snmp-trap’, ‘snpp’, ‘socks’, ‘spamd’, ‘ssh’, ‘submission’, ‘sunrpc’, ‘supdup’, ‘supfiledbg’, ‘supfilesrv’, ‘support’, ‘suucp’, ‘svn’, ‘svrloc’, ‘swat’, ‘syslog’, ‘syslog-tls’, ‘sysrqd’, ‘systat’, ‘tacacs’, ‘tacacs-ds’, ‘talk’, ‘tcpmux’, ‘telnet’, ‘telnets’, ‘tempo’, ‘tfido’, ‘tftp’, ‘time’, ‘timed’, ‘tinc’, ‘tproxy’, ‘ulistserv’, ‘unix-status’, ‘urd’, ‘uucp’, ‘uucp-path’, ‘vboxd’, ‘venus’, ‘venus-se’, ‘vnetd’, ‘vopied’, ‘webmin’, ‘webster’, ‘who’, ‘whois’, ‘wipld’, ‘wnn6’, ‘x11-1’, ‘x11-2’, ‘x11-3’, ‘x11-4’, ‘x11-5’, ‘x11’, ‘x11-6’, ‘x11-7’, ‘xdmcp’, ‘xinetd’, ‘xmms2’, ‘xmpp-client’, ‘xmpp-server’, ‘xpilot’, ‘xtel’, ‘xtell’, ‘xtelw’, ‘z3950’, ‘zabbix-agent’, ‘zabbix-trapper’, ‘zebra’, ‘zebrasrv’, ‘zephyr-clt’, ‘zephyr-hm’, ‘zephyr-srv’, ‘zip’, ‘zope’, ‘zope-ftp’, ‘zserv’ are allowed.</li>
+</ul>
+</dd>
+<dt><code>forceIPv4</code></dt>
+<dd>
+<p><strong>Force to use IPv4</strong> is a flag to only use resolved IPv4 address for host.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>forceIPv6</code></dt>
+<dd>
+<p><strong>Force to use IPv6</strong> is a flag to only use resolved IPv6 address for host.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>username</code></dt>
+<dd>
+<p><strong>Username</strong> is the username to use for the connection.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>password</code></dt>
+<dd>
+<p><strong>Password</strong> is the password for user based authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>privateKey</code></dt>
+<dd>
+<p><strong>Private Key</strong> is the private key file to use for OpenSSH authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>passphrase</code></dt>
+<dd>
+<p><strong>Passphrase</strong> is the passphrase used to decrypt an encrypted private key.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>localHostname</code></dt>
+<dd>
+<p><strong>Local Hostname</strong> is the host used for hostbased user authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>localUsername</code></dt>
+<dd>
+<p><strong>Local User</strong> is the username used for hostbased user authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>keepaliveInterval</code></dt>
+<dd>
+<p><strong>Keepalive Interval</strong> is the interval for the keepalive packets to be send.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional and will be set to 1000 if not specified. The result will be given as the number of ms. A numeric floating point number.</p>
+</dd>
+<dt><code>keepaliveCountMax</code></dt>
+<dd>
+<p><strong>Keepalive Tries</strong> are the number of unanswered SSH-level keepalive packets that can be sent to the server before disconnection.</p>
+<p>An integer value which is optional. The value should be greater than 0.</p>
+</dd>
+<dt><code>readyTimeout</code></dt>
+<dd>
+<p><strong>Ready TImeout</strong> is the time to wait for the ssh handshake to succeed.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional and will be set to 20000 if not specified. The result will be given as the number of ms. A numeric floating point number.</p>
+</dd>
+<dt><code>strictVendor</code></dt>
+<dd>
+<p><strong>Strict Vendor Check</strong> is a flag to performs a strict server vendor check before sending vendor-specific requests, etc…</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>algorithms</code></dt>
+<dd>
+<p><strong>Algotithms</strong> are the transport layer algorithms to use.</p>
+<p>A list which is optional. Each entry has to be of type string:</p>
+<blockquote>
+<p><strong>Algorithm</strong> is an allowed transport layer algorithm.</p>
+<p>A text entry in which all control characters will be removed. Only the values: ‘kex’, ‘cipher’, ‘serverHostKey’, ‘hmac’, ‘compress’ are allowed.</p>
+</blockquote>
+</dd>
+<dt><code>compress</code></dt>
+<dd>
+<p><strong>Compression</strong> is a flag to enable compression if server supports it or force it.</p>
+<p>It has to be <strong>one of</strong> the following types (optional):</p>
+<ul>
+<li>
+<p><strong>Force Compression</strong> is a setting to force compression use.</p>
+<p>A text entry in which all control characters will be removed. Only the values: ‘force’ are allowed.</p>
+</li>
+<li>
+<p><strong>Compression Allowed</strong> is a flag to allow/disallow compression.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false.</p>
+</li>
+</ul>
+</dd>
+<dt><code>retry</code></dt>
+<dd>
+<p><strong>Retry</strong> is the handling of retries on connecting.</p>
+<p>An object which is optional. The following keys are allowed: <code>times</code>, <code>interval</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>times</code></dt>
+<dd>
+<p><strong>Number of Tries</strong> are the number of times to try to connect.</p>
+<p>An integer value which is optional. The value should be greater than 0.</p>
+</dd>
+<dt><code>interval</code></dt>
+<dd>
+<p><strong>Wait between Tries</strong> are the interval to wait (in milliseconds) between tries.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional. A numeric floating point number. The value should be greater than 0.</p>
+</dd>
+</dl>
+</dd>
+<dt><code>debug</code></dt>
+<dd>
+<p><strong>Extended Debug</strong> is the DEBUG=exec.ssh messages are extended with server communication.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional. The list will be shuffled to get a random order.</p>
+</dd>
+</dl>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong><code>group</code></p>
+</blockquote>
 <h2 id="sshtunnel">/ssh/tunnel</h2>
 <p>This defines the tunnel which has to be established on a ssh connection.The remote
 server may be given here or a reference name to the previous <code>server</code> section.</p>
-<p @schema="" id="keys/tunnel"></p>
+<p><strong>Tunnel Setup List</strong> is the setup of ssh tunnels.</p>
+<p>An object. The entries are:</p>
+<ul>
+<li>
+<p>any key: <strong>Tunnel Setup</strong> is the setup of a ssh tunnel.</p>
+<p>An object which is optional. The following keys have to be present: <code>remote</code>. The following keys are allowed: <code>host</code>, <code>port</code>, <code>localHost</code>, <code>localPort</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>remote</code></dt>
+<dd>
+<p><strong>SSH Connection</strong> is the ssh connection to use.</p>
+<p>It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>
+<p><strong>SSH Connection Reference</strong> is the reference name for an defined ssh connection under config ‘/ssh/NAME’.</p>
+<p>A text entry in which all control characters will be removed.</p>
+</li>
+<li>
+<p><strong>SSH Connections</strong> are a list of ssh connection alternatives.</p>
+<p>A list. Each entry has to be of type object:</p>
+<blockquote>
+<p><strong>SSH Connection</strong> is a ssh connection setting.</p>
+<p>An  object with the following keys have to be present: <code>host</code>, <code>port</code>. The following keys are allowed: <code>forceIPv4</code>, <code>forceIPv6</code>, <code>username</code>, <code>password</code>, <code>privateKey</code>, <code>passphrase</code>, <code>localHostname</code>, <code>localUsername</code>, <code>keepaliveInterval</code>, <code>keepaliveCountMax</code>, <code>readyTimeout</code>, <code>strictVendor</code>, <code>algorithms</code>, <code>compress</code>, <code>retry</code>, <code>debug</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>host</code></dt>
+<dd>
+<p><strong>Hostname or IP Address</strong> is the hostname or IP address to connect to.</p>
+<p>It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>
+<p><strong>Hostname</strong> is the hostname to connect to.</p>
+<p>A valid hostname. This has to be a valid name according to <a href="http://tools.ietf.org/html/rfc1123">RFC 1123</a></p>
+</li>
+<li>
+<p><strong>IP Address</strong> is the IP address to connect to.</p>
+<p>A valid IP address as string.</p>
+</li>
+</ul>
+</dd>
+<dt><code>port</code></dt>
+<dd>
+<p><strong>Port Number</strong> is the port on which to connect using ssh protocol.</p>
+<p>A TCP/UDP port number or name which is optional and will be set to 22 if not specified. It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>An integer value. The value should be between 0 and 65535.</li>
+<li>A text entry in which all control characters will be removed. Only the values: ‘rtmp’, ‘acr-nema’, ‘afbackup’, ‘afmbackup’, ‘afpovertcp’, ‘afs3-bos’, ‘afs3-callback’, ‘afs3-errors’, ‘afs3-fileserver’, ‘afs3-kaserver’, ‘afs3-prserver’, ‘afs3-rmtsys’, ‘afs3-update’, ‘afs3-vlserver’, ‘afs3-volser’, ‘amanda’, ‘amandaidx’, ‘amidxtape’, ‘amqp’, ‘aol’, ‘asf-rmcp’, ‘asp’, ‘at-echo’, ‘at-nbp’, ‘at-rtmp’, ‘at-zis’, ‘auth’, ‘bacula-dir’, ‘bacula-fd’, ‘bacula-sd’, ‘bgp’, ‘bgpd’, ‘bgpsim’, ‘biff’, ‘binkp’, ‘bootpc’, ‘bootps’, ‘bpcd’, ‘bpdbm’, ‘bpjava-msvc’, ‘bprd’, ‘canna’, ‘cfengine’, ‘cfinger’, ‘chargen’, ‘cisco-sccp’, ‘clc-build-daemon’, ‘clearcase’, ‘cmip-agent’, ‘cmip-man’, ‘codaauth2’, ‘codasrv’, ‘codasrv-se’, ‘conference’, ‘courier’, ‘csnet-ns’, ‘csync2’, ‘customs’, ‘cvspserver’, ‘daap’, ‘datametrics’, ‘daytime’, ‘db-lsp’, ‘dcap’, ‘dhcpv6-client’, ‘dhcpv6-server’, ‘dicom’, ‘dict’, ‘dircproxy’, ‘discard’, ‘distcc’, ‘distmp3’, ‘domain’, ‘echo’, ‘eklogin’, ‘enbd-cstatd’, ‘enbd-sstatd’, ‘epmd’, ‘exec’, ‘f5-globalsite’, ‘f5-iquery’, ‘fatserv’, ‘fax’, ‘fido’, ‘finger’, ‘font-service’, ‘freeciv’, ‘frox’, ‘fsp’, ‘ftp’, ‘ftp-data’, ‘ftps’, ‘ftps-data’, ‘gdomap’, ‘gds-db’, ‘ggz’, ‘git’, ‘gnunet’, ‘gnutella-rtr’, ‘gnutella-svc’, ‘gopher’, ‘gpsd’, ‘gris’, ‘groupwise’, ‘gsidcap’, ‘gsiftp’, ‘gsigatekeeper’, ‘hkp’, ‘hmmp-ind’, ‘hostmon’, ‘hostnames’, ‘http’, ‘http-alt’, ‘https’, ‘hylafax’, ‘iax’, ‘icpv2’, ‘idfp’, ‘imap2’, ‘imap3’, ‘imaps’, ‘imsp’, ‘ingreslock’, ‘ipp’, ‘iprop’, ‘ipsec-nat-t’, ‘ipx’, ‘irc’, ‘ircd’, ‘ircs’, ‘isakmp’, ‘iscsi-target’, ‘isdnlog’, ‘isisd’, ‘iso-tsap’, ‘kamanda’, ‘kazaa’, ‘kerberos4’, ‘kerberos’, ‘kerberos-adm’, ‘kerberos-master’, ‘kermit’, ‘klogin’, ‘knetd’, ‘kpasswd’, ‘kpop’, ‘krb-prop’, ‘krbupdate’, ‘kshell’, ‘kx’, ‘l2f’, ‘ldap’, ‘ldaps’, ‘link’, ‘linuxconf’, ‘loc-srv’, ‘login’, ‘log-server’, ‘lotusnote’, ‘mailq’, ‘mandelspawn’, ‘mdns’, ‘microsoft-ds’, ‘mmcc’, ‘moira-db’, ‘moira-update’, ‘moira-ureg’, ‘mon’, ‘mrtd’, ‘msnp’, ‘msp’, ‘ms-sql-m’, ‘ms-sql-s’, ‘mtn’, ‘mtp’, ‘munin’, ‘mysql’, ‘mysql-proxy’, ‘nameserver’, ‘nbd’, ‘nbp’, ‘nessus’, ‘netbios-dgm’, ‘netbios-ns’, ‘netbios-ssn’, ‘netnews’, ‘netstat’, ‘netwall’, ‘nextstep’, ‘nfs’, ‘ninstall’, ‘nntp’, ‘nntps’, ‘noclog’, ‘npmp-gui’, ‘npmp-local’, ‘nqs’, ‘nrpe’, ‘nsca’, ‘ntalk’, ‘ntp’, ‘nut’, ‘omirr’, ‘omniorb’, ‘openvpn’, ‘ospf6d’, ‘ospfapi’, ‘ospfd’, ‘passwd-server’, ‘pawserv’, ‘pcrd’, ‘pipe-server’, ‘pop2’, ‘pop3’, ‘pop3s’, ‘poppassd’, ‘postgresql’, ‘predict’, ‘printer’, ‘proofd’, ‘prospero’, ‘prospero-np’, ‘pwdgen’, ‘qmqp’, ‘qmtp’, ‘qotd’, ‘radius’, ‘radius-acct’, ‘radmin-port’, ‘re-mail-ck’, ‘remctl’, ‘remotefs’, ‘remoteping’, ‘rfe’, ‘ripd’, ‘ripngd’, ‘rje’, ‘rlp’, ‘rmiregistry’, ‘rmtcfg’, ‘rootd’, ‘route’, ‘rpc2portmap’, ‘rplay’, ‘rsync’, ‘rtcm-sc104’, ‘rtelnet’, ‘rtsp’, ‘saft’, ‘sa-msg-port’, ‘sane-port’, ‘search’, ‘sftp’, ‘sge-execd’, ‘sge-qmaster’, ‘sgi-cad’, ‘sgi-cmsd’, ‘sgi-crsd’, ‘sgi-gcd’, ‘shell’, ‘sieve’, ‘silc’, ‘sip’, ‘sip-tls’, ‘skkserv’, ‘smsqp’, ‘smtp’, ‘smux’, ‘snmp’, ‘snmp-trap’, ‘snpp’, ‘socks’, ‘spamd’, ‘ssh’, ‘submission’, ‘sunrpc’, ‘supdup’, ‘supfiledbg’, ‘supfilesrv’, ‘support’, ‘suucp’, ‘svn’, ‘svrloc’, ‘swat’, ‘syslog’, ‘syslog-tls’, ‘sysrqd’, ‘systat’, ‘tacacs’, ‘tacacs-ds’, ‘talk’, ‘tcpmux’, ‘telnet’, ‘telnets’, ‘tempo’, ‘tfido’, ‘tftp’, ‘time’, ‘timed’, ‘tinc’, ‘tproxy’, ‘ulistserv’, ‘unix-status’, ‘urd’, ‘uucp’, ‘uucp-path’, ‘vboxd’, ‘venus’, ‘venus-se’, ‘vnetd’, ‘vopied’, ‘webmin’, ‘webster’, ‘who’, ‘whois’, ‘wipld’, ‘wnn6’, ‘x11-1’, ‘x11-2’, ‘x11-3’, ‘x11-4’, ‘x11-5’, ‘x11’, ‘x11-6’, ‘x11-7’, ‘xdmcp’, ‘xinetd’, ‘xmms2’, ‘xmpp-client’, ‘xmpp-server’, ‘xpilot’, ‘xtel’, ‘xtell’, ‘xtelw’, ‘z3950’, ‘zabbix-agent’, ‘zabbix-trapper’, ‘zebra’, ‘zebrasrv’, ‘zephyr-clt’, ‘zephyr-hm’, ‘zephyr-srv’, ‘zip’, ‘zope’, ‘zope-ftp’, ‘zserv’ are allowed.</li>
+</ul>
+</dd>
+<dt><code>forceIPv4</code></dt>
+<dd>
+<p><strong>Force to use IPv4</strong> is a flag to only use resolved IPv4 address for host.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>forceIPv6</code></dt>
+<dd>
+<p><strong>Force to use IPv6</strong> is a flag to only use resolved IPv6 address for host.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>username</code></dt>
+<dd>
+<p><strong>Username</strong> is the username to use for the connection.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>password</code></dt>
+<dd>
+<p><strong>Password</strong> is the password for user based authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>privateKey</code></dt>
+<dd>
+<p><strong>Private Key</strong> is the private key file to use for OpenSSH authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>passphrase</code></dt>
+<dd>
+<p><strong>Passphrase</strong> is the passphrase used to decrypt an encrypted private key.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>localHostname</code></dt>
+<dd>
+<p><strong>Local Hostname</strong> is the host used for hostbased user authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>localUsername</code></dt>
+<dd>
+<p><strong>Local User</strong> is the username used for hostbased user authentication.</p>
+<p>A text entry which is optional. All control characters will be removed.</p>
+</dd>
+<dt><code>keepaliveInterval</code></dt>
+<dd>
+<p><strong>Keepalive Interval</strong> is the interval for the keepalive packets to be send.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional and will be set to 1000 if not specified. The result will be given as the number of ms. A numeric floating point number.</p>
+</dd>
+<dt><code>keepaliveCountMax</code></dt>
+<dd>
+<p><strong>Keepalive Tries</strong> are the number of unanswered SSH-level keepalive packets that can be sent to the server before disconnection.</p>
+<p>An integer value which is optional. The value should be greater than 0.</p>
+</dd>
+<dt><code>readyTimeout</code></dt>
+<dd>
+<p><strong>Ready TImeout</strong> is the time to wait for the ssh handshake to succeed.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional and will be set to 20000 if not specified. The result will be given as the number of ms. A numeric floating point number.</p>
+</dd>
+<dt><code>strictVendor</code></dt>
+<dd>
+<p><strong>Strict Vendor Check</strong> is a flag to performs a strict server vendor check before sending vendor-specific requests, etc…</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional.</p>
+</dd>
+<dt><code>algorithms</code></dt>
+<dd>
+<p><strong>Algotithms</strong> are the transport layer algorithms to use.</p>
+<p>A list which is optional. Each entry has to be of type string:</p>
+<blockquote>
+<p><strong>Algorithm</strong> is an allowed transport layer algorithm.</p>
+<p>A text entry in which all control characters will be removed. Only the values: ‘kex’, ‘cipher’, ‘serverHostKey’, ‘hmac’, ‘compress’ are allowed.</p>
+</blockquote>
+</dd>
+<dt><code>compress</code></dt>
+<dd>
+<p><strong>Compression</strong> is a flag to enable compression if server supports it or force it.</p>
+<p>It has to be <strong>one of</strong> the following types (optional):</p>
+<ul>
+<li>
+<p><strong>Force Compression</strong> is a setting to force compression use.</p>
+<p>A text entry in which all control characters will be removed. Only the values: ‘force’ are allowed.</p>
+</li>
+<li>
+<p><strong>Compression Allowed</strong> is a flag to allow/disallow compression.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false.</p>
+</li>
+</ul>
+</dd>
+<dt><code>retry</code></dt>
+<dd>
+<p><strong>Retry</strong> is the handling of retries on connecting.</p>
+<p>An object which is optional. The following keys are allowed: <code>times</code>, <code>interval</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>times</code></dt>
+<dd>
+<p><strong>Number of Tries</strong> are the number of times to try to connect.</p>
+<p>An integer value which is optional. The value should be greater than 0.</p>
+</dd>
+<dt><code>interval</code></dt>
+<dd>
+<p><strong>Wait between Tries</strong> are the interval to wait (in milliseconds) between tries.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional. A numeric floating point number. The value should be greater than 0.</p>
+</dd>
+</dl>
+</dd>
+<dt><code>debug</code></dt>
+<dd>
+<p><strong>Extended Debug</strong> is the DEBUG=exec.ssh messages are extended with server communication.</p>
+<p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false. It’s optional. The list will be shuffled to get a random order.</p>
+</dd>
+</dl>
+</blockquote>
+</li>
+</ul>
+</dd>
+<dt><code>host</code></dt>
+<dd>
+<p><strong>Host</strong> is the hostname or ip address which to tunnel.</p>
+<p>It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>
+<p><strong>Hostname</strong> is the hostname which is tunneled.</p>
+<p>A valid hostname. This has to be a valid name according to <a href="http://tools.ietf.org/html/rfc1123">RFC 1123</a></p>
+</li>
+<li>
+<p><strong>IP Address</strong> is the IP address which is tunneled.</p>
+<p>A valid IP address as string.</p>
+</li>
+</ul>
+</dd>
+<dt><code>port</code></dt>
+<dd>
+<p><strong>Port</strong> is port to tunnel.</p>
+<p>A TCP/UDP port number or name. It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>An integer value. The value should be between 0 and 65535.</li>
+<li>A text entry in which all control characters will be removed. Only the values: ‘rtmp’, ‘acr-nema’, ‘afbackup’, ‘afmbackup’, ‘afpovertcp’, ‘afs3-bos’, ‘afs3-callback’, ‘afs3-errors’, ‘afs3-fileserver’, ‘afs3-kaserver’, ‘afs3-prserver’, ‘afs3-rmtsys’, ‘afs3-update’, ‘afs3-vlserver’, ‘afs3-volser’, ‘amanda’, ‘amandaidx’, ‘amidxtape’, ‘amqp’, ‘aol’, ‘asf-rmcp’, ‘asp’, ‘at-echo’, ‘at-nbp’, ‘at-rtmp’, ‘at-zis’, ‘auth’, ‘bacula-dir’, ‘bacula-fd’, ‘bacula-sd’, ‘bgp’, ‘bgpd’, ‘bgpsim’, ‘biff’, ‘binkp’, ‘bootpc’, ‘bootps’, ‘bpcd’, ‘bpdbm’, ‘bpjava-msvc’, ‘bprd’, ‘canna’, ‘cfengine’, ‘cfinger’, ‘chargen’, ‘cisco-sccp’, ‘clc-build-daemon’, ‘clearcase’, ‘cmip-agent’, ‘cmip-man’, ‘codaauth2’, ‘codasrv’, ‘codasrv-se’, ‘conference’, ‘courier’, ‘csnet-ns’, ‘csync2’, ‘customs’, ‘cvspserver’, ‘daap’, ‘datametrics’, ‘daytime’, ‘db-lsp’, ‘dcap’, ‘dhcpv6-client’, ‘dhcpv6-server’, ‘dicom’, ‘dict’, ‘dircproxy’, ‘discard’, ‘distcc’, ‘distmp3’, ‘domain’, ‘echo’, ‘eklogin’, ‘enbd-cstatd’, ‘enbd-sstatd’, ‘epmd’, ‘exec’, ‘f5-globalsite’, ‘f5-iquery’, ‘fatserv’, ‘fax’, ‘fido’, ‘finger’, ‘font-service’, ‘freeciv’, ‘frox’, ‘fsp’, ‘ftp’, ‘ftp-data’, ‘ftps’, ‘ftps-data’, ‘gdomap’, ‘gds-db’, ‘ggz’, ‘git’, ‘gnunet’, ‘gnutella-rtr’, ‘gnutella-svc’, ‘gopher’, ‘gpsd’, ‘gris’, ‘groupwise’, ‘gsidcap’, ‘gsiftp’, ‘gsigatekeeper’, ‘hkp’, ‘hmmp-ind’, ‘hostmon’, ‘hostnames’, ‘http’, ‘http-alt’, ‘https’, ‘hylafax’, ‘iax’, ‘icpv2’, ‘idfp’, ‘imap2’, ‘imap3’, ‘imaps’, ‘imsp’, ‘ingreslock’, ‘ipp’, ‘iprop’, ‘ipsec-nat-t’, ‘ipx’, ‘irc’, ‘ircd’, ‘ircs’, ‘isakmp’, ‘iscsi-target’, ‘isdnlog’, ‘isisd’, ‘iso-tsap’, ‘kamanda’, ‘kazaa’, ‘kerberos4’, ‘kerberos’, ‘kerberos-adm’, ‘kerberos-master’, ‘kermit’, ‘klogin’, ‘knetd’, ‘kpasswd’, ‘kpop’, ‘krb-prop’, ‘krbupdate’, ‘kshell’, ‘kx’, ‘l2f’, ‘ldap’, ‘ldaps’, ‘link’, ‘linuxconf’, ‘loc-srv’, ‘login’, ‘log-server’, ‘lotusnote’, ‘mailq’, ‘mandelspawn’, ‘mdns’, ‘microsoft-ds’, ‘mmcc’, ‘moira-db’, ‘moira-update’, ‘moira-ureg’, ‘mon’, ‘mrtd’, ‘msnp’, ‘msp’, ‘ms-sql-m’, ‘ms-sql-s’, ‘mtn’, ‘mtp’, ‘munin’, ‘mysql’, ‘mysql-proxy’, ‘nameserver’, ‘nbd’, ‘nbp’, ‘nessus’, ‘netbios-dgm’, ‘netbios-ns’, ‘netbios-ssn’, ‘netnews’, ‘netstat’, ‘netwall’, ‘nextstep’, ‘nfs’, ‘ninstall’, ‘nntp’, ‘nntps’, ‘noclog’, ‘npmp-gui’, ‘npmp-local’, ‘nqs’, ‘nrpe’, ‘nsca’, ‘ntalk’, ‘ntp’, ‘nut’, ‘omirr’, ‘omniorb’, ‘openvpn’, ‘ospf6d’, ‘ospfapi’, ‘ospfd’, ‘passwd-server’, ‘pawserv’, ‘pcrd’, ‘pipe-server’, ‘pop2’, ‘pop3’, ‘pop3s’, ‘poppassd’, ‘postgresql’, ‘predict’, ‘printer’, ‘proofd’, ‘prospero’, ‘prospero-np’, ‘pwdgen’, ‘qmqp’, ‘qmtp’, ‘qotd’, ‘radius’, ‘radius-acct’, ‘radmin-port’, ‘re-mail-ck’, ‘remctl’, ‘remotefs’, ‘remoteping’, ‘rfe’, ‘ripd’, ‘ripngd’, ‘rje’, ‘rlp’, ‘rmiregistry’, ‘rmtcfg’, ‘rootd’, ‘route’, ‘rpc2portmap’, ‘rplay’, ‘rsync’, ‘rtcm-sc104’, ‘rtelnet’, ‘rtsp’, ‘saft’, ‘sa-msg-port’, ‘sane-port’, ‘search’, ‘sftp’, ‘sge-execd’, ‘sge-qmaster’, ‘sgi-cad’, ‘sgi-cmsd’, ‘sgi-crsd’, ‘sgi-gcd’, ‘shell’, ‘sieve’, ‘silc’, ‘sip’, ‘sip-tls’, ‘skkserv’, ‘smsqp’, ‘smtp’, ‘smux’, ‘snmp’, ‘snmp-trap’, ‘snpp’, ‘socks’, ‘spamd’, ‘ssh’, ‘submission’, ‘sunrpc’, ‘supdup’, ‘supfiledbg’, ‘supfilesrv’, ‘support’, ‘suucp’, ‘svn’, ‘svrloc’, ‘swat’, ‘syslog’, ‘syslog-tls’, ‘sysrqd’, ‘systat’, ‘tacacs’, ‘tacacs-ds’, ‘talk’, ‘tcpmux’, ‘telnet’, ‘telnets’, ‘tempo’, ‘tfido’, ‘tftp’, ‘time’, ‘timed’, ‘tinc’, ‘tproxy’, ‘ulistserv’, ‘unix-status’, ‘urd’, ‘uucp’, ‘uucp-path’, ‘vboxd’, ‘venus’, ‘venus-se’, ‘vnetd’, ‘vopied’, ‘webmin’, ‘webster’, ‘who’, ‘whois’, ‘wipld’, ‘wnn6’, ‘x11-1’, ‘x11-2’, ‘x11-3’, ‘x11-4’, ‘x11-5’, ‘x11’, ‘x11-6’, ‘x11-7’, ‘xdmcp’, ‘xinetd’, ‘xmms2’, ‘xmpp-client’, ‘xmpp-server’, ‘xpilot’, ‘xtel’, ‘xtell’, ‘xtelw’, ‘z3950’, ‘zabbix-agent’, ‘zabbix-trapper’, ‘zebra’, ‘zebrasrv’, ‘zephyr-clt’, ‘zephyr-hm’, ‘zephyr-srv’, ‘zip’, ‘zope’, ‘zope-ftp’, ‘zserv’ are allowed.</li>
+</ul>
+</dd>
+<dt><code>localHost</code></dt>
+<dd>
+<p><strong>Local IP</strong> is the local ip where the tunnel will be setup.</p>
+<p>A valid IP address as string which is optional and will be set to ‘127.0.0.1’ if not specified.</p>
+</dd>
+<dt><code>localPort</code></dt>
+<dd>
+<p><strong>Local Port</strong> is the local port to bind to the tunnel.</p>
+<p>A TCP/UDP port number or name which is optional and will be set to 8000 if not specified. It has to be <strong>one of</strong> the following types:</p>
+<ul>
+<li>An integer value. The value should be between 0 and 65535.</li>
+<li>A text entry in which all control characters will be removed. Only the values: ‘rtmp’, ‘acr-nema’, ‘afbackup’, ‘afmbackup’, ‘afpovertcp’, ‘afs3-bos’, ‘afs3-callback’, ‘afs3-errors’, ‘afs3-fileserver’, ‘afs3-kaserver’, ‘afs3-prserver’, ‘afs3-rmtsys’, ‘afs3-update’, ‘afs3-vlserver’, ‘afs3-volser’, ‘amanda’, ‘amandaidx’, ‘amidxtape’, ‘amqp’, ‘aol’, ‘asf-rmcp’, ‘asp’, ‘at-echo’, ‘at-nbp’, ‘at-rtmp’, ‘at-zis’, ‘auth’, ‘bacula-dir’, ‘bacula-fd’, ‘bacula-sd’, ‘bgp’, ‘bgpd’, ‘bgpsim’, ‘biff’, ‘binkp’, ‘bootpc’, ‘bootps’, ‘bpcd’, ‘bpdbm’, ‘bpjava-msvc’, ‘bprd’, ‘canna’, ‘cfengine’, ‘cfinger’, ‘chargen’, ‘cisco-sccp’, ‘clc-build-daemon’, ‘clearcase’, ‘cmip-agent’, ‘cmip-man’, ‘codaauth2’, ‘codasrv’, ‘codasrv-se’, ‘conference’, ‘courier’, ‘csnet-ns’, ‘csync2’, ‘customs’, ‘cvspserver’, ‘daap’, ‘datametrics’, ‘daytime’, ‘db-lsp’, ‘dcap’, ‘dhcpv6-client’, ‘dhcpv6-server’, ‘dicom’, ‘dict’, ‘dircproxy’, ‘discard’, ‘distcc’, ‘distmp3’, ‘domain’, ‘echo’, ‘eklogin’, ‘enbd-cstatd’, ‘enbd-sstatd’, ‘epmd’, ‘exec’, ‘f5-globalsite’, ‘f5-iquery’, ‘fatserv’, ‘fax’, ‘fido’, ‘finger’, ‘font-service’, ‘freeciv’, ‘frox’, ‘fsp’, ‘ftp’, ‘ftp-data’, ‘ftps’, ‘ftps-data’, ‘gdomap’, ‘gds-db’, ‘ggz’, ‘git’, ‘gnunet’, ‘gnutella-rtr’, ‘gnutella-svc’, ‘gopher’, ‘gpsd’, ‘gris’, ‘groupwise’, ‘gsidcap’, ‘gsiftp’, ‘gsigatekeeper’, ‘hkp’, ‘hmmp-ind’, ‘hostmon’, ‘hostnames’, ‘http’, ‘http-alt’, ‘https’, ‘hylafax’, ‘iax’, ‘icpv2’, ‘idfp’, ‘imap2’, ‘imap3’, ‘imaps’, ‘imsp’, ‘ingreslock’, ‘ipp’, ‘iprop’, ‘ipsec-nat-t’, ‘ipx’, ‘irc’, ‘ircd’, ‘ircs’, ‘isakmp’, ‘iscsi-target’, ‘isdnlog’, ‘isisd’, ‘iso-tsap’, ‘kamanda’, ‘kazaa’, ‘kerberos4’, ‘kerberos’, ‘kerberos-adm’, ‘kerberos-master’, ‘kermit’, ‘klogin’, ‘knetd’, ‘kpasswd’, ‘kpop’, ‘krb-prop’, ‘krbupdate’, ‘kshell’, ‘kx’, ‘l2f’, ‘ldap’, ‘ldaps’, ‘link’, ‘linuxconf’, ‘loc-srv’, ‘login’, ‘log-server’, ‘lotusnote’, ‘mailq’, ‘mandelspawn’, ‘mdns’, ‘microsoft-ds’, ‘mmcc’, ‘moira-db’, ‘moira-update’, ‘moira-ureg’, ‘mon’, ‘mrtd’, ‘msnp’, ‘msp’, ‘ms-sql-m’, ‘ms-sql-s’, ‘mtn’, ‘mtp’, ‘munin’, ‘mysql’, ‘mysql-proxy’, ‘nameserver’, ‘nbd’, ‘nbp’, ‘nessus’, ‘netbios-dgm’, ‘netbios-ns’, ‘netbios-ssn’, ‘netnews’, ‘netstat’, ‘netwall’, ‘nextstep’, ‘nfs’, ‘ninstall’, ‘nntp’, ‘nntps’, ‘noclog’, ‘npmp-gui’, ‘npmp-local’, ‘nqs’, ‘nrpe’, ‘nsca’, ‘ntalk’, ‘ntp’, ‘nut’, ‘omirr’, ‘omniorb’, ‘openvpn’, ‘ospf6d’, ‘ospfapi’, ‘ospfd’, ‘passwd-server’, ‘pawserv’, ‘pcrd’, ‘pipe-server’, ‘pop2’, ‘pop3’, ‘pop3s’, ‘poppassd’, ‘postgresql’, ‘predict’, ‘printer’, ‘proofd’, ‘prospero’, ‘prospero-np’, ‘pwdgen’, ‘qmqp’, ‘qmtp’, ‘qotd’, ‘radius’, ‘radius-acct’, ‘radmin-port’, ‘re-mail-ck’, ‘remctl’, ‘remotefs’, ‘remoteping’, ‘rfe’, ‘ripd’, ‘ripngd’, ‘rje’, ‘rlp’, ‘rmiregistry’, ‘rmtcfg’, ‘rootd’, ‘route’, ‘rpc2portmap’, ‘rplay’, ‘rsync’, ‘rtcm-sc104’, ‘rtelnet’, ‘rtsp’, ‘saft’, ‘sa-msg-port’, ‘sane-port’, ‘search’, ‘sftp’, ‘sge-execd’, ‘sge-qmaster’, ‘sgi-cad’, ‘sgi-cmsd’, ‘sgi-crsd’, ‘sgi-gcd’, ‘shell’, ‘sieve’, ‘silc’, ‘sip’, ‘sip-tls’, ‘skkserv’, ‘smsqp’, ‘smtp’, ‘smux’, ‘snmp’, ‘snmp-trap’, ‘snpp’, ‘socks’, ‘spamd’, ‘ssh’, ‘submission’, ‘sunrpc’, ‘supdup’, ‘supfiledbg’, ‘supfilesrv’, ‘support’, ‘suucp’, ‘svn’, ‘svrloc’, ‘swat’, ‘syslog’, ‘syslog-tls’, ‘sysrqd’, ‘systat’, ‘tacacs’, ‘tacacs-ds’, ‘talk’, ‘tcpmux’, ‘telnet’, ‘telnets’, ‘tempo’, ‘tfido’, ‘tftp’, ‘time’, ‘timed’, ‘tinc’, ‘tproxy’, ‘ulistserv’, ‘unix-status’, ‘urd’, ‘uucp’, ‘uucp-path’, ‘vboxd’, ‘venus’, ‘venus-se’, ‘vnetd’, ‘vopied’, ‘webmin’, ‘webster’, ‘who’, ‘whois’, ‘wipld’, ‘wnn6’, ‘x11-1’, ‘x11-2’, ‘x11-3’, ‘x11-4’, ‘x11-5’, ‘x11’, ‘x11-6’, ‘x11-7’, ‘xdmcp’, ‘xinetd’, ‘xmms2’, ‘xmpp-client’, ‘xmpp-server’, ‘xpilot’, ‘xtel’, ‘xtell’, ‘xtelw’, ‘z3950’, ‘zabbix-agent’, ‘zabbix-trapper’, ‘zebra’, ‘zebrasrv’, ‘zephyr-clt’, ‘zephyr-hm’, ‘zephyr-srv’, ‘zip’, ‘zope’, ‘zope-ftp’, ‘zserv’ are allowed.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong><code>tunnel</code></p>
+</blockquote>
 <h2 id="sshretry">/ssh/retry</h2>
-<p>The last part <code>retry</code> is used to make the connection more stable and allows you to
-configure an automatic retry loop while connecting to the remote machine with a short break.</p>
-<p @schema="" id="keys/retry"></p>
+<p>The last part are the <code>retry</code> defaults used to make the connection more stable
+and allows you to configure an automatic retry loop while connecting to the
+remote machine with a short break. They are the defaults if nothing set within
+the connection.</p>
+<p><strong>Retry</strong> is the handling of retries on connecting.</p>
+<p>An object which is optional. The following keys are allowed: <code>times</code>, <code>interval</code>. The following entries have a specific format:</p>
+<dl>
+<dt><code>times</code></dt>
+<dd>
+<p><strong>Number of Tries</strong> are the number of times to try to connect.</p>
+<p>An integer value which is optional. The value should be greater than 0.</p>
+</dd>
+<dt><code>interval</code></dt>
+<dd>
+<p><strong>Wait between Tries</strong> are the interval to wait (in milliseconds) between tries.</p>
+<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional. A numeric floating point number. The value should be greater than 0.</p>
+</dd>
+</dl>
 </main>
         </div>
         <div class="col-sm-3 col-cm-pull-9 sidebar">
