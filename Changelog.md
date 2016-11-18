@@ -4,6 +4,24 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 2.1.0 (2016-11-18)
+-------------------------------------------------
+- Add group support for tunneling.
+- Fix bug in retry for already vital analyzed connection.
+- Only close connection if not currently used.
+- Update documentation to use the word cluster, too.
+- Made cluster/group selection working.
+- Better debugging of connection handling.
+- Add group resolution on connection handling.
+- Add connection setting for retry and add funtion for further group resolving.
+- Add execution list to connections.
+- Change schema to allow groups and retry definition in connection.
+- Update documentation.
+- Throw error if server reference not configured.
+- Fix call of connect with reference name.
+- Update debug information.
+- Update coveralls token.
+
 Version 2.0.0 (2016-11-02)
 -------------------------------------------------
 Renamed to ssh and made the module more generally usable with some API changes.
