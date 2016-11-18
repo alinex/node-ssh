@@ -4,6 +4,12 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 2.1.1 (2016-11-18)
+-------------------------------------------------
+- Fix retry, group best fit and host names in debugging.
+- Add overview of connection parameters in documentation.
+- Add some debug optimizations.
+
 Version 2.1.0 (2016-11-18)
 -------------------------------------------------
 - Add group support for tunneling.
