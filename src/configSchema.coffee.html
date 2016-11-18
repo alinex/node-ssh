@@ -111,7 +111,7 @@ as an object.</p>
 <p>A list. Each entry has to be of type object:</p>
 <blockquote>
 <p><strong>SSH Connection</strong> is a ssh connection setting.</p>
-<p>An  object with the following keys have to be present: <code>host</code>, <code>port</code>. The following keys are allowed: <code>forceIPv4</code>, <code>forceIPv6</code>, <code>username</code>, <code>password</code>, <code>privateKey</code>, <code>passphrase</code>, <code>localHostname</code>, <code>localUsername</code>, <code>keepaliveInterval</code>, <code>keepaliveCountMax</code>, <code>readyTimeout</code>, <code>strictVendor</code>, <code>algorithms</code>, <code>compress</code>, <code>retry</code>, <code>debug</code>. The following entries have a specific format:</p>
+<p>An  object with the following keys have to be present: <code>host</code>, <code>port</code>. The following keys are allowed: <code>forceIPv4</code>, <code>forceIPv6</code>, <code>username</code>, <code>password</code>, <code>privateKey</code>, <code>passphrase</code>, <code>localHostname</code>, <code>localUsername</code>, <code>keepaliveInterval</code>, <code>keepaliveCountMax</code>, <code>readyTimeout</code>, <code>strictVendor</code>, <code>algorithms</code>, <code>compress</code>, <code>debug</code>. The following entries have a specific format:</p>
 <dl>
 <dt><code>host</code></dt>
 <dd>
@@ -220,23 +220,6 @@ as an object.</p>
 <p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false.</p>
 </li>
 </ul>
-</dd>
-<dt><code>retry</code></dt>
-<dd>
-<p><strong>Retry</strong> is the handling of retries on connecting.</p>
-<p>An object which is optional. The following keys are allowed: <code>times</code>, <code>interval</code>. The following entries have a specific format:</p>
-<dl>
-<dt><code>times</code></dt>
-<dd>
-<p><strong>Number of Tries</strong> are the number of times to try to connect.</p>
-<p>An integer value which is optional. The value should be greater than 0.</p>
-</dd>
-<dt><code>interval</code></dt>
-<dd>
-<p><strong>Wait between Tries</strong> are the interval to wait (in milliseconds) between tries.</p>
-<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional. A numeric floating point number. The value should be greater than 0.</p>
-</dd>
-</dl>
 </dd>
 <dt><code>debug</code></dt>
 <dd>
@@ -275,7 +258,7 @@ of a cluster.</p>
 <p>A list. Each entry has to be of type object:</p>
 <blockquote>
 <p><strong>SSH Connection</strong> is a ssh connection setting.</p>
-<p>An  object with the following keys have to be present: <code>host</code>, <code>port</code>. The following keys are allowed: <code>forceIPv4</code>, <code>forceIPv6</code>, <code>username</code>, <code>password</code>, <code>privateKey</code>, <code>passphrase</code>, <code>localHostname</code>, <code>localUsername</code>, <code>keepaliveInterval</code>, <code>keepaliveCountMax</code>, <code>readyTimeout</code>, <code>strictVendor</code>, <code>algorithms</code>, <code>compress</code>, <code>retry</code>, <code>debug</code>. The following entries have a specific format:</p>
+<p>An  object with the following keys have to be present: <code>host</code>, <code>port</code>. The following keys are allowed: <code>forceIPv4</code>, <code>forceIPv6</code>, <code>username</code>, <code>password</code>, <code>privateKey</code>, <code>passphrase</code>, <code>localHostname</code>, <code>localUsername</code>, <code>keepaliveInterval</code>, <code>keepaliveCountMax</code>, <code>readyTimeout</code>, <code>strictVendor</code>, <code>algorithms</code>, <code>compress</code>, <code>debug</code>. The following entries have a specific format:</p>
 <dl>
 <dt><code>host</code></dt>
 <dd>
@@ -384,23 +367,6 @@ of a cluster.</p>
 <p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false.</p>
 </li>
 </ul>
-</dd>
-<dt><code>retry</code></dt>
-<dd>
-<p><strong>Retry</strong> is the handling of retries on connecting.</p>
-<p>An object which is optional. The following keys are allowed: <code>times</code>, <code>interval</code>. The following entries have a specific format:</p>
-<dl>
-<dt><code>times</code></dt>
-<dd>
-<p><strong>Number of Tries</strong> are the number of times to try to connect.</p>
-<p>An integer value which is optional. The value should be greater than 0.</p>
-</dd>
-<dt><code>interval</code></dt>
-<dd>
-<p><strong>Wait between Tries</strong> are the interval to wait (in milliseconds) between tries.</p>
-<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional. A numeric floating point number. The value should be greater than 0.</p>
-</dd>
-</dl>
 </dd>
 <dt><code>debug</code></dt>
 <dd>
@@ -441,7 +407,7 @@ server may be given here or a reference name to the previous <code>server</code>
 <p>A list. Each entry has to be of type object:</p>
 <blockquote>
 <p><strong>SSH Connection</strong> is a ssh connection setting.</p>
-<p>An  object with the following keys have to be present: <code>host</code>, <code>port</code>. The following keys are allowed: <code>forceIPv4</code>, <code>forceIPv6</code>, <code>username</code>, <code>password</code>, <code>privateKey</code>, <code>passphrase</code>, <code>localHostname</code>, <code>localUsername</code>, <code>keepaliveInterval</code>, <code>keepaliveCountMax</code>, <code>readyTimeout</code>, <code>strictVendor</code>, <code>algorithms</code>, <code>compress</code>, <code>retry</code>, <code>debug</code>. The following entries have a specific format:</p>
+<p>An  object with the following keys have to be present: <code>host</code>, <code>port</code>. The following keys are allowed: <code>forceIPv4</code>, <code>forceIPv6</code>, <code>username</code>, <code>password</code>, <code>privateKey</code>, <code>passphrase</code>, <code>localHostname</code>, <code>localUsername</code>, <code>keepaliveInterval</code>, <code>keepaliveCountMax</code>, <code>readyTimeout</code>, <code>strictVendor</code>, <code>algorithms</code>, <code>compress</code>, <code>debug</code>. The following entries have a specific format:</p>
 <dl>
 <dt><code>host</code></dt>
 <dd>
@@ -550,23 +516,6 @@ server may be given here or a reference name to the previous <code>server</code>
 <p>A boolean value, which will be true for ‘true’, ‘1’, ‘on’, ‘yes’, ‘+’, 1, true and will be considered as false for ‘false’, ‘0’, ‘off’, ‘no’, ‘-’, 0, false.</p>
 </li>
 </ul>
-</dd>
-<dt><code>retry</code></dt>
-<dd>
-<p><strong>Retry</strong> is the handling of retries on connecting.</p>
-<p>An object which is optional. The following keys are allowed: <code>times</code>, <code>interval</code>. The following entries have a specific format:</p>
-<dl>
-<dt><code>times</code></dt>
-<dd>
-<p><strong>Number of Tries</strong> are the number of times to try to connect.</p>
-<p>An integer value which is optional. The value should be greater than 0.</p>
-</dd>
-<dt><code>interval</code></dt>
-<dd>
-<p><strong>Wait between Tries</strong> are the interval to wait (in milliseconds) between tries.</p>
-<p>A time interval as float, in time format or as text which may use a combination of values with the units: ms, s, m, h, d which is optional. A numeric floating point number. The value should be greater than 0.</p>
-</dd>
-</dl>
 </dd>
 <dt><code>debug</code></dt>
 <dd>

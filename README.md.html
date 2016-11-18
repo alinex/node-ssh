@@ -166,6 +166,17 @@ following the code standards defined in the <a href="https://alinex.github.io/de
 <p>This is only a simple remote execution of a command line. To get more possibilities
 use the <a href="https://alinex.github.io/node-exec">alinex-exec</a> module which internaly calls this method with the correct
 commandline.</p>
+<p>You can call the <code>connect()</code> Method with one of the following parametzers:</p>
+<pre><code>&lt;String&gt;                      # server or group from config
+server: &lt;String&gt;              # server from config
+server: &lt;Connection&gt;          # direct connection setup object
+server: [&lt;Connection&gt;]        # list of alternative connections to same host
+group: &lt;String&gt;               # group from config
+group: [String]               # list of group servers from config
+group: [&lt;Connection&gt;]         # group of direct connection setup
+group: [[&lt;Connection&gt;]]       # group of alternative connections
+</code></pre>
+<p><strong>Examples:</strong></p>
 <pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
 <code>ssh.connect</code>
 <code>  server:</code>
@@ -204,7 +215,8 @@ to reference the correct entry:</p>
 <code>  setTimeout -&gt;</code>
 <code>    conn.close()</code>
 <code>  , <span class="hljs-number">10000</span></code></pre>
-<p>The following is a short form if no special retry times are used:</p>
+<p>The retry part can also be kept away to use the defaults (from config).</p>
+<p>The following is a short form, only possible if no special retry times are used:</p>
 <pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
 <code>ssh.connect <span class="hljs-string">'db'</span>, <span class="hljs-function"><span class="hljs-params">(err, conn)</span> -&gt;</span></code>
 <code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
