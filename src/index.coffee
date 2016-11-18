@@ -196,14 +196,14 @@ groupResolve = (setup, cb) ->
         times: 0
     , (err, conn) ->
       if err
-        debug chalk.magenta err.message
+        debug chalk.magenta err.message if debug.enabled
         return cb null,
           server: server
           free: -10
       conn.exec 'nproc && cat /proc/loadavg', (err, stream) ->
         buffer = ""
         if err
-          debug chalk.magenta err.message
+          debug chalk.magenta err.message if debug.enabled
           return cb null,
             server: server
             free: -10
@@ -222,7 +222,8 @@ groupResolve = (setup, cb) ->
   , (err, result) ->
     return cb err if err
     result = util.array.sortBy result, '-free'
-    debug "#{result[0].conn?.name ? result[0].server}: selected from cluster/group"
+    if debug.enabled
+      debug "#{result[0].conn?.name ? result[0].server}: selected from cluster/group"
     cb null,
       server: result[0].server
       retry: setup.retry

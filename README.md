@@ -144,7 +144,9 @@ ssh.connect
   , 10000
 ```
 
-The following is a short form if no special retry times are used:
+The retry part can also be kept away to use the defaults (from config).
+
+The following is a short form, only possible if no special retry times are used:
 
 ``` coffee
 ssh = require 'alinex-ssh'
