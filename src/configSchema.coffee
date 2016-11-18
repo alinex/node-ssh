@@ -164,7 +164,7 @@ conn =
             type: 'boolean'
           ]
           optional: true
-        retry: retry
+#        retry: retry
         debug:
           title: "Extended Debug"
           description: "the DEBUG=exec.ssh messages are extended with server communication"

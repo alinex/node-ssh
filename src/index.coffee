@@ -70,7 +70,7 @@ connections = {}
 # @type {Object<Object>} vital data of host with
 # - `date` - minute of measurement
 # - `free` - free sources
-vital = {}
+vitalStore = {}
 
 
 ###
@@ -93,24 +93,11 @@ it or at the end of your script using `ssh.close()`.
 and the ssh connection on success containing
 ###
 exports.connect = (setup, cb) ->
-  # get setup values corrected
-  if typeof setup is 'string'
-    # short references used
-    if group = config.get "/ssh/group/#{setup}"
-      setup =
-        group: group
-    else if server = config.get "/ssh/server/#{setup}"
-      setup =
-        server: server
-    else
-      return cb new Error "Could not find group or server in ssh configuration with name '#{setup}'"
-  # server object to array
-  if typeof setup.server is 'object' and not Array.isArray setup.server
-    setup.server = [setup.server]
-  if typeof setup.group is 'string'
-    unless group = config.get "/ssh/group/#{setup.group}"
-      return cb new Error "Could not find group in ssh configuration with name '#{setup.group}'"
-    setup.group = group
+  # resolve setup
+  try
+    setup = resolveServer setup
+  catch error
+    return cb error
   # check the setup
   if debug.enabled
     validator ?= require 'alinex-validator'
@@ -145,9 +132,10 @@ exports.connect = (setup, cb) ->
       optimize setup, (err, setup) ->
         return cb err if err
         # open ssh connection
+        retry = config.get "/ssh/retry"
         async.retry
-          times: setup.server.retry?.times ? setup.retry?.times ? 1
-          interval: setup.server.retry?.interval ? setup.retry?.interval ? 200
+          times: setup.retry?.times ? retry ? 1
+          interval: setup.retry?.interval ? retry ? 200
         , (cb) ->
           problems = []
           async.mapSeries setup.server, (entry, cb) ->
@@ -166,6 +154,31 @@ exports.connect = (setup, cb) ->
             cb null, conn
         , cb
 
+# Resolve the server setting into the best fitting entry.
+#
+# @param {Object} setup the server settings in different forms
+# @return {Connection} ssh connection on success containing
+resolveServer = (setup) ->
+  # get setup values corrected
+  if typeof setup is 'string'
+    # short references used
+    if group = config.get "/ssh/group/#{setup}"
+      setup =
+        group: group
+    else if server = config.get "/ssh/server/#{setup}"
+      setup =
+        server: server
+    else
+      throw new Error "Could not find group or server in ssh configuration with name '#{setup}'"
+  # server object to array
+  if typeof setup.server is 'object' and not Array.isArray setup.server
+    setup.server = [setup.server]
+  if typeof setup.group is 'string'
+    unless group = config.get "/ssh/group/#{setup.group}"
+      throw new Error "Could not find group in ssh configuration with name '#{setup.group}'"
+    setup.group = group
+  return setup
+
 # Resolve the group setting into the best fitting entry.
 #
 # @param {Object} setup the server settings
@@ -180,15 +193,18 @@ groupResolve = (setup, cb) ->
   now = new Date().getTime()
   check = now - 60000
   async.map setup.group, (server, cb) ->
-    if typeof setup.server is 'string'
-      setup.server = config.get "/ssh/server/#{setup}"
+    # resolve setup
+    try
+      server = resolveServer(server).server
+    catch error
+      return cb error
     # get already measured value
-    name = "#{setup.host}:#{setup.port}"
-    if vital[name]?.date > check
+    name = server[0].host
+    if vitalStore[name]?.date > check
       exports.connect
       return cb null,
         server: server
-        vital: vital[name].free
+        free: vitalStore[name].free
     # get vital data
     exports.connect
       server: server
@@ -197,6 +213,9 @@ groupResolve = (setup, cb) ->
     , (err, conn) ->
       if err
         debug chalk.magenta err.message if debug.enabled
+        vitalStore[name] =
+          date: now
+          free: -100
         return cb null,
           server: server
           free: -10
@@ -204,6 +223,9 @@ groupResolve = (setup, cb) ->
         buffer = ""
         if err
           debug chalk.magenta err.message if debug.enabled
+          vitalStore[name] =
+            date: now
+            free: -10
           return cb null,
             server: server
             free: -10
@@ -212,18 +234,17 @@ groupResolve = (setup, cb) ->
           data = buffer.split /\s+/
           free = data[0] - data[1]
           debug chalk.grey "#{conn.name}: vital data free: #{free}" if debug.enabled
-          vital[name] =
+          vitalStore[name] =
             date: now
             free: free
           cb null,
             server: server
             free: free
-            conn: conn
   , (err, result) ->
     return cb err if err
     result = util.array.sortBy result, '-free'
     if debug.enabled
-      debug "#{result[0].conn?.name ? result[0].server}: selected from cluster/group"
+      debug "#{result[0].server[0].host}: selected from cluster/group"
     cb null,
       server: result[0].server
       retry: setup.retry
@@ -379,7 +400,7 @@ optimize = (setup, cb) ->
 # - `name` - `String` with host/ip and port
 # - `tunnel` - `Object<Server>` with the opened tunnels
 open = util.function.onceTime (setup, cb) ->
-  name = "#{setup.host}:#{setup.port}"
+  name = setup.host
   if connections[name]?._sock?._handle
     debug "#{name}: use existing connection" if debug.enabled
     return cb null, connections[name]
@@ -388,6 +409,8 @@ open = util.function.onceTime (setup, cb) ->
   conn = new ssh.Client()
   conn.name = name
   conn.close = ->
+    delete connections[name]
+    return if conn._sock?._handle
     conn.end()
     conn.emit 'end'
   conn.on 'ready', ->
