@@ -97,6 +97,19 @@ This is only a simple remote execution of a command line. To get more possibilit
 use the {@link alinex-exec} module which internaly calls this method with the correct
 commandline.
 
+You can call the `connect()` Method with one of the following parametzers:
+
+    <String>                      # server or group from config
+    server: <String>              # server from config
+    server: <Connection>          # direct connection setup object
+    server: [<Connection>]        # list of alternative connections to same host
+    group: <String>               # group from config
+    group: [String]               # list of group servers from config
+    group: [<Connection>]         # group of direct connection setup
+    group: [[<Connection>]]       # group of alternative connections
+
+__Examples:__
+
 ``` coffee
 ssh = require 'alinex-ssh'
 ssh.connect
