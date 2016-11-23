@@ -405,7 +405,9 @@ open = util.function.onceTime (setup, cb) ->
     debug "#{name}: use existing connection" if debug.enabled
     return cb null, connections[name]
   # open new ssh
-  debug chalk.grey "#{name}: establish new ssh connection" if debug.enabled
+  if debug.enabled
+    debug chalk.grey "#{name}: establish new ssh connection"
+    debugDebug chalk.grey util.inspect(setup).replace /\n/g, '' if debugDebug.enabled
   conn = new ssh.Client()
   conn.name = name
   conn.close = ->
