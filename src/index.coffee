@@ -241,18 +241,19 @@ groupResolve = (setup, cb) ->
           cb null,
             server: server
             free: free
+            conn: conn
   , (err, result) ->
     return cb err if err
     result = util.array.sortBy result, '-free'
     if debug.enabled
       debug "#{result[0].server[0].host}: selected from cluster/group"
+    for entry in result[1..]
+      continue unless entry.conn?
+      entry.conn.done()
+    console.log '=====', result[0].conn.name
     cb null,
       server: result[0].server
       retry: setup.retry
-    for entry of result[1..]
-      continue unless entry.conn?
-      continue if Object.keys(entry.conn.tunnel) or Object.keys(entry.conn.process)
-      entry.conn.close()
 
 
 ###
@@ -402,6 +403,7 @@ optimize = (setup, cb) ->
 # - `tunnel` - `Object<Server>` with the opened tunnels
 open = util.function.onceTime (setup, cb) ->
   name = setup.host
+  console.log 'oooooooooo', name
   if connections[name]?._sock?._handle
     debug "#{name}: use existing connection" if debug.enabled
     return cb null, connections[name]
@@ -416,7 +418,9 @@ open = util.function.onceTime (setup, cb) ->
       unless Object.keys(conn.process).length
         conn.close()
   conn.close = ->
-    delete connections[name]
+    console.log 'dddddddddd', conn.name
+    delete connections[conn.name]
+    console.log Object.keys connections
     return if conn._sock?._handle
     conn.end()
     conn.emit 'end'
