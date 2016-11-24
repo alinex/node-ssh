@@ -63,6 +63,7 @@ exports.init = init = util.function.once this, (cb) ->
 # - `tunnel` - `Object` map of opened tunnels
 # - `process` - `Object` map of running executions on this connection
 # - `close` -  `Function` to close the connection and everything build upon it
+# - `done` - `Function` to close the connection if no longer used
 connections = {}
 
 # Vital data of some hosts
@@ -410,6 +411,10 @@ open = util.function.onceTime (setup, cb) ->
     debugDebug chalk.grey util.inspect(setup).replace /\n/g, '' if debugDebug.enabled
   conn = new ssh.Client()
   conn.name = name
+  conn.done = ->
+    unless Object.keys(conn.tunnel).length
+      unless Object.keys(conn.process).length
+        conn.close()
   conn.close = ->
     delete connections[name]
     return if conn._sock?._handle
@@ -479,9 +484,7 @@ forward = (conn, setup, cb) ->
     tunnel.on 'close', ->
       debugTunnel "#{conn.name}: closing tunnel to #{name}" if debugTunnel.enabled
       delete conn.tunnel[name]
-      unless Object.keys(conn.tunnel).length
-        unless Object.keys(conn.process).length
-          conn.close()
+      conn.done()
     tunnel.setup =
       host: setup.localHost
       port: setup.localPort

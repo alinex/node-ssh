@@ -131,9 +131,13 @@ ssh.connect
   console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    conn.close()
+    conn.end()
   , 10000
 ```
+
+To close this connection you may use `conn.end()` to close if no longer used or
+`conn.close()` to close it also if other things are running on it. Or you may close
+all connections immediately with the global `ssh.close()`.
 
 This may also be called with a list of alternative `server` connections.
 
@@ -211,7 +215,7 @@ ssh.connect 'appcluster', (err, conn) ->
   console.log "ssh connection #{conn.name} opened"
   # wait 10 seconds, then close the tunnel
   setTimeout ->
-    conn.close()
+    conn.done()
   , 10000
 ```
 
@@ -252,7 +256,7 @@ ssh.tunnel
 ```
 
 And afterwards you may close it like shown above using `tunnel.close()` or
-close all tunnels with:
+(only if no longer used) or close all tunnels with:
 
 ``` coffee
 ssh.close()
