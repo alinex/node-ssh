@@ -250,7 +250,6 @@ groupResolve = (setup, cb) ->
     for entry in result[1..]
       continue unless entry.conn?
       entry.conn.done()
-    console.log '=====', result[0].conn.name
     cb null,
       server: result[0].server
       retry: setup.retry
@@ -403,7 +402,6 @@ optimize = (setup, cb) ->
 # - `tunnel` - `Object<Server>` with the opened tunnels
 open = util.function.onceTime (setup, cb) ->
   name = setup.host
-  console.log 'oooooooooo', name
   if connections[name]?._sock?._handle
     debug "#{name}: use existing connection" if debug.enabled
     return cb null, connections[name]
@@ -418,9 +416,7 @@ open = util.function.onceTime (setup, cb) ->
       unless Object.keys(conn.process).length
         conn.close()
   conn.close = ->
-    console.log 'dddddddddd', conn.name
     delete connections[conn.name]
-    console.log Object.keys connections
     return if conn._sock?._handle
     conn.end()
     conn.emit 'end'

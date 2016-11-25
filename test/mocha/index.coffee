@@ -78,11 +78,10 @@ ssh.setup ->
         , (err, conn) ->
           expect(err, 'error').to.not.exist
           expect(conn, 'conn').to.exist
-          console.log conn.name
           conn.close()
           cb()
 
-      it.skip "should work with group reference (short form)", (cb) ->
+      it "should work with group reference (short form)", (cb) ->
         ssh.connect 'cluster', (err, conn) ->
           expect(err, 'error').to.not.exist
           expect(conn, 'conn').to.exist
