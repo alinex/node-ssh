@@ -197,8 +197,11 @@ group: [[&lt;Connection&gt;]]       # group of alternative connections
 <code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
 <code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
 <code>  setTimeout -&gt;</code>
-<code>    conn.close()</code>
+<code>    conn.end()</code>
 <code>  , <span class="hljs-number">10000</span></code></pre>
+<p>To close this connection you may use <code>conn.end()</code> to close if no longer used or
+<code>conn.close()</code> to close it also if other things are running on it. Or you may close
+all connections immediately with the global <code>ssh.close()</code>.</p>
 <p>This may also be called with a list of alternative <code>server</code> connections.</p>
 <h4 id="configured">Configured</h4>
 <p>Or the short versions if configured in the configuration files needs only a name
@@ -253,7 +256,7 @@ as group else as server:</p>
 <code>  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"ssh connection <span class="hljs-subst">#{conn.name}</span> opened"</span></code>
 <code>  <span class="hljs-comment"># wait 10 seconds, then close the tunnel</span></code>
 <code>  setTimeout -&gt;</code>
-<code>    conn.close()</code>
+<code>    conn.done()</code>
 <code>  , <span class="hljs-number">10000</span></code></pre>
 <h3 id="tunneling">Tunneling</h3>
 <h4 id="simple-forward-tunnel">Simple forward tunnel</h4>
@@ -286,7 +289,7 @@ as group else as server:</p>
 <code>    tunnel.close()</code>
 <code>  , <span class="hljs-number">10000</span></code></pre>
 <p>And afterwards you may close it like shown above using <code>tunnel.close()</code> or
-close all tunnels with:</p>
+(only if no longer used) or close all tunnels with:</p>
 <pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh.close()</code></pre>
 <p>Or the really short versions if configured in the configuration files:</p>
 <pre class="language coffeescript"><header>CoffeeScript Code</header><code>ssh = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-ssh'</span></code>
