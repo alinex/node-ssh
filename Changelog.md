@@ -4,6 +4,13 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 2.1.2 (2016-11-25)
+-------------------------------------------------
+- Update async@2.1.4 debug@2.3.3.
+- Found bug with group opening which leads a connection opened.
+- Add conn.done() to close connection only if no longer used.
+- Debug also the connection details.
+
 Version 2.1.1 (2016-11-18)
 -------------------------------------------------
 - Fix retry, group best fit and host names in debugging.
