@@ -40,11 +40,11 @@ as an object.
 ###
 conn =
   title: "SSH Connection List"
-  description: "the list of possible ssh connections, the first working will be used"
+  description: "the list of possible ssh connections (key used as reference)"
   type: 'object'
   entries: [
     title: "SSH Connections"
-    description: "a list of ssh connection alternatives (key used as reference)"
+    description: "a list of ssh connection alternatives, the first working will be used"
     type: 'array'
     toArray: true
     shuffle: true
