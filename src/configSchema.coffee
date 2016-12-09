@@ -44,7 +44,7 @@ conn =
   type: 'object'
   entries: [
     title: "SSH Connections"
-    description: "a list of ssh connection alternatives"
+    description: "a list of ssh connection alternatives (key used as reference)"
     type: 'array'
     toArray: true
     shuffle: true
