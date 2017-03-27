@@ -4,6 +4,12 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 2.1.3 (2017-03-27)
+-------------------------------------------------
+- Update alinex-util@2.5.1, alinex-validator@2.1.2, portfinder@1.0.13, async@2.2.0, debug@2.6.3, alinex-builder@2.4.1
+- Fix documentation error in schema.
+- Optimize schema description.
+
 Version 2.1.2 (2016-11-25)
 -------------------------------------------------
 - Update async@2.1.4 debug@2.3.3.
